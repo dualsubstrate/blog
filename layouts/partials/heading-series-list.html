@@ -1,0 +1,5 @@
+{{- /* List / home tile: week code + unique episode title (navigation-friendly). Used by type panel and sayings when Params.project is set. */ -}}
+{{- with .Params.heading_code -}}
+<span class="heading-code heading-code--tldr">{{ . }}</span><span class="heading-title-sep" aria-hidden="true">: </span>
+{{- end -}}
+{{- .Title | emojify -}}

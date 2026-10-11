@@ -1,0 +1,15 @@
+{{- /*
+  Pages whose front-matter Date is on or before the build clock (now).
+
+  Production (`hugo` default, `-e production`): keep list and hub tiles aligned with what a normal
+  deploy shows (no future-dated rows).
+
+  Non-production (`hugo server`, PR preview via `HUGO_PREVIEW=1` → `-e preview`): do not strip
+  future-dated pages, so --buildFuture surfaces scheduled posts in section and home lists.
+*/ -}}
+{{- $pages := . -}}
+{{- $out := $pages -}}
+{{- if hugo.IsProduction -}}
+  {{- $out = where $pages "Date" "<=" now -}}
+{{- end -}}
+{{- return $out -}}

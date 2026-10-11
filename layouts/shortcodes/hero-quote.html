@@ -1,0 +1,4 @@
+{{- /* Home hero: inner is Markdown only (no nested shortcodes). Uses Page render pipeline so **bold** works. */ -}}
+<div class="hero-quote">
+{{- .Inner | .Page.RenderString | safeHTML -}}
+</div>

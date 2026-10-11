@@ -1,0 +1,10 @@
+{{- /* Explainer for Raymond; shown when category includes "Raymond". */ -}}
+<section class="cow-project-about" aria-labelledby="raymond-project-about-heading">
+    <h2 id="raymond-project-about-heading" class="cow-project-about__title">
+        <span class="cow-project-about__mark" aria-hidden="true">❓</span>
+        {{ T "raymondProjectAboutTitle" }}
+    </h2>
+    <div class="cow-project-about__body">
+        {{ T "raymondProjectAboutBody" | markdownify }}
+    </div>
+</section>

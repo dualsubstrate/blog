@@ -1,0 +1,156 @@
+# Theme string (LoveIt): category line on singles and summaries.
+[includedInCategories]
+other = "Included in {{ .Categories }}"
+
+[summary]
+other = "Summary"
+
+[teaser]
+other = "Teaser"
+
+[context]
+other = "Context"
+
+[tldr]
+other = "TLDR"
+
+[labelGrounding]
+other = "Grounding"
+
+[labelResearch]
+other = "Research"
+
+# type: claims — sidebar labels (distinct from sayings TLDR / Context).
+[protocolClaim]
+other = "Claim"
+
+[protocolThoughts]
+other = "Thoughts"
+
+[protocolGrounding]
+other = "Grounding"
+
+[protocolDepth]
+other = "Key points"
+
+# type: opinion — sidebar labels (stanceful essay; distinct from claims Claim / Thoughts).
+[protocolOpinion]
+other = "Opinion"
+
+[protocolEssay]
+other = "Essay"
+
+[readerLandingWhy]
+other = "Why this might land for you"
+
+[readerLandingTakeaways]
+other = "Go further"
+
+[readerLandingExplore]
+other = "Explore further"
+
+[readerLandingPrefillHint]
+other = "Opens a new Perplexity search with this question"
+
+[readerLandingThreadHint]
+other = "Completed research thread"
+
+# type: sayings — main markdown body when TLDR / Context / Teaser precede it (detail TOC).
+[sayingsArticle]
+other = "Going deeper"
+
+# type: video — list row: link to single (replaces image figure-link on embed).
+[fullPost]
+other = "Read the article"
+
+# type: video — specific labels for video picks
+[videoLead]
+other = "What you probably do not know yet"
+
+[videoPayoff]
+other = "What you will know after"
+
+[videoTLDW]
+other = "TL;DW"
+
+[videoChapterGuide]
+other = "Chapter Guide"
+
+# claims / video singles — keep-reading related strip.
+[keepReading]
+other = "Keep reading"
+
+[keepReadingAlso]
+other = "Also"
+
+[keepReadingRelated]
+other = "Related"
+
+# Home — section band link to the section list.
+[homeViewSection]
+other = "View all"
+
+# Section preview-grid Glide carousel (prev / next controls).
+[carouselPrev]
+other = "Previous slides"
+
+[carouselNext]
+other = "Next slides"
+
+# type: sayings — Por-Estas-Calles explainer (sayings-project-about partial).
+[sayingsProjectAboutTitle]
+other = "But why:"
+
+[sayingsProjectAboutP1]
+other = "This is part of an experiment: we are keeping count of how many Venezuelan sayings we can translate before the regime finally changes. Call it a cultural stopwatch for a political era."
+
+[sayingsProjectAboutP2]
+other = "In a world where American culture is often exported and adopted globally, this project \"exports back\" Venezuelan street wisdom as a tiny contribution to a more balanced cultural trade landscape."
+
+# type: panel — Tales from the Cube Farm explainer (cows-project-about partial).
+[cowsProjectAboutTitle]
+other = "But why:"
+
+[cowsProjectAboutBody]
+other = "This is part of an experiment: count the *Tales from the Cube Farm* strips before robots feel like ordinary coworkers. Call it a cartoon stopwatch for the end of the “human-as-robot” era.\n\nAI does the creative work: joke, visual concept, finished panel. Humans only curate. That swap is the point.\n\nIndustrialization taught people to act like machines first, but we hardly lose our human nature, for good or bad. These AI cow-workers show how we learned to look like machines at work. They also show the human nature that never fully left, before the real robots move in."
+
+# Reptilocracy explainer (reptilocracy-project-about partial).
+[reptilocracyProjectAboutTitle]
+other = "BUT WHY:"
+
+[reptilocracyProjectAboutBody]
+other = "This is part of an experiment: we are keeping count of how many scenes it takes before we agree that leaders with real power should prove they are psychologically fit to hold it.\n\nBy turning our instincts and hive habits into animals, the project asks why we still let untested nervous systems run entire societies.\n\nIn a world where one unstable nervous system can scale to entire institutions, this project treats Reptilocracy as the cartoon diagnosis and points to one concrete step: the **[Change.org petition](https://www.change.org/p/stronger-checks-and-balances-psychological-fitness-for-australia-s-top-leaders)** (*Stronger Checks and Balances: Psychological Fitness for Australia's Top Leaders*)."
+
+[reptilocracyProjectAboutCtaTitle]
+other = "We need your voice"
+
+[reptilocracyProjectAboutCtaButton]
+other = "Sign the petition on Change.org"
+
+# Pawtropolis (Under Fire) explainer (pawtropolis-project-about partial).
+[pawtropolisProjectAboutTitle]
+other = "BUT WHY:"
+
+[pawtropolisProjectAboutBody]
+other = "Pawtropolis (Under Fire) is a quiet protest: war is never normal, and the moment it starts to feel normal to us is the moment we become dangerous.\n\nReal people get renamed into abstractions: collateral damage, security operations, precision strikes. Lovable pets flip that move: you feel for beings who cannot understand why the sky is trying to kill them.\n\nIf it takes cats and dogs to get people to wake up, then that is what must be done."
+
+# Everyone ❤️ Raymond explainer (raymond-project-about partial).
+[raymondProjectAboutTitle]
+other = "But why:"
+
+[raymondProjectAboutBody]
+other = "This *Cube-Cows* spinoff follows Raymond, the junior dog from *Just smaller*, fresh out of uni, as he walks into corporate shenanigans with a notebook open.\n\nHe does not fix the system. He takes notes. Each strip is one office move he cannot unsee: out of uni, straight back to preschool.\n\nSpun out of *Tales from the Cube Farm* so the new hire gets his own stopwatch."
+
+# Section page — subsections list heading
+[subsections]
+other = "Collections"
+
+# Category labels
+["Psych-Fitness-28"]
+other = "Psych-Fitness-28"
+
+["Pawtropolis-Under-Fire"]
+other = "Pawtropolis (Under Fire)"
+
+["Raymond"]
+other = "Raymond"

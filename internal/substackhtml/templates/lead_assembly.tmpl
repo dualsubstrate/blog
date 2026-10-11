@@ -1,0 +1,114 @@
+{{define "featured_image"}}
+{{if and .ImageURL .YouTubeWatchURL}}
+<hr>
+
+<p style="text-align: center;"><img src="{{.ImageURL}}"></p><p style="text-align: center;">{{.WatchOn}}<a href="{{.YouTubeWatchURL}}"><strong>YouTube</strong></a></p>
+
+<hr>
+
+
+{{else if .ImageURL}}
+<hr>
+
+<p style="text-align: center;"><img src="{{.ImageURL}}"></p>
+
+{{else if .YouTubeWatchURL}}
+<p style="text-align: center;">{{.WatchOn}}<a href="{{.YouTubeWatchURL}}"><strong>YouTube</strong></a></p>
+
+<hr>
+
+
+{{end}}
+{{end}}
+
+{{define "video_lead"}}
+{{if .HasDescription}}
+{{if .Spanish}}
+## 🎬 Lo que probablemente aún no sabes
+
+{{else}}
+## 🎬 What you probably do not know yet
+
+{{end}}
+{{.Description}}
+
+{{end}}
+{{if .HasSoWhat}}
+{{if .Spanish}}
+## 🎯 Lo que sabrás después
+
+{{else}}
+## 🎯 What you will know after
+
+{{end}}
+{{.SoWhat}}
+
+{{end}}
+{{.FeaturedMarkdown}}
+{{end}}
+
+{{define "plain_lead"}}
+{{if .HasDescription}}
+{{.Description}}
+
+{{end}}
+{{if .HasSoWhat}}
+{{.SoWhat}}
+
+{{end}}
+{{.FeaturedMarkdown}}
+{{end}}
+
+{{define "claims_prefix"}}
+{{if .HasClaim}}
+## 🎯 Claim
+
+{{.Description}}
+
+{{end}}
+{{.FeaturedMarkdown}}
+
+## 💭 Thoughts
+
+
+{{end}}
+
+{{define "sayings_prefix"}}
+{{if .HasTeaser}}
+## 🎬 Teaser
+
+{{.Description}}
+
+{{end}}
+{{.FeaturedMarkdown}}
+
+{{if .HasTLDR}}
+## ✔️ TLDR
+
+{{.TLDR}}
+
+{{end}}
+{{if .HasContext}}
+## 💬 Context
+
+{{.Fluff}}
+
+{{end}}
+{{end}}
+
+{{define "panel_prefix"}}
+{{if .HasTeaser}}
+## 🎬 Teaser
+
+{{.Description}}
+
+{{end}}
+{{.FeaturedMarkdown}}
+{{end}}
+
+{{define "claims_grounding_suffix"}}
+
+## 📑 Grounding
+
+{{.Grounding}}
+{{end}}

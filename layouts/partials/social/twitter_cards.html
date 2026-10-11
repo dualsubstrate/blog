@@ -1,0 +1,35 @@
+{{- $images := partial "_funcs/get-page-images" . }}
+{{- with index $images 0 }}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="{{ .Permalink }}">
+{{- else }}
+  <meta name="twitter:card" content="summary">
+{{- end }}
+
+{{- $twTitle := "" -}}
+{{- if .IsPage -}}
+  {{- $twTitle = partial "function/social-page-title.html" .Title -}}
+{{- else -}}
+  {{- $twTitle = .Title | plainify -}}
+{{- end -}}
+{{- with or $twTitle site.Title site.Params.title }}
+  <meta name="twitter:title" content="{{ . }}">
+{{- end }}
+
+{{- $twDesc := partial "function/social-page-description.html" . -}}
+{{- with $twDesc }}
+  <meta name="twitter:description" content="{{ trim . "\n\r\t " }}">
+{{- end }}
+
+{{- $twitterSite := "" }}
+{{- with site.Params.social }}
+  {{- if reflect.IsMap . }}
+    {{- with .twitter }}
+      {{- $content := . }}
+      {{- if not (strings.HasPrefix . "@") }}
+        {{- $content = printf "@%v" . }}
+      {{- end }}
+      <meta name="twitter:site" content="{{ $content }}">
+    {{- end }}
+  {{- end }}
+{{- end }}

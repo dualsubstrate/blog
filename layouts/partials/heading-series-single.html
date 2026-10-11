@@ -1,0 +1,8 @@
+{{- /* Detail: heading_code + project (series line), then unique title. type panel + sayings when Params.project is set. */ -}}
+<span class="series-hero-line">
+    {{- with .Params.heading_code -}}
+        <span class="heading-code heading-code--tldr">{{ . }}</span><span class="heading-title-sep" aria-hidden="true">: </span>
+    {{- end -}}
+    <span class="series-project-line">{{ .Params.project | emojify }}</span>
+</span>
+<span class="series-episode-line">{{ .Title | emojify }}</span>

@@ -1,0 +1,36 @@
+{{- /* Slice of dict: Src, Href, Title (plain), Resources. Hub: recent child RegularPages previews. Leaf: primary URL + bundle images. */ -}}
+{{- $p := . -}}
+{{- $slides := slice -}}
+{{- $seen := slice -}}
+{{- /* Branch pages with child posts: do not rely on .Kind (can miss); use RegularPages. */ -}}
+{{- if gt (len $p.RegularPages) 0 -}}
+    {{- $released := partial "filter-pages-released-as-of-now.html" $p.RegularPages -}}
+    {{- $sorted := sort $released "Date" "desc" -}}
+    {{- range first 32 $sorted -}}
+        {{- if ge (len $slides) 10 -}}
+        {{- else -}}
+            {{- $src := partial "list-page-preview-media-url.html" . -}}
+            {{- if and $src (not (in $seen $src)) -}}
+                {{- $slides = $slides | append (dict "Src" $src "Href" .RelPermalink "Title" (.Title | plainify) "Resources" .Resources) -}}
+                {{- $seen = $seen | append $src -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- if eq (len $slides) 0 -}}
+    {{- with partial "list-page-preview-media-url.html" $p -}}
+        {{- $slides = $slides | append (dict "Src" . "Href" $p.RelPermalink "Title" ($p.Title | plainify) "Resources" $p.Resources) -}}
+        {{- $seen = $seen | append . -}}
+    {{- end -}}
+    {{- range $p.Resources.ByType "image" -}}
+        {{- if ge (len $slides) 8 -}}
+        {{- else -}}
+            {{- $rp := .RelPermalink -}}
+            {{- if not (in $seen $rp) -}}
+                {{- $slides = $slides | append (dict "Src" $rp "Href" $p.RelPermalink "Title" ($p.Title | plainify) "Resources" $p.Resources) -}}
+                {{- $seen = $seen | append $rp -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- return $slides -}}

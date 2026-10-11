@@ -1,0 +1,7 @@
+{{- /*
+  Plain social / meta description for a page.
+  Prefer Params.og_description when set; else Hugo .Description (front matter description), .Summary, site default.
+  Strips **bold** via social-strip-simple-markdown.
+*/ -}}
+{{- $raw := or .Params.og_description .Description .Summary .Site.Params.description | plainify | htmlUnescape -}}
+{{- return (partial "function/social-strip-simple-markdown.html" $raw) -}}

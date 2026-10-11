@@ -1,0 +1,24 @@
+{{- $params := .Scratch.Get "params" -}}
+{{- $image := $params.featuredImage | default $params.featuredimage -}}
+{{- with .Resources.GetMatch "featured-image" -}}
+  {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- with $image -}}
+  <div class="featured-image">
+    {{- dict "Src" . "Title" (partial "function/social-strip-simple-markdown.html" $.Description) "Resources" $.Resources | partial "plugin/img.html" -}}
+  </div>
+{{- end -}}
+{{- with .Params.tags -}}
+  <div class="post-tags-below-featured">
+    <ul class="seven-list__tags" aria-label="Tags">
+      {{- range . -}}
+        {{- $tagURL := partialCached "function/path.html" . . | printf "/tags/%v" -}}
+        {{- with $.Site.GetPage $tagURL -}}
+          <li>
+            <a href="{{ .RelPermalink }}" class="seven-list__tag">{{ .Title }}</a>
+          </li>
+        {{- end -}}
+      {{- end -}}
+    </ul>
+  </div>
+{{- end -}}

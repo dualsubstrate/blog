@@ -1,0 +1,6 @@
+{{- /* Inline SVG so `color` / fill="currentColor" in CSS apply (external <img src=".svg"> cannot be styled that way). */ -}}
+{{- $path := strings.TrimPrefix "/" . -}}
+{{- $staticPath := printf "static/%s" $path -}}
+{{- $svg := readFile $staticPath -}}
+{{- $svg = replace $svg "<svg" `<svg class="logo" aria-hidden="true" focusable="false"` 1 -}}
+{{- $svg | safeHTML -}}

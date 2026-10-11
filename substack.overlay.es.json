@@ -1,0 +1,17 @@
+{
+  "substack_browser": {
+    "publication_subdomain": "behaviorengineeringes",
+    "post_editor_url": "",
+    "writer_home_url_override": "https://behaviorengineeringes.substack.com/publish/home",
+    "new_article_direct_url": "https://behaviorengineeringes.substack.com/publish/post?type=newsletter",
+    "new_post_create_button_text": "Crear",
+    "new_post_article_menu_item_text": "Artículo"
+  },
+  "substack_editor": {
+    "category_browse_button_label": "Ver categoría",
+    "category_browse_button_url": ""
+  },
+  "substack_publish": {
+    "after_continue_section_label": ""
+  }
+}

@@ -1,0 +1,7 @@
+{{- define "title" -}}
+    {{- .Title }} - {{ T .Data.Singular | default .Data.Singular }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    {{- partial "taxonomy-term-tiles.html" . -}}
+{{- end -}}

@@ -1,0 +1,51 @@
+{
+  "_substack_env": "SUBSTACK_* variables override JSON after load. Chromium profile path: set SUBSTACK_CHROMIUM_USER_DATA_DIRECTORY in .envrc (direnv). See docs/substack-html/README.md. insert_subscribe_button_after_paste (default true): after body paste, automation opens the editor Button menu and inserts Substack Subscribe. SUBSTACK_INSERT_SUBSCRIBE_BUTTON_AFTER_PASTE=0 turns it off. paste-schedule fills the publish modal (Continue, section, tags, schedule) but never clicks final Send; finish in Substack, then make sb-mark-published. schedule_push_deliveries toggles email/app delivery.",
+  "substack_browser": {
+    "_chromium_user_data_directory": "Placeholder: leave empty here; real path from SUBSTACK_CHROMIUM_USER_DATA_DIRECTORY in .envrc.",
+    "publication_subdomain": "dualsubstrate",
+    "post_editor_url": "",
+    "chromium_user_data_directory": "",
+    "publish_home_url_suffix": "/publish/home",
+    "login_page_title_keywords": ["sign in", "log in"],
+    "new_post_create_button_text": "Create",
+    "new_post_article_menu_item_text": "Article",
+    "browser_initial_navigation_url": "",
+    "writer_home_url_override": "",
+    "new_article_direct_url": "",
+    "step_delay_milliseconds": 1500
+  },
+  "markdown_export": {
+    "table_mode": "list",
+    "paragraph_mode": "br",
+    "paragraph_line_break_repeat_count": 1,
+    "blockquote_mode": "pullquote_monospace",
+    "include_front_matter_lead_block": true,
+    "demote_heading_levels_one_step": false
+  },
+  "substack_subtitle": {
+    "use_category_type_hierarchy_line": true,
+    "max_categories_in_type_line": 3,
+    "max_length_characters": 120
+  },
+  "html_footer": {
+    "include_read_on_site_link": true,
+    "include_category_browse_link": true,
+    "category_link_list_index": -1,
+    "include_article_tags": true,
+    "include_cognitive_memetics_project_about": false
+  },
+  "site": {
+    "canonical_base_url": "https://blog.dualsubstrate.com/"
+  },
+  "substack_editor": {
+    "insert_category_browse_button_after_paste": false,
+    "insert_subscribe_button_after_paste": false,
+    "category_browse_button_label": "Browse category",
+    "category_browse_button_url": ""
+  },
+  "substack_publish": {
+    "after_continue_section_label": "",
+    "schedule_push_deliveries": false,
+    "schedule_max_attempts": 2
+  }
+}

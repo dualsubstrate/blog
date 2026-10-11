@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "content-pipelines-mcp": {
+      "url": "http://127.0.0.1:3849/mcp"
+    }
+  }
+}

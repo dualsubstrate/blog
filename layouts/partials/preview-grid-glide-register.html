@@ -1,0 +1,36 @@
+{{- /* Enable Glide assets + preview-grid card carousel init (once per page). Thumbs are 1:1 with object-fit: contain. */ -}}
+{{- $p := . -}}
+{{- $p.Scratch.SetInMap "this" "glide" true -}}
+{{- if not ($p.Scratch.Get "previewGridGlideScriptQueued") -}}
+    {{- $p.Scratch.Set "previewGridGlideScriptQueued" true -}}
+    {{- $init := `function initPreviewGridCardGlides() {
+    if (typeof Glide === "undefined") {
+        setTimeout(initPreviewGridCardGlides, 100);
+        return;
+    }
+    document.querySelectorAll(".preview-grid-card-glide:not([data-glide-mounted])").forEach(function (el) {
+        el.setAttribute("data-glide-mounted", "1");
+        new Glide(el, {
+            type: "carousel",
+            perView: 1,
+            gap: 0,
+            rewind: true,
+            hoverpause: true,
+            animationDuration: 380,
+            animationTimingFunc: "ease"
+        }).mount();
+    });
+}
+
+function bootPreviewGridCardGlides() {
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initPreviewGridCardGlides);
+    } else {
+        initPreviewGridCardGlides();
+    }
+}
+
+bootPreviewGridCardGlides();` -}}
+    {{- $arr := ($p.Scratch.Get "this").scriptArr | default slice -}}
+    {{- $arr | append $init | $p.Scratch.SetInMap "this" "scriptArr" -}}
+{{- end -}}

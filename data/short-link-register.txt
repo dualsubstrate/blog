@@ -1,0 +1,10 @@
+# Short-link register (hand-maintained). Do not add paths here without editing short-links.toml.
+# Source of truth: data/short-links.toml
+# Workflow: .cursor/skills/site-short-link-register/SKILL.md
+
+## Active short paths
+# Columns: path<TAB>bundle<TAB>carousel_slug<TAB>note
+/war-game/	content/social-protocols/2026-04-28-candor-zero-sum-politics	candor-zero-sum-politics	Candor zero-sum politics essay; carousel slide 8 CTA
+/factory-score/	content/social-protocols/2026-05-26-developed-countries-are-factories	developed-countries-are-factories	Developed countries as factories essay; carousel slide 8 CTA
+/ego-game/	content/human-condition/2026-05-01-ego-as-game	ego-as-game	Ego as game essay; carousel slide 8 CTA
+/pyramids/	content/human-condition/2026-05-28-why-humans-keep-building-pyramids	why-humans-keep-building-pyramids	Why groups organize into pyramids essay; carousel slide 9 CTA

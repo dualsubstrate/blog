@@ -1,0 +1,10 @@
+{{- /* Optional Params.heading_code before title. .heading-code--tldr matches TLDR / sayings label purple on panel + sayings + claims. */ -}}
+{{- if and (or (eq .Type "panel") (eq .Type "sayings")) .Params.project -}}
+    {{- partial "heading-series-list.html" . -}}
+{{- else -}}
+    {{- with .Params.heading_code -}}
+        {{- $codeClass := "heading-code heading-code--tldr" -}}
+        <span class="{{ $codeClass }}">{{ . }}</span><span class="heading-title-sep" aria-hidden="true">: </span>
+    {{- end -}}
+    {{- .Title | emojify -}}
+{{- end -}}

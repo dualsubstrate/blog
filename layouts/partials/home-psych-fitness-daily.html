@@ -1,0 +1,88 @@
+{{- /* Home: one row for Psych Fitness 28 — the post whose publish date matches “today” in the campaign time zone, else latest on or before today, else first scheduled. Static sites: “today” is the build clock in that zone. */ -}}
+{{- $cfg := site.Params.home.psychFitness | default dict -}}
+{{- if ne $cfg.enable false -}}
+    {{- $tz := $cfg.timeZone | default "Australia/Sydney" -}}
+    {{- $pathPrefix := $cfg.pathPrefix | default "cognitive-memetics/psych-fitness-28/" -}}
+    {{- $hiddenStrict := site.Params.page.hiddenFromHomePage -}}
+
+    {{- $pages := slice -}}
+    {{- range where site.RegularPages "Section" "cognitive-memetics" -}}
+        {{- if strings.HasPrefix .File.Path $pathPrefix -}}
+            {{- $pages = $pages | append . -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if and (ne site.Language.Lang site.Params.defaultContentLanguageCode) (eq (len $pages) 0) -}}
+        {{- range site.Sites -}}
+            {{- if eq .Language.Lang site.Params.defaultContentLanguageCode -}}
+                {{- range where .RegularPages "Section" "cognitive-memetics" -}}
+                    {{- if strings.HasPrefix .File.Path $pathPrefix -}}
+                        {{- $pages = $pages | append . -}}
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- if $hiddenStrict -}}
+        {{- $pages = where $pages "Params.hiddenfromhomepage" false -}}
+    {{- else -}}
+        {{- $pages = where $pages "Params.hiddenfromhomepage" "!=" true -}}
+    {{- end -}}
+
+    {{- $pages = partial "filter-pages-released-as-of-now.html" $pages -}}
+
+    {{- if gt (len $pages) 0 -}}
+        {{- $today := now | time.In $tz | time.Format "2006-01-02" -}}
+        {{- $pick := false -}}
+        {{- $sortedPages := sort $pages "Date" "desc" -}}
+        {{- range $sortedPages -}}
+            {{- if not $pick -}}
+                {{- if le (.Date | time.In $tz | time.Format "2006-01-02") $today -}}
+                    {{- $pick = . -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if not $pick -}}
+            {{- $pick = index $sortedPages (sub (len $sortedPages) 1) -}}
+        {{- end -}}
+
+        {{- $hub := site.GetPage "/cognitive-memetics/psych-fitness-28" -}}
+        {{- $bandTitle := $cfg.title -}}
+        {{- if not $bandTitle -}}
+            {{- with $hub -}}
+                {{- $bandTitle = .Title -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if not $bandTitle -}}
+            {{- $bandTitle = "Psych Fitness 28" -}}
+        {{- end -}}
+
+        {{- $hero := slice $pick -}}
+        <section class="home-section-band home-section-band--psych-fitness-daily" aria-labelledby="home-band-psych-fitness-daily">
+            <header class="home-section-band__header">
+                <div class="home-section-band__header-row">
+                    <h2 id="home-band-psych-fitness-daily" class="home-section-band__title">
+                        {{- if $hub -}}
+                            <a class="seven-list__title" href="{{ $hub.RelPermalink }}">{{ $bandTitle }}</a>
+                        {{- else -}}
+                            <span class="seven-list__title">{{ $bandTitle }}</span>
+                        {{- end -}}
+                    </h2>
+                    {{- if $hub -}}
+                        <a href="{{ $hub.RelPermalink }}" class="home-section-band__view-all">{{ T "homeViewSection" }}</a>
+                    {{- end -}}
+                </div>
+            </header>
+            {{- with $hub -}}
+                {{- if or .Description .Content -}}
+                    <div class="home-section-band__hub-intro">
+                        {{- partial "taxonomy-hub-intro.html" (dict "page" . "idSuffix" "psych-fitness-daily") -}}
+                    </div>
+                {{- end -}}
+            {{- end -}}
+            <div class="home-section-band__list home-section-band__list--hero">
+                {{- partial "seven-style-list.html" (dict "Pages" $hero "Paginator" nil) -}}
+            </div>
+        </section>
+    {{- end -}}
+{{- end -}}

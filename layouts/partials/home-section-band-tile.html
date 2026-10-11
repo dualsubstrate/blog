@@ -1,0 +1,43 @@
+{{- /* Compact tile for home section band (below the lead seven-style row). */ -}}
+{{- $p := . -}}
+{{- $youtubeID := $p.Params.youtube_id | default $p.Params.youtube -}}
+{{- $isVideo := and (eq $p.Type `video`) $youtubeID -}}
+{{- $img := partial "list-page-preview-media-url.html" $p -}}
+<article class="home-band-tile">
+    {{- if $isVideo -}}
+        <div class="home-band-tile__media home-band-tile__media--video" aria-label="{{ printf `Video: %s` ($p.Title | plainify | htmlEscape) }}">
+            <div class="seven-list__video-embed">
+                {{- $p.RenderString (printf "{{< youtube %s >}}" $youtubeID) | safeHTML -}}
+            </div>
+        </div>
+    {{- else -}}
+        <a href="{{ $p.RelPermalink }}" class="home-band-tile__media" aria-label="{{ printf `View: %s` ($p.Title | plainify | htmlEscape) }}">
+            {{- if $img -}}
+                {{- dict "Src" $img "Title" $p.Title "Resources" $p.Resources "Class" "home-band-tile__img" | partial "plugin/img.html" -}}
+            {{- else -}}
+                <div class="home-band-tile__placeholder" aria-hidden="true"></div>
+            {{- end -}}
+        </a>
+    {{- end -}}
+    <a href="{{ $p.RelPermalink }}" class="home-band-tile__title">{{- partial "heading-title-markup.html" $p -}}</a>
+    <div class="home-band-tile__meta">
+        <time datetime="{{ $p.PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">{{- $p.Site.Params.listDateFormat | default "02-Jan" | $p.Date.Format -}}</time>
+        {{- with $p.Params.categories -}}
+            {{- $labels := slice -}}
+            {{- range . -}}
+                {{- $key := . -}}
+                {{- $catPage := partialCached "function/path.html" $key $key | printf "/categories/%v" | $p.Site.GetPage -}}
+                {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+                {{- if $catPage -}}
+                    {{- $labels = $labels | append (printf `<a href="%s" class="home-band-tile__category-link">%s</a>` $catPage.RelPermalink ($label | htmlEscape)) -}}
+                {{- else -}}
+                    {{- $labels = $labels | append (printf `<span class="home-band-tile__category-fallback">%s</span>` ($label | htmlEscape)) -}}
+                {{- end -}}
+            {{- end -}}
+            {{- if gt (len $labels) 0 -}}
+                <span class="home-band-tile__dot" aria-hidden="true"></span>
+                <span class="home-band-tile__categories">{{ delimit $labels `<span class="home-band-tile__meta-sep" aria-hidden="true"> · </span>` | safeHTML }}</span>
+            {{- end -}}
+        {{- end -}}
+    </div>
+</article>

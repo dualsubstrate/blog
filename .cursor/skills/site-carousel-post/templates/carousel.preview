@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <title>Carousel preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/carousel/studio.css">
+</head>
+<body>
+  <main id="carousel-app"></main>
+  <script type="module">
+    const cacheBust = Date.now();
+    document.querySelector('link[href="/carousel/studio.css"]').href = `/carousel/studio.css?v=${cacheBust}`;
+    const { mountCarouselStudio } = await import(`/carousel/studio.js?v=${cacheBust}`);
+    mountCarouselStudio({ deckUrl: './carousel.json', cacheBust });
+  </script>
+</body>
+</html>

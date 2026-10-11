@@ -1,0 +1,14 @@
+{{- /*
+  Each entry: dict "Section" (page) "SortDate" (time). Descending by latest released child Date, else section .Date.
+*/ -}}
+{{- $sections := . -}}
+{{- $withDates := slice -}}
+{{- range $sections -}}
+    {{- $released := partial "filter-pages-released-as-of-now.html" .RegularPages -}}
+    {{- $d := .Date -}}
+    {{- if gt (len $released) 0 -}}
+        {{- $d = (index (sort $released "Date" "desc") 0).Date -}}
+    {{- end -}}
+    {{- $withDates = $withDates | append (dict "Section" . "SortDate" $d) -}}
+{{- end -}}
+{{- return sort $withDates "SortDate" "desc" -}}

@@ -1,0 +1,61 @@
+---
+description: >-
+  Tells where new posts go: Hugo section folder (URL path) and content type
+  (claims, opinion, panel, sayings, video). Apply when creating, moving, or categorizing
+  content under content/ or when the author asks where a piece belongs.
+globs:
+  - content/**/*.md
+alwaysApply: false
+---
+
+# Content placement (section and type)
+
+## Definitions
+
+- **Section** is the first folder under `content/` (for example `platform/`). It sets the URL prefix and which list pages include the page. Home feed sections are listed in **`hugo.toml`** under `params.home.posts.contentSections`.
+- **`type`** is front matter. It selects layouts and required fields. MUST pick **section intent first**, then **`type`**.
+- **Taxonomy `categories`** (for example **`Platform`**, **`Lineage`**, **`Proof`**, **`Notes`**) label topics and hub pages. They **do not** have to mirror the section folder name.
+
+## Pick the section (folder)
+
+Use the **main job of the piece**, not hashtags or browsing context.
+
+| Put it under | When the core of the post is |
+|--------------|-------------------------------|
+| **`platform/`** | Principals, grants, ledgers, surfaces, and how agents are authorized to act and remember. Usual types: **`claims`**, **`opinion`**. |
+| **`lineage/`** | Coordinates, retrieval, grounding, memory policy, and auditable provenance. Usual types: **`claims`**, **`opinion`**. |
+| **`proof/`** | DSS-EVAL, benchmarks, limits, and evidence that ties claims to measurement. Usual types: **`claims`**, **`video`**. |
+| **`notes/`** | Shipping notes, operator updates, and shorter editorial pieces. Usual types: **`opinion`**, **`claims`**. |
+| **`about/`** | Static about page only (not a post section). |
+| **`cognitive-memetics/`** | Panel, sayings, and satire machinery when explicitly used. Omitted from default home bands and main menu until editorial needs it. |
+
+### `type: video` (YouTube picks)
+
+- MUST follow **`.cursor/skills/site-video-content/SKILL.md`**.
+- MAY live under **`proof/`** (default for evaluation-focused picks) or another section when the spine clearly fits **platform** or **lineage**.
+
+### MUST NOT
+
+- MUST NOT put DSS product essays in **`cognitive-memetics/`** unless the piece is panel/sayings/satire by design.
+- MUST NOT use legacy Behaviour Engineering section folder names (`mind-infrastructure`, `social-protocols`, `human-condition`, `x-minds`) in new bundles.
+
+## Pick the `type`
+
+| `type` | Section(s) | Use when |
+|--------|------------|----------|
+| **`claims`** | `platform/`, `lineage/`, `proof/`, `notes/` | **Claim** (`description`), **Grounding** (`grounding`), optional **Thoughts** body. Follow **`.cursor/skills/site-claims-content/SKILL.md`**. |
+| **`opinion`** | `platform/`, `lineage/`, `proof/`, `notes/` | Full **stanceful essay**. Follow **`.cursor/skills/site-opinion-content/SKILL.md`**. Essay MCP: **`content_form=opinion_essay`**. |
+| **`panel`** | `cognitive-memetics/` | Strip or panel content. Follow **`.cursor/skills/site-cognitive-memetics-content/SKILL.md`**. |
+| **`sayings`** | `cognitive-memetics/` | Sayings pattern. Follow **`.cursor/skills/site-cognitive-memetics-content/SKILL.md`**. |
+| **`video`** | `proof/` (usual), `platform/`, `lineage/` | YouTube pick. Follow **`.cursor/skills/site-video-content/SKILL.md`**. |
+
+## Categories
+
+- Prefer **`Platform`**, **`Lineage`**, **`Proof`**, or **`Notes`** aligned with the section.
+- **`cognitive-memetics`**: Use umbrella **`Cognitive-Memetics`** plus hub categories per **`.cursor/skills/site-cognitive-memetics-content/SKILL.md`**.
+
+## Quick checks
+
+- Claim-shaped mechanism post → pick section by spine, **`type: claims`**.
+- Stanceful essay → same section choice, **`type: opinion`**.
+- After **any** new bundle, folder rename/move, or **`date`** / **`draft`** change → **`go tool task calendar`** (see **`.cursor/rules/site-content-markdown-writing.mdc`** → **Publish calendar**).

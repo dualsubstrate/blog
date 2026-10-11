@@ -1,0 +1,246 @@
+{{- $p := .Page -}}
+{{- $params := $p.Params | merge $p.Site.Params.page -}}
+{{- $isClaims := eq $p.Type `claims` -}}
+{{- $isOpinion := eq $p.Type `opinion` -}}
+{{- $isVideo := eq $p.Type `video` -}}
+{{- $isPanel := eq $p.Type `panel` -}}
+{{- $preview := $params.featuredImagePreview | default $params.featuredimagepreview -}}
+{{- $full := $params.featuredImage | default $params.featuredimage -}}
+{{- $image := $preview | default $full -}}
+{{- with $p.Resources.GetMatch "featured-image" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- with $p.Resources.GetMatch "featured-image-preview" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- $catBlock := "" -}}
+{{- with $p.Params.categories -}}
+    {{- $links := slice -}}
+    {{- range . -}}
+        {{- $catPage := partialCached "function/path.html" . . | printf "/categories/%v" | $p.Site.GetPage -}}
+        {{- if $catPage -}}
+            {{- $key := . -}}
+            {{- $label := T $key | default (T (replace $key " " "-")) | default $catPage.Title | default $key -}}
+            {{- $links = $links | append (printf `<a href="%s" class="seven-list__category-link">%s</a>` $catPage.RelPermalink ($label | htmlEscape)) -}}
+        {{- else -}}
+            {{- $key := . -}}
+            {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+            {{- $links = $links | append (printf `<span class="seven-list__category-fallback">%s</span>` ($label | htmlEscape)) -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if gt (len $links) 0 -}}
+        {{- $catBlock = delimit $links `<span class="seven-list__meta-sep" aria-hidden="true"> · </span>` -}}
+    {{- end -}}
+{{- end -}}
+{{- if not $catBlock -}}
+    {{- /* Prefer the taxonomy hub (/categories/<section>) when it exists; otherwise fall back to the section page. */ -}}
+    {{- with $p.Site.GetPage (printf "/categories/%s" $p.Section) -}}
+        {{- $catBlock = printf `<a href="%s" class="seven-list__category-link">%s</a>` .RelPermalink (.Title | default $p.Section | htmlEscape) -}}
+    {{- else -}}
+        {{- with $p.Site.GetPage (printf "/%s" $p.Section) -}}
+            {{- $catBlock = printf `<a href="%s" class="seven-list__category-link">%s</a>` .RelPermalink (.Title | default $p.Section | htmlEscape) -}}
+        {{- else -}}
+            {{- $catBlock = $p.Section -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $ariaTitle := $p.Title | plainify -}}
+{{- with $p.Params.heading_code -}}
+    {{- $ariaTitle = printf "%s: %s" . $ariaTitle -}}
+{{- end -}}
+<article class="seven-list__row" data-seven-row="{{ .RowIndex }}">
+    <div class="seven-list__main">
+        <div class="seven-list__meta">
+            <time datetime="{{ $p.PublishDate.Format "2006-01-02T15:04:05Z07:00" }}">{{- $p.Site.Params.listDateFormat | default "02-Jan" | $p.Date.Format -}}</time>
+            <span class="seven-list__dot" aria-hidden="true"></span>
+            <span class="seven-list__type{{- if $p.Params.categories }} seven-list__categories{{- end -}}">{{ $catBlock | safeHTML }}</span>
+        </div>
+        <a href="{{ $p.RelPermalink }}" class="seven-list__title">{{- partial "heading-title-markup.html" $p -}}</a>
+        {{- if and $isVideo (or $p.Params.youtube_id $p.Params.youtube) -}}
+            {{- $youtubeID := $p.Params.youtube_id | default $p.Params.youtube -}}
+            <div class="seven-list__figure seven-list__figure--video">
+                <div class="seven-list__video-embed">
+                    {{- $p.RenderString (printf "{{< youtube %s >}}" $youtubeID) | safeHTML -}}
+                </div>
+            </div>
+            <a href="{{ $p.RelPermalink }}" class="seven-list__video-detail-link"><span class="seven-list__video-detail-link__icon" aria-hidden="true">📄</span><span class="seven-list__video-detail-link__text">{{ T "fullPost" }}</span></a>
+        {{- else -}}
+            <div class="seven-list__figure">
+                {{- if $image -}}
+                    <a href="{{ $p.RelPermalink }}" class="seven-list__figure-link" aria-label="{{ printf `View full post: %s` ($ariaTitle | htmlEscape) }}">{{- /* list image links to single */ -}}
+                        {{- dict "Src" $image "Title" $p.Title "Resources" $p.Resources "Class" "seven-list__img" | partial "plugin/img.html" -}}
+                    </a>
+                {{- else -}}
+                    <div class="seven-list__figure-placeholder" aria-hidden="true"></div>
+                {{- end -}}
+            </div>
+        {{- end -}}
+        {{- if and (or $isClaims $isOpinion) $image $p.Params.image_credit -}}
+            <div class="seven-list__image-credit" role="note">
+                {{- dict "Content" ($p.Params.image_credit | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+            </div>
+        {{- end -}}
+        {{- with $p.Params.tags -}}
+            <ul class="seven-list__tags" aria-label="Tags">
+                {{- range . -}}
+                    {{- $tagURL := partialCached "function/path.html" . . | printf "/tags/%v" -}}
+                    {{- with $p.Site.GetPage $tagURL -}}
+                        <li>
+                            <a href="{{ .RelPermalink }}" class="seven-list__tag">{{ .Title }}</a>
+                        </li>
+                    {{- end -}}
+                {{- end -}}
+            </ul>
+        {{- end -}}
+    </div>
+    {{- $grounding := $p.Params.grounding | default $p.Params.paper -}}
+    {{- $asideBlocks := or (eq $p.Type `sayings`) $isClaims $isOpinion $p.Params.tldr $p.Params.fluff (and $isVideo $p.Params.sowhat) -}}
+    <div class="seven-list__summary-col{{ if $asideBlocks }} seven-list__summary-col--sayings{{ end }}">
+        {{- if $isClaims -}}
+            {{- if or $p.Description $p.Summary -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label">
+                        <span aria-hidden="true">🎯</span> {{ T "protocolClaim" }}
+                    </p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{- if $p.Description -}}
+                            {{ $p.Description | markdownify }}
+                        {{- else -}}
+                            <p>{{ $p.Summary | plainify }}</p>
+                        {{- end -}}
+                    </div>
+                </div>
+            {{- end -}}
+            {{- with $grounding -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label">
+                        <span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}
+                    </p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ . | markdownify }}
+                    </div>
+                </div>
+            {{- end -}}
+            {{- with $p.Params.research -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label">
+                        <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                    </p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ . | markdownify }}
+                    </div>
+                </div>
+            {{- else -}}
+                {{- with $p.Params.reader_landing -}}
+                    {{- with .why_it_matters -}}
+                        <div class="seven-list__sayings-block">
+                            <p class="seven-list__sayings-label">
+                                <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                            </p>
+                            <div class="seven-list__summary-text seven-list__summary-text--md">
+                                {{ . | markdownify }}
+                            </div>
+                        </div>
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- else if $isOpinion -}}
+            {{- if or $p.Description $p.Summary -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label">
+                        <span aria-hidden="true">📌</span> {{ T "protocolOpinion" }}
+                    </p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{- if $p.Description -}}
+                            {{ $p.Description | markdownify }}
+                        {{- else -}}
+                            <p>{{ $p.Summary | plainify }}</p>
+                        {{- end -}}
+                    </div>
+                </div>
+            {{- end -}}
+            {{- with $grounding -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label">
+                        <span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}
+                    </p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ . | markdownify }}
+                    </div>
+                </div>
+            {{- end -}}
+            {{- with $p.Params.research -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label">
+                        <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                    </p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ . | markdownify }}
+                    </div>
+                </div>
+            {{- else -}}
+                {{- with $p.Params.reader_landing -}}
+                    {{- with .why_it_matters -}}
+                        <div class="seven-list__sayings-block">
+                            <p class="seven-list__sayings-label">
+                                <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                            </p>
+                            <div class="seven-list__summary-text seven-list__summary-text--md">
+                                {{ . | markdownify }}
+                            </div>
+                        </div>
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+        {{- else if or $p.Params.tldr $p.Params.fluff -}}
+            {{- with $p.Params.tldr -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label"><span aria-hidden="true">✔️</span> {{ T "tldr" }}</p>
+                    {{- /* markdownify so **bold** and other light Markdown work; do not use plainify here */ -}}
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ . | markdownify }}
+                    </div>
+                </div>
+            {{- end -}}
+            {{- with $p.Params.fluff -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label"><span aria-hidden="true">💬</span> {{ T "context" }}</p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ . | markdownify }}
+                    </div>
+                </div>
+            {{- end -}}
+        {{- else if $isPanel -}}
+            <div class="seven-list__sayings-block">
+                <p class="seven-list__sayings-label"><span aria-hidden="true">🎬</span> {{ T "teaser" }}</p>
+                <div class="seven-list__summary-text seven-list__summary-text--md">
+                    {{- if $p.Description -}}
+                        {{- $p.Description | markdownify -}}
+                    {{- else -}}
+                        <p>{{ $p.Summary | plainify }}</p>
+                    {{- end -}}
+                </div>
+            </div>
+        {{- else -}}
+            <div class="seven-list__sayings-block">
+                {{- /* Video (and similar): lead / payoff labels; not used for type: panel (see branch above). */ -}}
+                <p class="seven-list__sayings-label"><span aria-hidden="true">🎬</span> {{ T "videoLead" }}</p>
+                <div class="seven-list__summary-text seven-list__summary-text--md">
+                    {{- if $p.Description -}}
+                        {{- $p.Description | markdownify -}}
+                    {{- else -}}
+                        <p>{{ $p.Summary | plainify }}</p>
+                    {{- end -}}
+                </div>
+            </div>
+            {{- if and $isVideo $p.Params.sowhat -}}
+                <div class="seven-list__sayings-block">
+                    <p class="seven-list__sayings-label"><span aria-hidden="true">🎯</span> {{ T "videoPayoff" }}</p>
+                    <div class="seven-list__summary-text seven-list__summary-text--md">
+                        {{ $p.Params.sowhat | markdownify }}
+                    </div>
+                </div>
+            {{- end -}}
+        {{- end -}}
+    </div>
+</article>

@@ -1,0 +1,14 @@
+{{- $pageSlice := .Pages -}}
+{{- $section := .SectionPage -}}
+{{- if gt (len $pageSlice) 0 -}}
+    {{- with $section -}}
+        {{- partial "preview-grid-glide-register.html" . -}}
+    {{- end -}}
+<section class="preview-grid" aria-label="Posts">
+    <div class="preview-grid__inner preview-grid__tiles">
+        {{- range $pageSlice -}}
+            {{- partial "section-preview-grid-card.html" . -}}
+        {{- end -}}
+    </div>
+</section>
+{{- end -}}

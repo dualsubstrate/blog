@@ -1,0 +1,13 @@
+{{- /* Single list-card preview image URL (params + page resources). Returns empty string when none. */ -}}
+{{- $p := . -}}
+{{- $params := $p.Params | merge $p.Site.Params.page -}}
+{{- $preview := $params.featuredImagePreview | default $params.featuredimagepreview -}}
+{{- $full := $params.featuredImage | default $params.featuredimage -}}
+{{- $image := $preview | default $full | default "" -}}
+{{- with $p.Resources.GetMatch "featured-image" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- with $p.Resources.GetMatch "featured-image-preview" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- return $image -}}

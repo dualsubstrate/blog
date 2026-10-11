@@ -1,0 +1,131 @@
+{{- $params := .Scratch.Get "params" -}}
+
+<div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>
+                    {{- with .Site.Params.dateFormat | default "02-Jan-2006" | .Lastmod.Format -}}
+                        {{- dict "Date" . | T "updatedOnDate" -}}
+                        {{- if $.Site.Params.gitRepo -}}
+                            {{- with $.GitInfo -}}
+                                &nbsp;<a class="git-hash" href="{{ printf `%v/commit/%v` $.Site.Params.gitRepo .Hash }}" target="_blank" title="commit by {{ .AuthorName }}({{ .AuthorEmail }}) {{ .Hash }}: {{ .Subject }}">
+                                    <i class="fas fa-hashtag" aria-hidden="true"></i>{{- .AbbreviatedHash -}}
+                                </a>
+                            {{- end -}}
+                        {{- end -}}
+                    {{- end -}}
+                </span>
+            </div>
+            {{- if eq .Site.Params.analytics.enable true -}}
+            <div id="page-views" class="post-info-mod">
+            </div>
+            {{- end -}}
+            {{- with $params.license | string -}}
+            <div class="post-info-license">
+                <span>
+                    {{- . | safeHTML -}}
+                </span>
+            </div>
+            {{- end -}}
+        </div>
+        {{- if $params.linktomarkdown -}}
+        <div class="post-info-line">
+            <div class="post-info-md">
+                {{- with .OutputFormats.Get "markdown" -}}
+                    <span>
+                        <a class="link-to-markdown" href="{{ .RelPermalink }}" target="_blank">
+                            {{- T "readMarkdown" -}}
+                        </a>
+                    </span>
+                {{- end -}}
+            </div>
+        </div>
+        {{- end -}}
+    </div>
+
+    {{- /* Tags + shares above the piece-end rule. */ -}}
+    <div class="post-info-more post-info-more--tags-share">
+        {{- if not (in (slice "claims" "panel" "sayings") .Type) -}}
+        <section class="post-tags">
+            {{- with .Params.tags -}}
+                <i class="fas fa-tags" aria-hidden="true"></i>&nbsp;
+                {{- range $index, $value := . -}}
+                    {{- if gt $index 0 }},&nbsp;{{ end -}}
+                    {{- $tag := partialCached "function/path.html" $value $value | printf "/tags/%v" | $.Site.GetPage -}}
+                    <a href="{{ $tag.RelPermalink }}">{{ $tag.Title }}</a>
+                {{- end -}}
+            {{- end -}}
+        </section>
+        {{- end -}}
+        <div class="post-info-share">
+            <span>
+                {{- partial "plugin/share.html" . -}}
+            </span>
+        </div>
+    </div>
+
+    <div class="post-nav">
+        {{- $prevPage := false -}}
+        {{- $nextPage := false -}}
+        {{- if or (.Params.prev) (.Params.next) -}}
+            {{- with .Params.prev -}}
+                {{- $prevPage = $.Site.GetPage . -}}
+            {{- end -}}
+            {{- with .Params.next -}}
+                {{- $nextPage = $.Site.GetPage . -}}
+            {{- end -}}
+        {{- else if eq .Section "cognitive-memetics" -}}
+            {{- /* Prev/next within the same hub category (Cube-Cows, Por-Estas-Calles, T-Shirt Art), not the whole section. */ -}}
+            {{- $hub := "" -}}
+            {{- range .Params.categories -}}
+                {{- if ne . "Cognitive-Memetics" -}}
+                    {{- $hub = . -}}
+                {{- end -}}
+            {{- end -}}
+            {{- if $hub -}}
+                {{- $siblings := slice -}}
+                {{- range where .Site.RegularPages "Section" "cognitive-memetics" -}}
+                    {{- if in .Params.categories $hub -}}
+                        {{- $siblings = $siblings | append . -}}
+                    {{- end -}}
+                {{- end -}}
+                {{- $siblings = sort $siblings "Date" "asc" -}}
+                {{- $idx := -1 -}}
+                {{- range $i, $p := $siblings -}}
+                    {{- if eq $p.RelPermalink $.RelPermalink -}}
+                        {{- $idx = $i -}}
+                    {{- end -}}
+                {{- end -}}
+                {{- if ge $idx 0 -}}
+                    {{- if gt $idx 0 -}}
+                        {{- $prevPage = index $siblings (sub $idx 1) -}}
+                    {{- end -}}
+                    {{- if lt $idx (sub (len $siblings) 1) -}}
+                        {{- $nextPage = index $siblings (add $idx 1) -}}
+                    {{- end -}}
+                {{- else -}}
+                    {{- $prevPage = .PrevInSection -}}
+                    {{- $nextPage = .NextInSection -}}
+                {{- end -}}
+            {{- else -}}
+                {{- $prevPage = .PrevInSection -}}
+                {{- $nextPage = .NextInSection -}}
+            {{- end -}}
+        {{- else -}}
+            {{- $prevPage = .PrevInSection -}}
+            {{- $nextPage = .NextInSection -}}
+        {{- end -}}
+        {{- /* 50/50 columns so theme floats cannot collapse the row. */ -}}
+        <div class="post-nav__col post-nav__col--prev">
+            {{- with $prevPage -}}
+                <a href="{{ .RelPermalink }}" class="prev" rel="prev" title="{{ .Title }}"><i class="fas fa-angle-left" aria-hidden="true"></i>{{ .Title | emojify }}</a>
+            {{- end -}}
+        </div>
+        <div class="post-nav__col post-nav__col--next">
+            {{- with $nextPage -}}
+                <a href="{{ .RelPermalink }}" class="next" rel="next" title="{{ .Title }}">{{ .Title | emojify }}<i class="fas fa-angle-right" aria-hidden="true"></i></a>
+            {{- end -}}
+        </div>
+    </div>
+</div>

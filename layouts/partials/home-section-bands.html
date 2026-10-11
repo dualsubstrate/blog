@@ -1,0 +1,112 @@
+{{- /* Home: one band per contentSections entry. Lead = newest post (full seven-style row); next posts = compact tiles.
+      Order: sectionBandOrder "sectionOrder" | "latestFirst". Tiles: afterHeroTiles (default), optional afterHeroTilesBySection[slug], clamp 0–4. */ -}}
+{{- $posts := .Site.Params.home.posts -}}
+{{- $secList := $posts.contentSections | default slice -}}
+{{- $hiddenStrict := .Site.Params.page.hiddenFromHomePage -}}
+{{- $bandOrder := $posts.sectionBandOrder | default "sectionOrder" -}}
+
+{{- $bands := slice -}}
+{{- range $secList -}}
+    {{- $secSlug := . -}}
+    {{- $secPage := site.GetPage "section" $secSlug -}}
+    {{- $secTitle := $secSlug | humanize -}}
+    {{- with $secPage -}}
+        {{- $secTitle = .Title -}}
+    {{- end -}}
+
+    {{- $inSec := where site.RegularPages "Section" $secSlug -}}
+    {{- if and (ne $.Site.Language.Lang site.Params.defaultContentLanguageCode) (eq (len $inSec) 0) -}}
+        {{- range site.Sites -}}
+            {{- if eq .Language.Lang site.Params.defaultContentLanguageCode -}}
+                {{- $inSec = where .RegularPages "Section" $secSlug -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if $hiddenStrict -}}
+        {{- $inSec = where $inSec "Params.hiddenfromhomepage" false -}}
+    {{- else -}}
+        {{- $inSec = where $inSec "Params.hiddenfromhomepage" "!=" true -}}
+    {{- end -}}
+
+    {{- /* Psych Fitness 28 has its own home band when params.home.psychFitness is enabled; keep it out of the Cognitive-Memetics row/tiles. */ -}}
+    {{- $psychCfg := site.Params.home.psychFitness | default dict -}}
+    {{- if and (eq $secSlug "cognitive-memetics") (ne $psychCfg.enable false) -}}
+        {{- $psychPrefix := $psychCfg.pathPrefix | default "cognitive-memetics/psych-fitness-28/" -}}
+        {{- $withoutPsych := slice -}}
+        {{- range $inSec -}}
+            {{- if not (strings.HasPrefix .File.Path $psychPrefix) -}}
+                {{- $withoutPsych = $withoutPsych | append . -}}
+            {{- end -}}
+        {{- end -}}
+        {{- $inSec = $withoutPsych -}}
+    {{- end -}}
+
+    {{- $inSec = partial "filter-pages-released-as-of-now.html" $inSec -}}
+
+    {{- $tileN := $posts.afterHeroTiles | default 2 | int -}}
+    {{- $bySec := or (index $posts "afterherotilesbysection") (index $posts "afterHeroTilesBySection") -}}
+    {{- with $bySec -}}
+        {{- with index . $secSlug -}}
+            {{- $tileN = . | int -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if lt $tileN 0 -}}{{- $tileN = 0 -}}{{- end -}}
+    {{- if gt $tileN 4 -}}{{- $tileN = 4 -}}{{- end -}}
+    {{- $takeTotal := add 1 $tileN -}}
+
+    {{- $sorted := sort $inSec "Date" "desc" -}}
+    {{- $bandPages := first $takeTotal $sorted -}}
+    {{- if gt (len $bandPages) 0 -}}
+        {{- $headDate := (index $bandPages 0).Date -}}
+        {{- $bands = $bands | append (dict "slug" $secSlug "secPage" $secPage "secTitle" $secTitle "bandPages" $bandPages "headDate" $headDate) -}}
+    {{- end -}}
+{{- end -}}
+
+{{- $toRender := $bands -}}
+{{- if eq $bandOrder "latestFirst" -}}
+    {{- $toRender = sort $bands "headDate" "desc" -}}
+{{- end -}}
+
+<div class="home-section-bands">
+    {{- range $toRender -}}
+        {{- $secSlug := .slug -}}
+        {{- $secPage := .secPage -}}
+        {{- $secTitle := .secTitle -}}
+        {{- $bandPages := .bandPages -}}
+        {{- $heroPages := first 1 $bandPages -}}
+        {{- $tilePages := after 1 $bandPages -}}
+        <section class="home-section-band home-section-band--{{ $secSlug | urlize }}" aria-labelledby="home-band-{{ $secSlug | urlize }}">
+            <header class="home-section-band__header">
+                <div class="home-section-band__header-row">
+                    <h2 id="home-band-{{ $secSlug | urlize }}" class="home-section-band__title">
+                        {{- if $secPage -}}
+                            <a class="seven-list__title" href="{{ $secPage.RelPermalink }}">{{ $secTitle }}</a>
+                        {{- else -}}
+                            <span class="seven-list__title">{{ $secTitle }}</span>
+                        {{- end -}}
+                    </h2>
+                    {{- if $secPage -}}
+                        <a href="{{ $secPage.RelPermalink }}" class="home-section-band__view-all">{{ T "homeViewSection" }}</a>
+                    {{- end -}}
+                </div>
+            </header>
+            {{- with site.GetPage (printf "/categories/%s" $secSlug) -}}
+                {{- if or .Description .Content -}}
+                    <div class="home-section-band__hub-intro">
+                        {{- partial "taxonomy-hub-intro.html" (dict "page" . "idSuffix" ($secSlug | urlize)) -}}
+                    </div>
+                {{- end -}}
+            {{- end -}}
+            <div class="home-section-band__list home-section-band__list--hero">
+                {{- partial "seven-style-list.html" (dict "Pages" $heroPages "Paginator" nil) -}}
+            </div>
+            {{- if gt (len $tilePages) 0 -}}
+                <div class="home-section-band__tiles" data-home-band-tiles>
+                    {{- range $tilePages -}}
+                        {{- partial "home-section-band-tile.html" . -}}
+                    {{- end -}}
+                </div>
+            {{- end -}}
+        </section>
+    {{- end -}}
+</div>

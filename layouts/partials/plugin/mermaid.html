@@ -1,0 +1,7 @@
+{{- /* LoveIt default + DOM fallback: window.config.data can end up empty while the hook still emits
+      the empty .mermaid div (e.g. config merge order). Duplicate source in a hidden textarea so
+      theme.js can render without relying on window.config.data[id]. */ -}}
+{{- $id := dict "Content" .Content "Scratch" .Page.Scratch | partial "function/id.html" -}}
+<textarea id="{{ $id }}-mermaid-src" class="mermaid-source" hidden readonly>{{ .Content }}</textarea>
+<div class="mermaid" id="{{ $id }}"></div>
+{{- .Page.Scratch.SetInMap "this" "mermaid" true -}}

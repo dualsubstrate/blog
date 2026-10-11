@@ -1,0 +1,3 @@
+# Cursor ignores .gitignore paths by default. Re-include local provider checkouts
+# (gitignored via /providers/) so Agent, Tab, and @ mentions can use them.
+!providers/

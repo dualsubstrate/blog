@@ -1,0 +1,33 @@
+{{- /*
+  Clip Markdown for keep-reading teasers without breaking **bold** or emitting lists.
+
+  Call as: partial "function/related-teaser-markdown.html" (dict "Text" $src "Len" 320)
+  Returns HTML from markdownify.
+*/ -}}
+{{- $text := "" -}}
+{{- $max := 200 -}}
+{{- if and (reflect.IsMap .) (isset . "Text") -}}
+  {{- $text = .Text | default "" -}}
+  {{- $max = .Len | default 200 -}}
+{{- else -}}
+  {{- $text = . | default "" -}}
+{{- end -}}
+{{- $text = strings.TrimSpace (printf "%s" $text) -}}
+{{- /* Flatten markdown list leads into prose so teasers stay one block (no bullets). */ -}}
+{{- $text = replaceRE `(?m)^\s*[-*+]\s+` "" $text -}}
+{{- $text = replaceRE `(?m)^\s*\d+\.\s+` "" $text -}}
+{{- $text = replaceRE `\n{2,}` " " $text -}}
+{{- $text = replaceRE `\n` " " $text -}}
+{{- $text = replaceRE `[ \t]{2,}` " " $text -}}
+{{- $text = strings.TrimSpace $text -}}
+{{- if gt (len $text) $max -}}
+  {{- $text = substr $text 0 $max -}}
+  {{- $text = strings.TrimSpace $text -}}
+  {{- /* Even number of split parts => odd ** count => drop the incomplete tail run. */ -}}
+  {{- $parts := split $text "**" -}}
+  {{- if eq (mod (len $parts) 2) 0 -}}
+    {{- $text = strings.TrimSpace (delimit (first (sub (len $parts) 1) $parts) "**") -}}
+  {{- end -}}
+  {{- $text = printf "%s…" $text -}}
+{{- end -}}
+{{- return ($text | markdownify) -}}

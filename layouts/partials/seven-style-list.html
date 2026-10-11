@@ -1,0 +1,55 @@
+{{- $pageSlice := .Pages -}}
+{{- $pag := .Paginator -}}
+{{- $offset := 0 -}}
+{{- if $pag -}}
+    {{- $offset = mul (sub $pag.PageNumber 1) $pag.PagerSize -}}
+{{- end -}}
+{{- $count := len $pageSlice -}}
+{{- if gt $count 0 -}}
+<section class="seven-list{{ if eq $count 1 }} seven-list--single{{ end }}" data-seven-list>
+    <div class="seven-list__layout">
+        {{- if gt $count 1 -}}
+            <aside class="seven-list__index" aria-hidden="true">
+                {{- range $i := seq 1 $count -}}
+                    <span class="seven-list__num{{ if eq $i 1 }} is-active{{ end }}" data-seven-index="{{ $i }}">{{ printf "%02d" (add $offset $i) }}</span>
+                {{- end -}}
+            </aside>
+        {{- end -}}
+        <div class="seven-list__rows">
+            {{- range $idx, $p := $pageSlice -}}
+                {{- partial "seven-style-row.html" (dict "Page" $p "RowIndex" (add $idx 1)) -}}
+            {{- end -}}
+        </div>
+    </div>
+</section>
+<script>
+(function () {
+    if (!window.IntersectionObserver) return;
+    document.querySelectorAll("[data-seven-list]").forEach(function (root) {
+        if (root.getAttribute("data-seven-list-init")) return;
+        root.setAttribute("data-seven-list-init", "1");
+        var nums = root.querySelectorAll("[data-seven-index]");
+        var rows = root.querySelectorAll("[data-seven-row]");
+        if (!nums.length || !rows.length) return;
+        var setActive = function (i) {
+            nums.forEach(function (n) {
+                n.classList.toggle("is-active", n.getAttribute("data-seven-index") === String(i));
+            });
+        };
+        var io = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (e) {
+                    if (!e.isIntersecting) return;
+                    var i = parseInt(e.target.getAttribute("data-seven-row"), 10);
+                    if (!isNaN(i)) setActive(i);
+                });
+            },
+            { rootMargin: "-35% 0px -40% 0px", threshold: 0 }
+        );
+        rows.forEach(function (r) {
+            io.observe(r);
+        });
+    });
+})();
+</script>
+{{- end -}}

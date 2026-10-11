@@ -1,0 +1,201 @@
+/*
+ * Mermaid PNG/SVG export styling for @mermaid-js/mermaid-cli (Docker mmdc).
+ * Align with `main .mermaid svg` in assets/css/_custom.scss.
+ *
+ * mmdc injects this file as an SVG <style> child (see mermaid-cli renderMermaid):
+ * there is no `.mermaid` HTML wrapper, so every rule MUST be scoped under #my-svg
+ * (default id from mermaid.render(svgId || 'my-svg', ...)).
+ *
+ * Panel chrome (padding, border-radius on main .mermaid) cannot be expressed here;
+ * Raster export (.png / .webp) uses -b / MERMAID_BACKGROUND and the SVG background from mmdc.
+ * Does not run mermaid-stack-down.js; rely on linkStyle in the .mmd for thick vertical edges.
+ */
+#my-svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+#my-svg .cluster rect {
+    fill: transparent !important;
+    stroke: none !important;
+}
+
+#my-svg .cluster .cluster-label {
+    display: none !important;
+}
+
+#my-svg path.mermaid-stack-down {
+    stroke-width: 5px !important;
+    stroke-linecap: round !important;
+}
+
+/* Default mermaid-cli theme uses stroke #333 on .flowchart-link; invisible on dark PNG (-b). */
+#my-svg g.edgePaths path.flowchart-link {
+    stroke: #a8a4ad !important;
+}
+
+/* Horizontal row links often only set dasharray via linkStyle; bump width for readability. */
+#my-svg g.edgePaths path.flowchart-link[style*="stroke-dasharray"] {
+    stroke-width: 2px !important;
+}
+
+#my-svg g.node text,
+#my-svg g.node tspan,
+#my-svg g.node .label text,
+#my-svg g.node .label tspan {
+    font-size: 14px !important;
+}
+
+#my-svg g.node .label foreignObject,
+#my-svg g.node .label foreignObject p,
+#my-svg g.node .label foreignObject span,
+#my-svg g.node .label foreignObject div {
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+}
+
+#my-svg g.node .label foreignObject {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+#my-svg g.node .label foreignObject > div {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+}
+
+#my-svg g.node .label foreignObject p,
+#my-svg g.node .label foreignObject span {
+    margin: 0 !important;
+    width: 100%;
+    text-align: center !important;
+}
+
+#my-svg g.node .label text,
+#my-svg g.node .label tspan {
+    dominant-baseline: central;
+}
+
+#my-svg g.pastelNote rect,
+#my-svg g.pastelNote polygon,
+#my-svg g.pastelNote path,
+#my-svg g.node.pastelNote rect,
+#my-svg g.node.pastelNote polygon,
+#my-svg g.node.pastelNote path,
+#my-svg g[class~="pastelNote"] rect,
+#my-svg g[class~="pastelNote"] polygon,
+#my-svg g[class~="pastelNote"] path {
+    fill: transparent !important;
+    stroke: none !important;
+}
+
+#my-svg g.pastelNote .label foreignObject,
+#my-svg g.node.pastelNote .label foreignObject,
+#my-svg g[class~="pastelNote"] .label foreignObject {
+    border-left: 1.5px dotted #ffffff !important;
+    border-right: 1.5px dotted #ffffff !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    box-sizing: border-box !important;
+    padding-left: 0.65em !important;
+    padding-right: 0.65em !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+}
+
+#my-svg g.pastelNote .label foreignObject .labelBkg,
+#my-svg g.node.pastelNote .label foreignObject .labelBkg,
+#my-svg g[class~="pastelNote"] .label foreignObject .labelBkg {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    color: #ffffff !important;
+}
+
+#my-svg g.pastelNote .label foreignObject > div,
+#my-svg g.node.pastelNote .label foreignObject > div,
+#my-svg g[class~="pastelNote"] .label foreignObject > div {
+    background: transparent !important;
+    background-color: transparent !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+}
+
+#my-svg g.pastelNote .label foreignObject p,
+#my-svg g.pastelNote .label foreignObject span,
+#my-svg g.pastelNote .label foreignObject div,
+#my-svg g.node.pastelNote .label foreignObject p,
+#my-svg g.node.pastelNote .label foreignObject span,
+#my-svg g.node.pastelNote .label foreignObject div,
+#my-svg g[class~="pastelNote"] .label foreignObject p,
+#my-svg g[class~="pastelNote"] .label foreignObject span,
+#my-svg g[class~="pastelNote"] .label foreignObject div {
+    color: #ffffff !important;
+    text-align: left !important;
+}
+
+#my-svg g.pastelNote .label text,
+#my-svg g.pastelNote .label tspan,
+#my-svg g.pastelNote text,
+#my-svg g.pastelNote tspan,
+#my-svg g.node.pastelNote .label text,
+#my-svg g.node.pastelNote .label tspan,
+#my-svg g.node.pastelNote text,
+#my-svg g.node.pastelNote tspan,
+#my-svg g[class~="pastelNote"] .label text,
+#my-svg g[class~="pastelNote"] .label tspan,
+#my-svg g[class~="pastelNote"] text,
+#my-svg g[class~="pastelNote"] tspan {
+    fill: #ffffff !important;
+}
+
+#my-svg g.edgeLabel text,
+#my-svg g.edgeLabel tspan,
+#my-svg .edgeLabel text,
+#my-svg .edgeLabel tspan {
+    font-size: 12px !important;
+}
+
+#my-svg g.edgeLabel foreignObject,
+#my-svg g.edgeLabel foreignObject p,
+#my-svg g.edgeLabel foreignObject span,
+#my-svg g.edgeLabel foreignObject div,
+#my-svg .edgeLabel foreignObject,
+#my-svg .edgeLabel foreignObject p,
+#my-svg .edgeLabel foreignObject span {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+}
+
+#my-svg foreignObject .labelBkg:has(.edgeLabel) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+    background-color: inherit !important;
+}
+
+#my-svg span.edgeLabel,
+#my-svg .edgeLabel p {
+    margin: 0 !important;
+    text-align: center !important;
+    width: 100%;
+}

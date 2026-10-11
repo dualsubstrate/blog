@@ -1,0 +1,10 @@
+# Shared seed for polish voice-picker tooltips.
+# Each voice `example` rewrites this claim in that voice (two paragraphs: setup, then turn).
+# Plain English: state the finding; no clever metaphors.
+# Fact basis: Bevis, Schroeder & Yeomans, "Spoken Disagreement Is More Constructive Than Written Disagreement"
+# (conditionally accepted, Nature Communications; 2026 preprint). ASU field measure: guess of partner's
+# attitude vs partner's reported attitude; spoken pairs closer than written (β = -.58; t(140) = -4.23).
+seed: |
+  People who disagree in writing often leave thinking they understood each other, but their guess of what the other person actually thinks is farther off. When they have the same hard talk out loud, that guess gets closer, and the feeling of understanding tracks the accuracy better.
+
+  Speech lets you hear tone and stop a wrong reading as it happens. Writing removes that, so a misunderstanding can last through the whole exchange.

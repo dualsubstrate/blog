@@ -1,0 +1,45 @@
+# Crawl the Hugo build with muffet (pinned in go.mod via `go tool`).
+# scripts/check-links.sh builds with a localhost baseURL and serves ./public with a threaded
+# static server (Python's default http.server is single-threaded and caused muffet timeouts in CI).
+# A deployed preview URL is not required for this job.
+name: Link check
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+env:
+  HUGO_VERSION: "0.152.2"
+  LINK_CHECK_PORT: "8765"
+
+jobs:
+  muffet:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Install Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: ${{ env.HUGO_VERSION }}
+          extended: true
+
+      - name: Verify Go module and check links
+        run: go tool task verify && go tool task check-links

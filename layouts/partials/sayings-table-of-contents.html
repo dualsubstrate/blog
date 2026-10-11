@@ -1,0 +1,34 @@
+{{- $mdLis := findRE `(?s)<li>\s*<a href="#[^"]+">[^<]*</a></li>` .TableOfContents -}}
+{{- $hasBody := ne (strings.TrimSpace .Content) "" -}}
+{{- $hasBodyHeadings := gt (len $mdLis) 0 -}}
+{{- $hasFrontBlocks := or .Description (or .Params.tldr .Params.fluff) -}}
+{{- $nestBody := and $hasFrontBlocks $hasBody -}}
+<nav id="TableOfContents">
+  <ul>
+    {{- with .Description -}}
+      <li><a href="#section-teaser"><span aria-hidden="true">🎬</span> {{ T "teaser" }}</a></li>
+    {{- end -}}
+    {{- with .Params.tldr -}}
+      <li><a href="#section-tldr"><span aria-hidden="true">✔️</span> {{ T "tldr" }}</a></li>
+    {{- end -}}
+    {{- with .Params.fluff -}}
+      <li><a href="#section-context"><span aria-hidden="true">💬</span> {{ T "context" }}</a></li>
+    {{- end -}}
+    {{- if and $nestBody $hasBodyHeadings -}}
+      <li>
+        <a href="#section-essay"><span aria-hidden="true">📄</span> {{ T "sayingsArticle" }}</a>
+        <ul>
+          {{- range $mdLis -}}
+            {{ . | safeHTML }}
+          {{- end -}}
+        </ul>
+      </li>
+    {{- else if and $nestBody (not $hasBodyHeadings) -}}
+      <li><a href="#section-essay"><span aria-hidden="true">📄</span> {{ T "sayingsArticle" }}</a></li>
+    {{- else -}}
+      {{- range $mdLis -}}
+        {{ . | safeHTML }}
+      {{- end -}}
+    {{- end -}}
+  </ul>
+</nav>

@@ -1,0 +1,8 @@
+{{- $params := .Page.Scratch.Get "params" -}}
+{{- $render := $params.code.render | default dict -}}
+{{- if $render.mermaid | default true -}}
+    {{- /* Do not prepend %%{init}%%: LoveIt already calls mermaid.initialize (theme); Mermaid 11 preprocess can throw if init + diagram conflict. Dark panel is CSS (`main .mermaid`). */ -}}
+    {{- dict "Content" .Inner "Page" .Page | partial "plugin/mermaid.html" -}}
+{{- else -}}
+    {{- transform.Highlight .Inner .Type "" | safeHTML -}}
+{{- end -}}

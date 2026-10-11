@@ -1,0 +1,5 @@
+{{- $id := .Get 0 -}}
+{{- if not $id -}}
+    {{- errorf "The x_simple shortcode requires the post ID as the first argument." -}}
+{{- end -}}
+<a href="https://x.com/i/web/status/{{ $id }}" rel="noopener noreferrer" target="_blank">x.com/i/web/status/{{ $id }}</a>

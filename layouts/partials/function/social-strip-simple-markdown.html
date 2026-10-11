@@ -1,0 +1,11 @@
+{{- /*
+  Plain-text helper for meta / Open Graph / Twitter descriptions.
+  Strips common emphasis markers so social previews do not show raw ** or __.
+  Single-underscore italics are not stripped (too many false positives in prose).
+*/ -}}
+{{- $s := strings.TrimSpace (printf "%s" .) -}}
+{{- $s = plainify $s | htmlUnescape -}}
+{{- $s = replaceRE `\*\*(.*?)\*\*` "$1" $s -}}
+{{- $s = replaceRE `__(.*?)__` "$1" $s -}}
+{{- $s = replaceRE `[ \t]{2,}` " " $s -}}
+{{- return $s -}}

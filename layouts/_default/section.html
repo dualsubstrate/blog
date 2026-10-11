@@ -1,0 +1,70 @@
+{{- define "title" -}}
+    {{- $some := .Params.Title | default (T .Section) | default .Section -}}
+    {{- $some = T $some | default $some -}}
+    {{- dict "Some" $some | T "allSome" }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+    {{- $params := .Scratch.Get "params" -}}
+    <div class="page home" data-home="posts">
+        <h2 class="single-title animate__animated animate__pulse animate__faster">
+            {{- $some := .Params.Title | default (T .Section) | default .Section -}}
+            {{- $some = T $some | default $some -}}
+            {{- dict "Some" $some | T "allSome" -}}
+        </h2>
+
+        {{- $hubPath := printf "/categories/%s" .Section -}}
+        {{- with site.GetPage $hubPath -}}
+            {{- partial "taxonomy-hub-intro.html" . -}}
+        {{- end -}}
+
+        {{- if .Content -}}
+            <div class="single">
+                <div class="content" id="content">
+                    {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+                </div>
+            </div>
+        {{- end -}}
+
+        {{- if .Sections -}}
+            {{- partial "preview-grid-glide-register.html" . -}}
+            <section class="section-subsections" aria-label="Subsections">
+                <h3 class="section-subsections__title">{{ T "subsections" | default "Collections" }}</h3>
+                <div class="preview-grid">
+                    <div class="preview-grid__inner preview-grid__tiles">
+                        {{- $sortedSubs := partial "sort-sections-by-released-desc.html" .Sections -}}
+                        {{- range $sortedSubs -}}
+                            {{- partial "section-preview-grid-card.html" .Section -}}
+                        {{- end -}}
+                    </div>
+                </div>
+            </section>
+        {{- end -}}
+
+        {{- if or .Pages (and (ne .Site.Language.Lang site.Params.defaultContentLanguageCode) (eq (len .Pages) 0)) -}}
+            {{- $pages := where .Pages "Kind" "page" -}}
+            {{- if and (ne .Site.Language.Lang site.Params.defaultContentLanguageCode) (eq (len $pages) 0) -}}
+                {{- range site.Sites -}}
+                    {{- if eq .Language.Lang site.Params.defaultContentLanguageCode -}}
+                        {{- with .GetPage "section" $.Section -}}
+                            {{- $pages = .Pages -}}
+                        {{- end -}}
+                    {{- end -}}
+                {{- end -}}
+            {{- end -}}
+            {{- $pages = where $pages "Kind" "page" -}}
+            {{- $pages = partial "filter-pages-released-as-of-now.html" $pages -}}
+            {{- with .Site.Params.list.paginate | default .Site.Params.paginate -}}
+                {{- $pages = $.Paginate $pages . -}}
+            {{- else -}}
+                {{- $pages = .Paginate $pages -}}
+            {{- end -}}
+            {{- if eq .Params.listLayout "preview-grid" -}}
+                {{- partial "section-preview-grid-list.html" (dict "Pages" $pages.Pages "Paginator" $pages "SectionPage" .) -}}
+            {{- else -}}
+                {{- partial "seven-style-list.html" (dict "Pages" $pages.Pages "Paginator" $pages) -}}
+            {{- end -}}
+            {{- partial "paginator.html" . -}}
+        {{- end -}}
+    </div>
+{{- end -}}

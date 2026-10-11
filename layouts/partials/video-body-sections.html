@@ -1,0 +1,30 @@
+{{- $params := .Scratch.Get "params" -}}
+{{- $full := strings.TrimSpace .Content -}}
+{{- $thoughtsHTML := $full -}}
+{{- $chapterHTML := "" -}}
+{{- $chapterMarkers := slice `<h3 id="chapter-guide">` `<h2 id="chapter-guide">` `<h3 id="guía-de-capítulos">` `<h2 id="guía-de-capítulos">` `<h3 id="guia-de-capitulos">` `<h2 id="guia-de-capitulos">` -}}
+{{- range $chapterMarkers -}}
+    {{- if and (eq $chapterHTML "") (strings.Contains $full .) -}}
+        {{- $parts := split $full . -}}
+        {{- if gt (len $parts) 1 -}}
+            {{- $thoughtsHTML = strings.TrimSpace (index $parts 0) -}}
+            {{- $chapterHTML = strings.TrimSpace (replaceRE `(?s)^[\s\S]*?</h[23]>\s*` "" (index $parts 1) 1) -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with $thoughtsHTML -}}
+    <h2 id="section-tldw" class="sayings-section-heading">
+        <span aria-hidden="true">⏩</span> {{ T "videoTLDW" }}
+    </h2>
+    {{- $html := replace . "<h2" "<h3" -}}
+    {{- $html = replace $html "</h2>" "</h3>" -}}
+    {{- dict "Content" $html "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+{{- end -}}
+
+{{- with $chapterHTML -}}
+    <h2 id="section-chapter-guide" class="sayings-section-heading">
+        <span aria-hidden="true">📑</span> {{ T "videoChapterGuide" }}
+    </h2>
+    {{- dict "Content" . "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+{{- end -}}

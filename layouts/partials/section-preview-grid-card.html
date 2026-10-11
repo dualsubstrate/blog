@@ -1,0 +1,195 @@
+{{- $p := . -}}
+{{- $markdownTeaser := false -}}
+{{- $isFeature := false -}}
+{{- $singleImage := false -}}
+{{- $hideDate := false -}}
+{{- $allowVideo := false -}}
+{{- $dynamicHeight := false -}}
+{{- if and (reflect.IsMap .) (isset . "Page") -}}
+    {{- $p = .Page -}}
+    {{- $markdownTeaser = .MarkdownTeaser | default false -}}
+    {{- $isFeature = .Feature | default false -}}
+    {{- $singleImage = .SingleImage | default false -}}
+    {{- $hideDate = .HideDate | default false -}}
+    {{- $allowVideo = .AllowVideo | default false -}}
+    {{- $dynamicHeight = .DynamicHeight | default false -}}
+{{- end -}}
+{{- $slides := partial "preview-grid-card-media-slides.html" $p | default slice -}}
+{{- if and $singleImage (gt (len $slides) 1) -}}
+    {{- $slides = first 1 $slides -}}
+{{- end -}}
+{{- $youtubeID := "" -}}
+{{- if $allowVideo -}}
+    {{- $youtubeID = $p.Params.youtube_id | default $p.Params.youtube | default "" -}}
+{{- end -}}
+{{- $showVideo := and $youtubeID (ne $youtubeID "") -}}
+{{- $catBlock := "" -}}
+{{- with $p.Params.categories -}}
+    {{- $links := slice -}}
+    {{- range . -}}
+        {{- $catPage := partialCached "function/path.html" . . | printf "/categories/%v" | $p.Site.GetPage -}}
+        {{- if $catPage -}}
+            {{- $key := . -}}
+            {{- $label := T $key | default (T (replace $key " " "-")) | default $catPage.Title | default $key -}}
+            {{- $links = $links | append (printf `<a href="%s" class="preview-grid-card__category-link">%s</a>` $catPage.RelPermalink ($label | htmlEscape)) -}}
+        {{- else -}}
+            {{- $key := . -}}
+            {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+            {{- $links = $links | append (printf `<span class="preview-grid-card__category-fallback">%s</span>` ($label | htmlEscape)) -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if gt (len $links) 0 -}}
+        {{- $catBlock = delimit $links `<span class="preview-grid-card__meta-sep" aria-hidden="true"> · </span>` -}}
+    {{- end -}}
+{{- end -}}
+{{- if not $catBlock -}}
+    {{- /* Section hub tiles (esp. cognitive-memetics): show parent hub + leaf hub when possible. */ -}}
+    {{- if and (eq $p.Kind "section") (eq $p.Section "cognitive-memetics") -}}
+        {{- /* Leaf hub: content folder slug -> category taxonomy term (single list to add hubs). */ -}}
+        {{- $cmLeafHubs := slice
+            (dict "folder" "cows" "term" "cube-cows")
+            (dict "folder" "sayings" "term" "por-estas-calles")
+            (dict "folder" "reptilocracy" "term" "reptilocracy")
+            (dict "folder" "pawtropolis" "term" "pawtropolis-under-fire")
+            (dict "folder" "raymond" "term" "raymond")
+            (dict "folder" "t-shirt-art" "term" "sm-art")
+            (dict "folder" "psych-fitness-28" "term" "psych-fitness-28")
+        -}}
+        {{- $leafHubTerm := "" -}}
+        {{- /* Match by source path when available, otherwise fall back to URL path. */ -}}
+        {{- range $cmLeafHubs -}}
+            {{- if not $leafHubTerm -}}
+                {{- $fp := printf "content/cognitive-memetics/%s/_index" .folder -}}
+                {{- $up := printf "/cognitive-memetics/%s/" .folder -}}
+                {{- if and $p.File (in $p.File.Path $fp) -}}
+                    {{- $leafHubTerm = .term -}}
+                {{- else if in $p.RelPermalink $up -}}
+                    {{- $leafHubTerm = .term -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+
+        {{- $links := slice -}}
+        {{- with $p.Site.GetPage "/categories/cognitive-memetics" -}}
+            {{- $key := .Title -}}
+            {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+            {{- $links = $links | append (printf `<a href="%s" class="preview-grid-card__category-link">%s</a>` .RelPermalink ($label | htmlEscape)) -}}
+        {{- end -}}
+        {{- if $leafHubTerm -}}
+            {{- with $p.Site.GetPage (printf "/categories/%s" $leafHubTerm) -}}
+                {{- $key := .Title -}}
+                {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+                {{- $links = $links | append (printf `<a href="%s" class="preview-grid-card__category-link">%s</a>` .RelPermalink ($label | htmlEscape)) -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if gt (len $links) 0 -}}
+            {{- $catBlock = delimit $links `<span class="preview-grid-card__meta-sep" aria-hidden="true"> · </span>` -}}
+        {{- end -}}
+    {{- end -}}
+    {{- if not $catBlock -}}
+        {{- $catBlock = $p.Section -}}
+    {{- end -}}
+{{- end -}}
+{{- $ariaTitle := $p.Title | plainify -}}
+{{- with $p.Params.heading_code -}}
+    {{- $ariaTitle = printf "%s: %s" . $ariaTitle -}}
+{{- end -}}
+{{- $cardDate := $p.Date -}}
+{{- if eq $p.Kind "section" -}}
+    {{- $released := partial "filter-pages-released-as-of-now.html" $p.RegularPages -}}
+    {{- if gt (len $released) 0 -}}
+        {{- $cardDate = (index (sort $released "Date" "desc") 0).Date -}}
+    {{- end -}}
+{{- end -}}
+{{- $teaser := "" -}}
+{{- $teaserSrc := "" -}}
+{{- if $p.Description -}}
+    {{- $teaserSrc = $p.Description -}}
+{{- else if $p.Params.tldr -}}
+    {{- $teaserSrc = $p.Params.tldr -}}
+{{- else if $p.Summary -}}
+    {{- $teaserSrc = $p.Summary -}}
+{{- end -}}
+{{- with $teaserSrc -}}
+    {{- if $markdownTeaser -}}
+        {{- $teaserLen := cond $isFeature 420 200 -}}
+        {{- $teaser = partial "function/related-teaser-markdown.html" (dict "Text" . "Len" $teaserLen) -}}
+    {{- else -}}
+        {{- $teaser = . | plainify | truncate 200 -}}
+    {{- end -}}
+{{- end -}}
+{{- $cardId := printf "pgc-%s-%s" $p.Lang ($p.RelPermalink | anchorize) -}}
+{{- $titleHref := $p.RelPermalink -}}
+{{- /* For certain cognitive-memetics sub-sections, the "View all" destination should be the category hub, not the section list. */ -}}
+{{- if and (eq $p.Kind "section") $p.File (in $p.File.Path "content/cognitive-memetics/cows/_index") -}}
+    {{- with $p.Site.GetPage "/categories/cube-cows" -}}
+        {{- $titleHref = .RelPermalink -}}
+    {{- end -}}
+{{- end -}}
+<article class="preview-grid-card{{- if $isFeature }} preview-grid-card--feature{{ end }}{{- if $dynamicHeight }} preview-grid-card--dynamic-height{{ end }}{{- if $showVideo }} preview-grid-card--video{{ end }}">
+    <div class="preview-grid-card__thumb{{- if $showVideo }} preview-grid-card__thumb--video{{ end }}">
+        {{- if $showVideo -}}
+            <div class="preview-grid-card__video-embed">
+                {{- $p.RenderString (printf "{{< youtube %s >}}" $youtubeID) | safeHTML -}}
+            </div>
+        {{- else if ge (len $slides) 2 -}}
+            <div class="glide preview-grid-card-glide" id="{{ $cardId }}" role="region" aria-roledescription="carousel" aria-label="{{ printf `Images for %s` ($ariaTitle | htmlEscape) }}">
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+                        {{- range $slides -}}
+                            <li class="glide__slide preview-grid-card-glide__slide">
+                                <a href="{{ .Href }}" class="preview-grid-card-glide__link" aria-label="{{ printf `Open: %s` (.Title | htmlEscape) }}">
+                                    {{- dict "Src" .Src "Title" .Title "Resources" .Resources "Class" "preview-grid-card__img" | partial "plugin/img.html" -}}
+                                </a>
+                            </li>
+                        {{- end -}}
+                    </ul>
+                </div>
+                <div class="glide__arrows preview-grid-card-glide__arrows" data-glide-el="controls">
+                    <button
+                        type="button"
+                        class="glide__arrow glide__arrow--left preview-grid-card-glide__arrow preview-grid-card-glide__arrow--prev"
+                        data-glide-dir="<"
+                        aria-label="{{ T "carouselPrev" }}"
+                    >
+                        <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        type="button"
+                        class="glide__arrow glide__arrow--right preview-grid-card-glide__arrow preview-grid-card-glide__arrow--next"
+                        data-glide-dir=">"
+                        aria-label="{{ T "carouselNext" }}"
+                    >
+                        <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        {{- else if eq (len $slides) 1 -}}
+            {{- $s := index $slides 0 -}}
+            <a href="{{ $s.Href }}" class="preview-grid-card__thumb-link" aria-label="{{ printf `View: %s` ($ariaTitle | htmlEscape) }}">
+                {{- dict "Src" $s.Src "Title" $p.Title "Resources" $s.Resources "Class" "preview-grid-card__img" | partial "plugin/img.html" -}}
+            </a>
+        {{- else -}}
+            <a href="{{ $titleHref }}" class="preview-grid-card__thumb-link preview-grid-card__thumb-link--empty" aria-label="{{ printf `View: %s` ($ariaTitle | htmlEscape) }}">
+                <div class="preview-grid-card__placeholder"></div>
+            </a>
+        {{- end -}}
+    </div>
+    <div class="preview-grid-card__body">
+        <div class="preview-grid-card__meta{{- if $hideDate }} preview-grid-card__meta--no-date{{ end }}">
+            {{- if not $hideDate -}}
+            <time datetime="{{ $cardDate.Format "2006-01-02T15:04:05Z07:00" }}">{{- $p.Site.Params.listDateFormat | default "02-Jan" | $cardDate.Format -}}</time>
+            <span class="preview-grid-card__dot" aria-hidden="true"></span>
+            {{- end -}}
+            <span class="preview-grid-card__type{{- if $p.Params.categories }} preview-grid-card__categories{{- end -}}">{{ $catBlock | safeHTML }}</span>
+        </div>
+        <a href="{{ $titleHref }}" class="preview-grid-card__title">{{- partial "heading-title-markup.html" $p -}}</a>
+        {{- with $teaser -}}
+            {{- if $markdownTeaser -}}
+                <div class="preview-grid-card__teaser">{{ . }}</div>
+            {{- else -}}
+                <p class="preview-grid-card__teaser">{{ . }}</p>
+            {{- end -}}
+        {{- end -}}
+    </div>
+</article>

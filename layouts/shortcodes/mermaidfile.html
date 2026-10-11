@@ -1,0 +1,7 @@
+{{- $file := strings.TrimSpace (or (.Get 0) (.Get "file") "diagram.mmd") -}}
+{{- if or (eq $file ".") (eq $file "..") (ne (path.Base $file) $file) (strings.Contains $file "..") -}}
+  {{- errorf "mermaidfile: invalid filename %q (use a single file name in the same folder as the page)" $file -}}
+{{- end -}}
+{{- $path := path.Join "content" .Page.File.Dir $file -}}
+{{- $raw := readFile $path -}}
+{{- dict "Content" (trim $raw "\n") "Page" .Page | partial "plugin/mermaid.html" -}}

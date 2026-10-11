@@ -1,0 +1,36 @@
+{{- $hasClaim := or .Description .Summary -}}
+{{- $hasThoughts := ne (strings.TrimSpace .Content) "" -}}
+{{- $grounding := .Params.grounding | default .Params.paper -}}
+{{- $hasGrounding := $grounding -}}
+{{- $hasLanding := or .Params.reader_landing .Params.research -}}
+{{- $mdLis := findRE `(?s)<li>\s*<a href="#[^"]+">[^<]*</a></li>` .TableOfContents -}}
+{{- $hasBodyHeadings := gt (len $mdLis) 0 -}}
+<nav id="TableOfContents">
+  <ul>
+    {{- if $hasClaim -}}
+      <li><a href="#section-claim"><span aria-hidden="true">🎯</span> {{ T "protocolClaim" }}</a></li>
+    {{- end -}}
+    {{- if and $hasThoughts $hasBodyHeadings -}}
+      <li>
+        <a href="#section-thoughts"><span aria-hidden="true">💭</span> {{ T "protocolThoughts" }}</a>
+        <ul>
+          {{- range $mdLis -}}
+            {{ . | safeHTML }}
+          {{- end -}}
+        </ul>
+      </li>
+    {{- else if $hasThoughts -}}
+      <li><a href="#section-thoughts"><span aria-hidden="true">💭</span> {{ T "protocolThoughts" }}</a></li>
+    {{- else if $hasBodyHeadings -}}
+      {{- range $mdLis -}}
+        {{ . | safeHTML }}
+      {{- end -}}
+    {{- end -}}
+    {{- if $hasGrounding -}}
+      <li><a href="#section-grounding"><span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}</a></li>
+    {{- end -}}
+    {{- if $hasLanding -}}
+      <li><a href="#section-reader-landing"><span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}</a></li>
+    {{- end -}}
+  </ul>
+</nav>

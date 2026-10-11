@@ -1,0 +1,136 @@
+{{- define "title" -}}
+  {{- $socialTitle := partial "function/social-page-title.html" .Title -}}
+  {{- with .Params.heading_code }}{{ . }}: {{ end -}}
+  {{- $socialTitle }} - {{ .Site.Title -}}
+{{- end -}}
+
+{{- define "content" -}}
+  {{- $params := .Scratch.Get "params" -}}
+
+  {{- $toc := $params.toc -}}
+  {{- if eq $toc true -}}
+    {{- $toc = .Site.Params.page.toc | default dict -}}
+  {{- else if eq $toc false -}}
+    {{- $toc = dict "enable" false -}}
+  {{- end -}}
+
+  {{- if ne $toc.enable false -}}
+    <div class="toc" id="toc-auto">
+      <h2 class="toc-title">{{ T "contents" }}</h2>
+      <div class="toc-content{{ if eq $toc.auto false }} always-active{{ end }}" id="toc-content-auto"></div>
+    </div>
+  {{- end -}}
+
+  <article class="page single">
+        <h1 class="single-title animate__animated animate__flipInX">{{- partial "heading-title-markup.html" . -}}</h1>
+
+    {{- with $params.subtitle -}}
+      <h2 class="single-subtitle">{{ . }}</h2>
+    {{- end -}}
+
+    {{- $image := $params.featuredImage | default $params.featuredimage -}}
+    {{- with .Resources.GetMatch "featured-image" -}}
+      {{- $image = .RelPermalink -}}
+    {{- end -}}
+
+    <div class="post-meta">
+      <div class="post-meta-line">
+        {{- $categories := slice -}}
+        {{- range .Params.categories -}}
+          {{- $category := partialCached "function/path.html" . . | printf "/categories/%v" | $.Site.GetPage -}}
+          {{- $key := . -}}
+          {{- $label := T $key | default (T (replace $key " " "-")) | default $category.Title | default $key -}}
+          {{- $categories = $categories | append (printf `<a href="%v"><i class="far fa-folder" aria-hidden="true"></i>%v</a>` $category.RelPermalink ($label | htmlEscape)) -}}
+        {{- end -}}
+        {{- with delimit $categories "&nbsp;" -}}
+          <span class="post-category">
+            {{- dict "Categories" . | T "includedInCategories" | safeHTML -}}
+          </span>
+        {{- end -}}
+      </div>
+
+      <div class="post-meta-line">
+        {{- with .Site.Params.dateFormat | default "02-Jan-2006" | .PublishDate.Format -}}
+          <i class="far fa-calendar-alt" aria-hidden="true"></i>&nbsp;<time datetime="{{ . }}">{{ . }}</time>&nbsp;
+        {{- end -}}
+        <i class="fas fa-pencil-alt" aria-hidden="true"></i>&nbsp;{{ T "wordCount" .WordCount }}&nbsp;
+        <i class="far fa-clock" aria-hidden="true"></i>&nbsp;{{ T "readingTime" .ReadingTime }}&nbsp;
+      </div>
+
+      {{- if and $image $params.image_credit -}}
+        <div class="post-meta-line featured-image-credit" role="note">
+          {{- dict "Content" ($params.image_credit | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+        </div>
+      {{- end -}}
+    </div>
+
+    {{- with $image -}}
+      <div class="featured-image">
+        {{- dict "Src" . "Title" (partial "function/social-strip-simple-markdown.html" $.Description) "Resources" $.Resources | partial "plugin/img.html" -}}
+      </div>
+    {{- end -}}
+
+    {{- with .Params.tags -}}
+      <div class="post-tags-below-featured">
+        <ul class="seven-list__tags" aria-label="Tags">
+          {{- range . -}}
+            {{- $tagURL := partialCached "function/path.html" . . | printf "/tags/%v" -}}
+            {{- with $.Site.GetPage $tagURL -}}
+              <li>
+                <a href="{{ .RelPermalink }}" class="seven-list__tag">{{ .Title }}</a>
+              </li>
+            {{- end -}}
+          {{- end -}}
+        </ul>
+      </div>
+    {{- end -}}
+
+    {{- if ne $toc.enable false -}}
+      <div class="details toc" id="toc-static" data-kept="{{ if $toc.keepStatic }}true{{ end }}">
+        <div class="details-summary toc-title">
+          <span>{{ T "contents" }}</span>
+          <span><i class="details-icon fas fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static">
+          {{- dict "Content" (partial "opinion-table-of-contents.html" .) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+        </div>
+      </div>
+    {{- end -}}
+
+    <div class="content" id="content">
+      {{- if or .Description .Summary -}}
+        <h2 id="section-opinion" class="sayings-section-heading">
+          <span aria-hidden="true">📌</span> {{ T "protocolOpinion" }}
+        </h2>
+        {{- if .Description -}}
+          {{- dict "Content" (.Description | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+        {{- else -}}
+          <p>{{ .Summary | plainify }}</p>
+        {{- end -}}
+      {{- end -}}
+
+      {{- $bodyTrimmed := .Content | strings.TrimSpace -}}
+      {{- with $bodyTrimmed -}}
+        <h2 id="section-essay" class="sayings-section-heading">
+          <span aria-hidden="true">📝</span> {{ T "protocolEssay" }}
+        </h2>
+        {{- dict "Content" $.Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+      {{- end -}}
+
+      {{- $grounding := .Params.grounding | default .Params.paper -}}
+      {{- with $grounding -}}
+        <h2 id="section-grounding" class="sayings-section-heading">
+          <span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}
+        </h2>
+        {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+      {{- end -}}
+
+      {{- partial "reader-landing.html" . -}}
+    </div>
+
+    {{- partial "single/footer.html" . -}}
+    {{- partial "related-keep-reading.html" . -}}
+    {{- partial "single/back-home.html" . -}}
+    {{- partial "comment.html" . -}}
+  </article>
+{{- end -}}

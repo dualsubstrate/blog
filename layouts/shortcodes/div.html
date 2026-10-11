@@ -1,0 +1,7 @@
+{{- $class := .Get "class" | default "" -}}
+{{- $tag := .Get "tag" | default "div" -}}
+{{- if $class -}}
+  {{- printf `<%s class="%s">%s</%s>` $tag $class .Inner $tag | safeHTML -}}
+{{- else -}}
+  {{- printf `<%s>%s</%s>` $tag .Inner $tag | safeHTML -}}
+{{- end -}}

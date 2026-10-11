@@ -1,0 +1,3616 @@
+// ==============================
+// Custom style
+// ==============================
+
+
+// Import Google Fonts or other web fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+$font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
+$text: #18181B;
+$text-muted: #71717A;
+$bg: #FFFFFF;
+$border: #E4E4E7;
+$accent: #18181B;
+$accent-fg: #FFFFFF;
+$text-dark: #f4f4f5;
+
+// Anchor / inline link tokens (DSS product palette).
+$link: #0070F3;
+$link-hover: #0060d1;
+$link-underline: rgba(0, 112, 243, 0.45);
+$link-dark: #93c5fd;
+$link-hover-dark: #bfdbfe;
+// LoveIt default `a` rest color (matches surrounding footer line text).
+$footer-link: #161209;
+$footer-link-on-dark: #a9a9b3;
+// Wordmark + logo accent (DSS mark fill).
+$brand-purple: $text;
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-body;
+    font-weight: 600 !important;
+    letter-spacing: -0.03rem;
+    color: $text !important; 
+
+    a {
+        color: $link;
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover;
+        }
+    }
+}
+
+// Same tokens as `.page.single .content a` / cards (dark theme).
+[theme=dark] :is(h1, h2, h3, h4, h5, h6) a {
+    color: $link-dark;
+
+    &:hover,
+    &:focus-visible {
+        color: $link-hover-dark;
+    }
+}
+
+// Site footer — same rest/hover pattern as LoveIt global `a` (neutral text, blue on hover only).
+footer a {
+    text-decoration: none;
+    color: $footer-link;
+
+    &::before,
+    &::after {
+        color: inherit;
+    }
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+        color: $link-hover;
+    }
+}
+
+[theme=dark] footer a {
+    color: $footer-link-on-dark;
+
+    &::before,
+    &::after {
+        color: inherit;
+    }
+
+    &:hover,
+    &:active,
+    &:focus-visible {
+        color: $link-hover-dark;
+    }
+}
+
+// Single posts: cap width so images and line length don’t span the full `.container` (LoveIt default is very wide).
+.page.single {
+    max-width: 40rem;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+}
+
+// Keep single-page titles aligned with section/home rows.
+// LoveIt defaults center-align the single title; keep it aligned with content.
+.page.single .single-title {
+    text-align: left !important;
+    width: 100%;
+    margin-left: 0;
+    margin-right: auto;
+}
+
+// About page: logo floats beside the intro.
+.page.single .content .about-logo-wrap {
+    float: right;
+    margin: 0.15rem 0 0.75rem 1rem;
+}
+
+.page.single .content .about-logo-wrap img {
+    display: block;
+    width: 200px;
+    max-width: 45vw;
+    height: auto;
+}
+
+// Stack the logo above text on small screens.
+@media (max-width: 560px) {
+    .page.single .content .about-logo-wrap {
+        float: none;
+        margin: 0 0 1rem 0;
+    }
+}
+
+.page.home {
+    padding-bottom: 0.2rem;
+}
+
+// Home hero/banner: LoveIt `home/profile.html` block with a soft gradient panel.
+.page.home .home-profile {
+    position: relative;
+    margin: 0 0 1.1rem;
+    padding: 1.35rem 1.25rem 1.15rem;
+    border-radius: 16px;
+    border: 1px solid rgba(91, 18, 115, 0.12);
+    background: linear-gradient(
+        145deg,
+        rgba(255, 252, 248, 0.98) 0%,
+        rgba(246, 240, 252, 0.92) 45%,
+        rgba(235, 244, 238, 0.62) 100%
+    );
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 12px 34px rgba(45, 0, 53, 0.06);
+
+    // Keep link row readable over the panel.
+    .links a {
+        text-shadow: 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    [theme=dark] & {
+        border-color: rgba(232, 213, 236, 0.18);
+        background: linear-gradient(
+            145deg,
+            rgba(38, 32, 44, 0.98) 0%,
+            rgba(42, 34, 52, 0.95) 55%,
+            rgba(32, 42, 40, 0.9) 100%
+        );
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.04) inset,
+            0 16px 44px rgba(0, 0, 0, 0.35);
+
+        .links a {
+            text-shadow: none;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .page.home .home-profile {
+        padding: 1.05rem 0.95rem 0.95rem;
+        border-radius: 14px;
+    }
+}
+.page.archive .single-title,
+.page.home .single-title{
+    margin-bottom: 0.4rem;
+    text-align: left;
+}
+
+// Category leaf hubs: parent link only (params.parentCategoryTerm); page title stays in h2 below.
+.page.archive .taxonomy-parent-nav {
+    margin: 1.25rem 0 0.65rem;
+    padding: 0;
+}
+
+.page.archive .taxonomy-parent-nav__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    max-width: 100%;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    color: rgba(91, 18, 115, 0.88);
+    text-decoration: none;
+    border-radius: 6px;
+    padding: 0.2rem 0.35rem 0.2rem 0.15rem;
+    margin: -0.2rem 0 0 -0.15rem;
+    transition: color 0.15s ease, background-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+        color: rgba(61, 8, 78, 0.98);
+        background-color: rgba(91, 18, 115, 0.06);
+        text-decoration: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba(91, 18, 115, 0.45);
+        outline-offset: 2px;
+    }
+
+    [theme=dark] & {
+        color: rgba(200, 150, 220, 0.95);
+
+        &:hover,
+        &:focus-visible {
+            color: rgba(232, 210, 245, 0.98);
+            background-color: rgba(189, 80, 209, 0.12);
+        }
+
+        &:focus-visible {
+            outline-color: rgba(200, 150, 220, 0.55);
+        }
+    }
+}
+
+.page.archive .taxonomy-parent-nav__icon {
+    flex-shrink: 0;
+    font-size: 0.72em;
+    opacity: 0.85;
+    transform: translateY(0.03em);
+}
+
+.page.archive .taxonomy-parent-nav__label {
+    min-width: 0;
+    text-decoration: underline;
+    text-decoration-color: rgba(91, 18, 115, 0.35);
+    text-underline-offset: 0.18em;
+
+    [theme=dark] & {
+        text-decoration-color: rgba(200, 150, 220, 0.35);
+    }
+}
+
+.page.archive .taxonomy-parent-nav__link:hover .taxonomy-parent-nav__label,
+.page.archive .taxonomy-parent-nav__link:focus-visible .taxonomy-parent-nav__label {
+    text-decoration-color: currentColor;
+}
+
+.page.archive .taxonomy-parent-nav + .single-title {
+    margin-top: 0;
+}
+
+// Category hub lead: speech icon + lede (section + category term pages)
+.page.archive .taxonomy-term-intro,
+.page.home .taxonomy-term-intro {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+    margin: 0 0 1.25rem 0;
+    padding: 0.1rem 0 0.35rem 0;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    color: rgba(57, 48, 59, 0.92);
+    font-size: 0.9rem;
+    line-height: 1.5;
+
+    .taxonomy-term-intro__speech {
+        flex-shrink: 0;
+        margin-top: 0.12rem;
+        font-size: 1.05rem;
+        line-height: 1;
+        color: rgba(91, 18, 115, 0.42);
+    }
+
+    .taxonomy-term-intro__main {
+        flex: 1;
+        min-width: 0;
+        border-left: 3px solid rgba(91, 18, 115, 0.3);
+        padding-left: 0.75rem;
+    }
+
+    [theme=dark] & {
+        color: rgba(232, 223, 240, 0.9);
+
+        .taxonomy-term-intro__speech {
+            color: rgba(189, 80, 209, 0.5);
+        }
+
+        .taxonomy-term-intro__main {
+            border-left-color: rgba(189, 80, 209, 0.42);
+        }
+
+        .taxonomy-term-intro__summary.content > p:first-child {
+            color: rgba(237, 223, 242, 0.96);
+        }
+
+        .content a {
+            color: $link-dark;
+
+            &:hover,
+            &:focus-visible {
+                color: $link-hover-dark;
+            }
+        }
+    }
+
+    // After the title pulse: subtle fade-in (Animate.css), staggered so it does not compete with h2.
+    &.animate__animated {
+        animation-delay: 0.22s;
+        animation-fill-mode: both;
+    }
+
+    .content {
+        margin-top: 0;
+        max-width: 42rem;
+    }
+
+    .content p {
+        margin: 0;
+    }
+
+    .content p + p {
+        margin-top: 0.25rem;
+    }
+
+    // Lede vs gloss: first paragraph in hub summary only (not optional long body).
+    .taxonomy-term-intro__summary.content > p:first-child {
+        font-weight: 600;
+        color: #18181B;
+        font-size: 1.06em;
+        letter-spacing: -0.02em;
+        line-height: 1.38;
+    }
+
+    .content a {
+        color: $link;
+        text-decoration: underline;
+        text-decoration-color: $link-underline;
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover;
+        }
+    }
+}
+
+.page.archive .taxonomy-term-intro__summary + .taxonomy-term-intro__body,
+.page.home .taxonomy-term-intro__summary + .taxonomy-term-intro__body {
+    margin-top: 0.75rem;
+}
+
+.page.archive .categories-card__description {
+    font-size: 0.88rem;
+    line-height: 1.45;
+    margin: 0.35rem 0 0.6rem;
+    color: rgba(24, 24, 27, 0.78);
+
+    p {
+        margin: 0;
+    }
+
+    a {
+        color: $link;
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover;
+        }
+    }
+
+    [theme=dark] & {
+        color: rgba(232, 196, 255, 0.82);
+
+        a {
+            color: $link-dark;
+
+            &:hover,
+            &:focus-visible {
+                color: $link-hover-dark;
+            }
+        }
+    }
+}
+
+// Claims: optional `image_credit` (Markdown) in post meta (above hero image).
+.page.single .post-meta .featured-image-credit {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: rgba(24, 24, 27, 0.68);
+    margin-top: 0.15rem;
+
+    p {
+        margin: 0;
+    }
+
+    p + p {
+        margin-top: 0.3rem;
+    }
+
+    a {
+        color: $link;
+        text-decoration: underline;
+        text-decoration-color: $link-underline;
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover;
+        }
+    }
+
+    [theme=dark] & {
+        color: rgba(232, 196, 255, 0.78);
+
+        a {
+            color: $link-dark;
+
+            &:hover,
+            &:focus-visible {
+                color: $link-hover-dark;
+            }
+        }
+    }
+}
+
+.header-wrapper {
+    background-color: #1d1321;
+    
+    .menu-item{ 
+        color: #eddff2;
+
+        &.active{ 
+            color: $brand-purple !important;
+        }
+
+        // &.delimiter{ 
+        //     border-color: #794582 !important;
+        // }
+    }
+
+    // Style the "behaviour" part (in pre field)
+    .header-title-pre {
+        font-weight: 700; // or whatever weight you want
+        padding-right: 0.05rem !important;
+        letter-spacing: -0.01rem;
+        color: $brand-purple !important;
+    }
+
+    .header-title {
+        font-family: "Montserrat", sans-serif;
+        letter-spacing: -0.03rem;
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+
+        a {
+            color: #eddff2 !important;
+            display: flex;
+            align-items: center;
+            min-width: 0;
+        }
+
+        // Inline SVG (`layouts/partials/header-logo.html`): paths use fill="currentColor".
+        .logo {
+            width: 1.7em !important;
+            height: 2em !important;
+            box-sizing: border-box;
+            padding: 0 !important;
+            margin: 0 !important;
+            vertical-align: middle;
+            display: inline-block;
+            flex-shrink: 0;
+            color: $brand-purple;
+            overflow: visible;
+
+            // Match wordmark; paths inherit via currentColor.
+            path {
+                fill: currentColor;
+            }
+        }
+    }
+
+    .search{
+
+        input {
+            background-color: #1d1321;
+        }
+    
+        .search-button {
+            color: #eddff2;
+        }
+    }
+}
+
+// Desktop only: large wordmark. (Do not apply 2rem to mobile — it crowds the bar next to `.menu-toggle`.)
+#header-desktop .header-wrapper {
+    padding: 0 2rem 0 3vh;
+}
+
+// Use hamburger / mobile header below 1050px. LoveIt default is 680px (`themes/LoveIt/assets/css/_core/_media.scss`).
+// `theme.js` still uses 680px for `Util.isMobile()` (search UX, scroll niceties); menu toggle still works.
+@media only screen and (max-width: 1050px) {
+    #header-desktop {
+        display: none !important;
+    }
+
+    #header-mobile {
+        display: block !important;
+    }
+
+    body.blur {
+        overflow: hidden;
+    }
+
+    .page {
+        width: 100%;
+
+        [data-header-mobile] & {
+            padding-top: var(--header-height);
+        }
+
+        [data-header-mobile="normal"] & {
+            padding-top: 0;
+        }
+
+        .categories-card {
+            .card-item {
+                width: 100%;
+            }
+        }
+    }
+
+    .copyright {
+        .copyright-line {
+            .icp-splitter {
+                display: none;
+            }
+
+            .icp-br {
+                display: block;
+            }
+        }
+    }
+
+    // Mobile header: logo shows from 370px wide; hidden below 369px (see following @media).
+    :root {
+        // Room for a two-line wordmark (behaviour + engineering.ai) when the bar wraps.
+        --header-height: 4.5rem;
+    }
+
+    // Fixed bar: pin full viewport width (avoids stray edge gap on some devices).
+    #header-mobile {
+        width: 100%;
+        left: 0;
+        right: 0;
+        box-sizing: border-box;
+    }
+
+    // Flex row: title must shrink; toggle must never be clipped. Title font size: LoveIt default
+    // (`#header-mobile .header-container .header-wrapper .header-title` → `var(--header-title-font-size)`).
+    #header-mobile .header-wrapper {
+        align-items: center;
+        box-sizing: border-box;
+        padding: 0 !important;
+    }
+
+    #header-mobile .header-wrapper .header-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        max-width: none;
+        overflow: visible;
+        padding-left: 0.7rem;
+        
+    }
+
+    // Let the wordmark wrap to a second line on narrow widths so “engineering.ai” stays visible.
+    #header-mobile .header-wrapper .header-title a {
+        min-width: 0;
+        align-items: center;
+        align-content: center;
+        row-gap: 0;
+        font-size: 1.4rem;
+    }
+
+    #header-mobile .header-wrapper .header-title .header-title-name {
+        min-width: 0;
+    }
+
+    // Keep LoveIt’s block + margin layout for spans — flex column was clipping a bar on short rows.
+    #header-mobile .header-wrapper .menu-toggle {
+        flex: 0 0 auto;
+        width: 2.25rem;
+        min-width: 2.25rem;
+        line-height: var(--header-height);
+    }
+}
+
+// Very narrow phones: drop header logo so the wordmark + menu still fit.
+@media only screen and (max-width: 369px) {
+    #header-mobile .header-wrapper .header-title .logo {
+        display: none !important;
+    }
+}
+
+// LoveIt has no param to disable light/dark toggle. `.theme-switch` appears in the desktop bar
+// and in the mobile slide-down menu — hide both.
+.theme-switch {
+    display: none !important;
+}
+
+// Mobile menu: LoveIt draws the hamburger with `$global-font-color` (~#161209). Our header bar is
+// `#1d1321`, so the lines disappear. Force high-contrast bars (matches `.menu-item` text).
+#header-mobile .header-wrapper .menu-toggle span {
+    background: #eddff2 !important;
+}
+
+#header-mobile .header-wrapper .menu-toggle.active span {
+    background: #eddff2 !important;
+}
+
+[theme=dark] #header-mobile .header-wrapper .menu-toggle span {
+    background: #f3e8f6 !important;
+}
+
+[theme=dark] #header-mobile .header-wrapper .menu-toggle.active span {
+    background: #f3e8f6 !important;
+}
+
+// Mermaid: dark chart theme is injected in `layouts/_default/_markup/render-codeblock-mermaid.html`
+// and `layouts/shortcodes/mermaid.html`. Panel styling matches the site header plum tones.
+// Docker PNG export: keep `scripts/mermaid-site-export.css` aligned (mmdc -C injects that CSS inside
+// the rendered SVG as <style>, so export rules use #my-svg, not `.mermaid svg`).
+main .mermaid {
+    background: #2d2a32;
+    padding: 1.25rem 1.5rem;
+    border-radius: 10px;
+    margin: 1.25rem 0;
+    border: 1px solid rgba(237, 223, 242, 0.12);
+    box-sizing: border-box;
+    overflow-x: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        // Do not set font-size on all `svg text` at once: node vs edge labels need different scales.
+
+        // Subgraph cluster frames (row wrappers): keep layout, hide default box.
+        .cluster rect {
+            fill: transparent !important;
+            stroke: none !important;
+        }
+
+        .cluster .cluster-label {
+            display: none !important;
+        }
+
+        // Vertical stack edges only: class + marker set in theme.js (`mermaid-stack-down`).
+        path.mermaid-stack-down {
+            stroke-width: 5px !important;
+            stroke-linecap: round !important;
+        }
+
+        // Node box text (primary)
+        g.node text,
+        g.node tspan,
+        g.node .label text,
+        g.node .label tspan {
+            font-size: 14px !important;
+        }
+
+        g.node .label foreignObject,
+        g.node .label foreignObject p,
+        g.node .label foreignObject span,
+        g.node .label foreignObject div {
+            font-size: 14px !important;
+            line-height: 1.3 !important;
+        }
+
+        // Node shapes: center label text (Mermaid foreignObject content often sits high without flex).
+        g.node .label foreignObject {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        g.node .label foreignObject > div {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            justify-items: center !important;
+            width: 100% !important;
+            height: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+        }
+
+        g.node .label foreignObject p,
+        g.node .label foreignObject span {
+            margin: 0 !important;
+            width: 100%;
+            text-align: center !important;
+        }
+
+        // Vector text fallback (if a node uses <text> instead of foreignObject).
+        g.node .label text,
+        g.node .label tspan {
+            dominant-baseline: central;
+        }
+
+        // Text-note nodes only: flowchart lines like `A1["…"]:::pastelNote` — unfilled rect, L/R dotted
+        // rails, white copy. Match `g.pastelNote` and `g.node.pastelNote` (class order varies by Mermaid).
+        // `classDef pastelNote` should use fill:transparent in the diagram so inline SVG styles do not
+        // paint a solid box; CSS finishes HTML label layers inside foreignObject.
+        $mermaid-note-fg: #ffffff;
+
+        g.pastelNote rect,
+        g.pastelNote polygon,
+        g.pastelNote path,
+        g.node.pastelNote rect,
+        g.node.pastelNote polygon,
+        g.node.pastelNote path,
+        g[class~="pastelNote"] rect,
+        g[class~="pastelNote"] polygon,
+        g[class~="pastelNote"] path {
+            fill: transparent !important;
+            stroke: none !important;
+        }
+
+        g.pastelNote .label foreignObject,
+        g.node.pastelNote .label foreignObject,
+        g[class~="pastelNote"] .label foreignObject {
+            border-left: 1.5px dotted $mermaid-note-fg !important;
+            border-right: 1.5px dotted $mermaid-note-fg !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            color: $mermaid-note-fg !important;
+            box-sizing: border-box !important;
+            padding-left: 0.65em !important;
+            padding-right: 0.65em !important;
+            // Left-justify so two-line “clause; clause” captions share one vertical axis (Mermaid cannot place nodes by pixel).
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+        }
+
+        g.pastelNote .label foreignObject .labelBkg,
+        g.node.pastelNote .label foreignObject .labelBkg,
+        g[class~="pastelNote"] .label foreignObject .labelBkg {
+            background: transparent !important;
+            background-color: transparent !important;
+            border: none !important;
+            color: $mermaid-note-fg !important;
+        }
+
+        g.pastelNote .label foreignObject > div,
+        g.node.pastelNote .label foreignObject > div,
+        g[class~="pastelNote"] .label foreignObject > div {
+            background: transparent !important;
+            background-color: transparent !important;
+            justify-content: flex-start !important;
+            align-items: flex-start !important;
+            text-align: left !important;
+        }
+
+        g.pastelNote .label foreignObject p,
+        g.pastelNote .label foreignObject span,
+        g.pastelNote .label foreignObject div,
+        g.node.pastelNote .label foreignObject p,
+        g.node.pastelNote .label foreignObject span,
+        g.node.pastelNote .label foreignObject div,
+        g[class~="pastelNote"] .label foreignObject p,
+        g[class~="pastelNote"] .label foreignObject span,
+        g[class~="pastelNote"] .label foreignObject div {
+            color: $mermaid-note-fg !important;
+            text-align: left !important;
+        }
+
+        g.pastelNote .label text,
+        g.pastelNote .label tspan,
+        g.pastelNote text,
+        g.pastelNote tspan,
+        g.node.pastelNote .label text,
+        g.node.pastelNote .label tspan,
+        g.node.pastelNote text,
+        g.node.pastelNote tspan,
+        g[class~="pastelNote"] .label text,
+        g[class~="pastelNote"] .label tspan,
+        g[class~="pastelNote"] text,
+        g[class~="pastelNote"] tspan {
+            fill: $mermaid-note-fg !important;
+        }
+
+        // Edge / arrow labels (slightly smaller than nodes, still readable)
+        $mermaid-edge-font: 12px;
+
+        g.edgeLabel text,
+        g.edgeLabel tspan,
+        .edgeLabel text,
+        .edgeLabel tspan {
+            font-size: $mermaid-edge-font !important;
+        }
+
+        g.edgeLabel foreignObject,
+        g.edgeLabel foreignObject p,
+        g.edgeLabel foreignObject span,
+        g.edgeLabel foreignObject div,
+        .edgeLabel foreignObject,
+        .edgeLabel foreignObject p,
+        .edgeLabel foreignObject span {
+            font-size: $mermaid-edge-font !important;
+            line-height: 1.35 !important;
+        }
+
+        // Edge labels only: same .labelBkg wrapper as nodes, but edge text must be centered in the pill.
+        foreignObject .labelBkg:has(.edgeLabel) {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 100% !important;
+            height: 100% !important;
+            box-sizing: border-box !important;
+            text-align: center !important;
+            background-color: inherit !important;
+        }
+
+        span.edgeLabel,
+        .edgeLabel p {
+            margin: 0 !important;
+            text-align: center !important;
+            width: 100%;
+        }
+    }
+}
+
+[theme=dark] main .mermaid {
+    border-color: rgba(243, 232, 246, 0.14);
+}
+
+.principal-quote {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300; // or whatever weight you want
+    font-size:1.7rem; 
+    line-height: 2.5rem;
+    letter-spacing: -0.03rem;
+    text-align:center; 
+    font-style:italic; 
+    color:#18181B; 
+    padding:2.5rem; 
+    
+    p {
+        position: relative;
+        padding: 0 0.5rem; // Extra horizontal padding for quotes
+        
+        &::before {
+            content: '\201C'; // Left double quotation mark
+            font-family: "Montserrat", sans-serif;
+            font-size: 5rem;
+            line-height: 0.8;
+            color: $brand-purple;
+            position: absolute;
+            top: -0.2rem;
+            left: -1rem;
+            font-weight: 200;
+            opacity: 0.5;
+            z-index: 0; // Behind the text
+        }
+        
+        &::after {
+            content: '\201D'; // Right double quotation mark
+            font-family: "Montserrat", sans-serif;
+            font-size: 5rem;
+            line-height: 0.8;
+            color: $brand-purple;
+            position: absolute;
+            bottom: -2rem;
+            right: -0rem;
+            font-weight: 200;
+            opacity: 0.5;
+            z-index: 0; // Behind the text
+        }
+    }
+
+    em {
+        font-style: italic;
+        font-weight: 400;
+        display: block;
+        font-size: 1.1rem;
+        text-align: right;
+        margin-right: 2em; margin-top: 0.3em;
+    }
+}
+
+
+.hero-quote{
+    font-family: "Montserrat", sans-serif;
+    font-weight: 300; // or whatever weight you want
+    font-size:1.3rem; line-height: 1.76rem;
+
+
+    letter-spacing: -0.03rem;
+    text-align:center; 
+    font-style:italic; 
+    color:#4a0254; 
+    padding:2rem; 
+    // Keep a base tint, then layer a visible gradient on top.
+    background-color: rgba(216, 98, 229, 0.12);
+    background-image: linear-gradient(
+        135deg,
+        rgba(186, 103, 201, 0.15) 0%,
+        rgba(225, 206, 220, 0.08) 15%,
+        rgba(255, 255, 255, 0.48) 58%,
+        rgba(226, 204, 225, 0.05) 70%,
+        rgba(255, 255, 255, 0.58) 100%
+
+    );
+    border: 1px solid rgba(91, 18, 115, 0.14);
+    border-radius: 15px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 10px 28px rgba(45, 0, 53, 0.06);
+
+    [theme=dark] & {
+        color: rgba(244, 233, 255, 0.94);
+        border-color: rgba(232, 213, 236, 0.18);
+        background-color: rgba(106, 47, 122, 0.25);
+        background-image: linear-gradient(
+            145deg,
+            rgba(86, 52, 98, 0.85) 0%,
+            rgba(53, 36, 60, 0.92) 52%,
+            rgba(30, 44, 55, 0.88) 100%
+        );
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.04) inset,
+            0 16px 44px rgba(0, 0, 0, 0.35);
+    }
+
+    strong {
+        font-weight: 600 !important;
+    }
+}
+
+// Glide.js Quote Carousel
+.quote-carousel {
+    ul {
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    // Track clips to active slide height (set in glide-init); overflow hides taller off-screen slides
+    .glide__track {
+        overflow: hidden;
+    }
+
+    // Slides use their own content height; JS sets .glide__track height to the active slide
+    .glide__slides {
+        align-items: flex-start;
+    }
+
+    .principal-quote {
+        margin: 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    // Hide default Glide arrows and bullets (optional - customize as needed)
+    .glide__arrows,
+    .glide__bullets {
+        display: none; // Hide navigation if you want auto-play only
+    }
+}
+
+// Home (narrow): smaller type + tighter leading so carousel + hero quote fit without hiding.
+@media (max-width: 600px) {
+    .page.home {
+        // Pull sections closer so “time to content” improves without hiding blocks.
+        .quote-carousel {
+            margin-bottom: 0.35rem;
+        }
+
+        // Carousel = hook (slightly larger); decorative quotes smaller + softer so body text leads.
+        .principal-quote {
+            font-size: 1.14rem;
+            line-height: 1.42;
+            letter-spacing: -0.02rem;
+            padding: 0.85rem 0.75rem;
+
+            p {
+                &::before {
+                    font-size: 2.1rem;
+                    top: -0.1rem;
+                    left: -0.25rem;
+                    opacity: 0.36;
+                    color: rgba($brand-purple, 0.55);
+                }
+
+                &::after {
+                    font-size: 2.1rem;
+                    bottom: -0.85rem;
+                    right: 0;
+                    opacity: 0.36;
+                    color: rgba($brand-purple, 0.55);
+                }
+            }
+
+            em {
+                font-size: 0.92rem;
+                margin-right: 1em;
+            }
+        }
+
+        // Thesis strip: smaller + a touch quieter than the rotating quotes above.
+        .hero-quote {
+            margin-top: 0;
+            font-size: 0.98rem;
+            line-height: 1.56;
+            padding: 1rem 0.85rem;
+            color: rgba(74, 2, 84, 0.88);
+            font-weight: 400;
+
+            strong {
+                font-weight: 600 !important;
+            }
+        }
+    }
+}
+
+// Home — section bands (clarity: one heading + grid per Hugo section)
+.home-section-bands {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 1.25rem;
+    padding-bottom: 1rem;
+}
+
+.home-section-band {
+    background: transparent;
+
+    &:not(:first-child) {
+        margin-top: 2.25rem;
+        padding-top: 2.25rem;
+        
+
+        [theme=dark] & {
+            border-top-color: rgba(232, 196, 255, 0.14);
+        }
+    }
+}
+
+.home-section-band__header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0 0 0.85rem;
+    background: transparent !important;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(91, 18, 115, 0.12);
+    // LoveIt `_compatibility.scss`: global `header:hover { box-shadow / background }` matches any <header>.
+    box-shadow: none !important;
+
+    &:hover {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    [theme=dark] & {
+        border-bottom-color: rgba(232, 196, 255, 0.18);
+    }
+}
+
+.home-section-band__header-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    background: transparent !important;
+
+    &:hover {
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+}
+
+// Full `taxonomy-hub-intro` (same as category hub pages), below the band title row.
+.home-section-band__hub-intro {
+    margin: 0.35rem 0 0.65rem;
+
+    .taxonomy-term-intro {
+        margin-bottom: 0;
+    }
+}
+
+// Same list rows as section pages (`seven-style-list`), not card tiles.
+.home-section-band__list {
+    margin-top: 0.35rem;
+
+    .seven-list {
+        margin-top: 0;
+        padding-bottom: 0.75rem;
+    }
+}
+
+.home-section-band__list--hero .seven-list {
+    padding-bottom: 0.35rem;
+}
+
+// Compact tiles under the lead row (same section band). Two columns from `36rem`.
+// Default tile image: full width, natural height (no crop). Cognitive-Memetics: three
+// square slots with cover (see modifier below).
+.home-section-band__tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem 0.85rem;
+    margin-top: 0.15rem;
+    padding-bottom: 0.65rem;
+    max-width: 72rem;
+
+    @media (min-width: 36rem) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.home-band-tile {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.home-band-tile__media {
+    position: relative;
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: $global-border-color;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+
+    [theme=dark] & {
+        background: $global-border-color-dark;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    }
+
+    &:hover,
+    &:focus-visible {
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+        transform: translateY(-2px);
+
+        [theme=dark] & {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid $brand-purple;
+        outline-offset: 2px;
+    }
+
+    img.lazyload,
+    img.lazyloaded {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+// Cognitive-Memetics home tiles: square art (preview-grid uses 1:1 contain).
+.home-section-band--cognitive-memetics .home-band-tile__media {
+    aspect-ratio: 1 / 1;
+
+    img.lazyload,
+    img.lazyloaded {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+
+// Three compact tiles in one row (afterHeroTiles = 3); base grid is two columns.
+.home-section-band--cognitive-memetics .home-section-band__tiles {
+    @media (min-width: 36rem) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.home-band-tile__placeholder {
+    display: block;
+    min-height: 9rem;
+    width: 100%;
+    background: linear-gradient(
+        135deg,
+        rgba($brand-purple, 0.12) 0%,
+        rgba(65, 7, 84, 0.06) 100%
+    );
+
+    [theme=dark] & {
+        background: linear-gradient(
+            135deg,
+            rgba($brand-purple, 0.1) 0%,
+            rgba(0, 0, 0, 0.22) 100%
+        );
+    }
+}
+
+.home-section-band--cognitive-memetics .home-band-tile__placeholder {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+    height: auto;
+}
+
+.home-band-tile__title {
+    font-size: clamp(0.92rem, 1.4vw, 1.05rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #4c2553;
+    text-decoration: none;
+    letter-spacing: -0.02rem;
+    background: transparent !important;
+    box-shadow: none !important;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+
+    &:hover {
+        color: $link-hover;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $link-hover;
+        outline-offset: 2px;
+    }
+}
+
+.home-band-tile__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.45rem;
+    font-size: 0.82rem;
+    line-height: 1.35;
+    color: $global-font-secondary-color;
+
+    [theme=dark] & {
+        color: $global-font-secondary-color-dark;
+    }
+}
+
+// Home page: keep "breadcrumb/meta" rows consistent in size.
+.page.home :is(.seven-list__meta, .home-band-tile__meta, .preview-grid-card__meta) {
+    font-size: 0.82rem;
+}
+
+.home-band-tile__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #7a1a1a;
+    flex-shrink: 0;
+
+    [theme=dark] & {
+        background: #c75c5c;
+    }
+}
+
+.home-band-tile__categories {
+    display: inline-flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.35rem;
+    min-width: 0;
+}
+
+.home-band-tile__meta-sep {
+    opacity: 0.6;
+    padding: 0 0.05em;
+}
+
+.home-band-tile__category-link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: $link-hover;
+        text-decoration: underline;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+        }
+    }
+}
+
+.home-section-band__intro {
+    margin: 0;
+    padding: 0 0 0 0.65rem;
+    max-width: 42rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    color: rgba(24, 24, 27, 0.78);
+
+    p {
+        margin: 0;
+    }
+
+    p + p {
+        margin-top: 0.45rem;
+    }
+
+    a {
+        color: $link;
+        text-decoration: underline;
+        text-decoration-color: $link-underline;
+
+        &:hover {
+            color: $link-hover;
+        }
+    }
+
+    [theme=dark] & {
+        color: rgba(232, 196, 255, 0.78);
+
+        a {
+            color: $link-dark;
+
+            &:hover {
+                color: $link-hover-dark;
+            }
+        }
+    }
+}
+
+// Band h2 wraps the same `.seven-list__title` class used on section list rows (typography + hover).
+.home-section-band__title {
+    margin: 0;
+    font-size: unset;
+    font-weight: unset;
+    line-height: inherit;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+.home-section-band__view-all {
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: $link;
+    text-decoration: none;
+    white-space: nowrap;
+    opacity: 0.92;
+    background: transparent;
+    box-shadow: none;
+    transition: opacity 0.12s ease, color 0.12s ease, text-decoration-color 0.12s ease;
+
+    &:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.15em;
+        opacity: 1;
+        box-shadow: none;
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+        box-shadow: none;
+    }
+
+    [theme=dark] & {
+        color: $link-dark;
+    }
+}
+
+// Home post grid (card tiles inspired by hugo-theme-dream layout; LoveIt-friendly)
+.home-post-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+    padding-bottom: 1rem;
+
+    @media (min-width: 600px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 900px) {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.home-post-tile {
+    min-width: 0;
+}
+
+.home-post-tile__card,
+.home-post-tile__card--video {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 12px;
+    text-decoration: none;
+    color: $global-font-color;
+    background: $global-background-color;
+    border: 1px solid $global-border-color;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    [theme=dark] & {
+        color: $global-font-color-dark;
+        background: $global-background-color-dark;
+        border-color: $global-border-color-dark;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    &:hover {
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+
+        [theme=dark] & {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+        }
+    }
+}
+
+// Video tile: iframe cannot sit inside `<a>`; body links to the single.
+.home-post-tile__text-hit {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+
+    &:focus-visible {
+        outline: 2px solid $link;
+        outline-offset: 2px;
+    }
+
+    [theme=dark] &:focus-visible {
+        outline-color: $link-dark;
+    }
+}
+
+// Home tile image: card width, height from aspect ratio (no fixed square / cover crop).
+.home-post-tile__media {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: $global-border-color;
+
+    [theme=dark] & {
+        background: $global-border-color-dark;
+    }
+
+    img.lazyload,
+    img.lazyloaded,
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    &--placeholder {
+        min-height: 12rem;
+        background: linear-gradient(
+            135deg,
+            rgba($brand-purple, 0.15) 0%,
+            rgba(65, 7, 84, 0.08) 100%
+        );
+
+        [theme=dark] & {
+            background: linear-gradient(
+                135deg,
+                rgba($brand-purple, 0.12) 0%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
+        }
+    }
+
+    &--video {
+        background: #0a0a0a;
+
+        // Hugo’s `youtube` shortcode wraps the iframe in a padding-bottom ratio box; keep that intact.
+        .home-post-tile__video-embed {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+        }
+    }
+}
+
+.home-post-tile__body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1rem 1rem 0.9rem;
+    gap: 0.35rem;
+}
+
+.home-post-tile__section {
+    margin: 0 0 0.15rem;
+    font-size: 0.7rem;
+    line-height: 1.5;
+    font-weight: 600;
+    letter-spacing: 0.00em;
+    text-transform: uppercase;
+    color: #7a3d8a;
+
+    [theme=dark] & {
+        color: #d8a8e8;
+    }
+}
+
+.home-post-tile__title {
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin: 0;
+    font-weight: 600;
+    color: #18181B;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+}
+
+// Optional Params.heading_code (e.g. W6, W13). Default modifier matches TLDR / sayings labels.
+.heading-code {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+
+    .seven-list__title:hover &,
+    .seven-list__title:focus-visible &,
+    .preview-grid-card__title:hover &,
+    .preview-grid-card__title:focus-visible & {
+        color: inherit;
+    }
+}
+
+// TLDR / sayings-label purple — clearly distinct from .seven-list__title and post titles.
+.heading-code--tldr {
+    color: #5b1273;
+
+    [theme=dark] & {
+        color: #e9c4f0;
+    }
+
+    .seven-list__title:hover &,
+    .seven-list__title:focus-visible &,
+    .preview-grid-card__title:hover &,
+    .preview-grid-card__title:focus-visible & {
+        color: inherit;
+    }
+}
+
+.seven-list__title .heading-code--tldr {
+    color: #8c808e;
+
+    [theme=dark] & {
+        color: #f0c8ff;
+    }
+}
+
+.seven-list__title:hover .heading-code--tldr,
+.seven-list__title:focus-visible .heading-code--tldr {
+    color: inherit;
+}
+
+.preview-grid-card__title .heading-code--tldr {
+    color: #8c808e;
+
+    [theme=dark] & {
+        color: #f0c8ff;
+    }
+}
+
+.preview-grid-card__title:hover .heading-code--tldr,
+.preview-grid-card__title:focus-visible .heading-code--tldr {
+    color: inherit;
+}
+
+.heading-title-sep {
+    direction: ltr;
+    unicode-bidi: embed;
+    color: #aa95b2;
+
+    [theme=dark] & {
+        color: #c4b4d4;
+    }
+
+    .seven-list__title:hover &,
+    .seven-list__title:focus-visible &,
+    .preview-grid-card__title:hover &,
+    .preview-grid-card__title:focus-visible & {
+        color: inherit;
+    }
+}
+
+
+// type panel / sayings + Params.project — single hero: week + project (big), then unique episode title.
+.single-title--series-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+    line-height: 1.15;
+}
+
+.series-hero-line {
+    display: block;
+}
+
+.series-project-line {
+    font-weight: 800;
+    letter-spacing: -0.03rem;
+    // Montserrat first so Latin + digits stay consistent; emoji fonts only for glyphs missing from Montserrat.
+    font-family: "Montserrat", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-variant-numeric: normal;
+    // `font-variant-emoji: emoji` forces emoji presentation on the whole run and can make adjacent digits
+    // pick the wrong face (weird spacing / serif fallback). Leave at UA default so 🙏 still renders.
+}
+
+.series-episode-line {
+    display: block;
+    font-size: clamp(1.1rem, 2.6vw, 1.55rem);
+    font-weight: 700;
+    letter-spacing: -0.02rem;
+    color: #3d1f48;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+}
+
+// Card blurb + meta: darker than $global-font-secondary-* for contrast on tile backgrounds
+$home-tile-summary-color: #3a3340;
+$home-tile-meta-color: #524a58;
+$home-tile-summary-color-dark: #e4dbea;
+$home-tile-meta-color-dark: #c4b8cc;
+
+.home-post-tile__date {
+    min-width: 0;
+    font-size: 0.8rem;
+    color: $home-tile-meta-color;
+
+    [theme=dark] & {
+        color: $home-tile-meta-color-dark;
+    }
+}
+
+// Prose cards: line-clamp gives a clean ellipsis. List cards: `-webkit-box` breaks `ul`/`li` (stacked bullets);
+// use `:has(> ul|ol)` so lists get block layout, capped bullets, and a bottom fade instead of a hard mid-line cut.
+.home-post-tile__summary {
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: $home-tile-summary-color;
+    flex: 1;
+    margin-top: 0.15rem;
+
+    [theme=dark] & {
+        color: $home-tile-summary-color-dark;
+    }
+
+    // Default: paragraph / bold-only blurbs (matches most tiles; restores ellipsis).
+    &:not(:has(> ul)):not(:has(> ol)) {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+        overflow: hidden;
+
+        p,
+        h1, h2, h3, h4, h5, h6 {
+            display: inline;
+            font-size: inherit;
+            font-weight: inherit;
+            margin: 0;
+        }
+    }
+
+    // Markdown bullet lists in `description` (e.g. video picks): block layout, cap height, fade (no hard mid-line cut).
+    &:is(:has(> ul), :has(> ol)) {
+        display: block;
+        overflow: hidden;
+        max-height: calc(1.45em * 10);
+        mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+
+        ul,
+        ol {
+            margin: 0;
+            padding-left: 1.15em;
+        }
+
+        li {
+            display: list-item;
+            margin: 0.12em 0;
+        }
+
+        // Keep up to four hooks on the card; drop extras so the block does not overflow other tiles.
+        li:nth-child(n + 5) {
+            display: none;
+        }
+    }
+
+    p {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+
+    &:is(:has(> ul), :has(> ol)) p {
+        margin: 0 0 0.35em;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: inherit;
+        font-weight: 600;
+        margin: 0 0 0.25em;
+    }
+
+    strong {
+        font-weight: 700;
+    }
+
+    a {
+        color: $link;
+        font-weight: 600;
+        text-decoration: underline;
+        text-decoration-color: $link-underline;
+        text-underline-offset: 2px;
+
+        &:hover {
+            color: $link-hover;
+            text-decoration-color: $link-hover;
+        }
+    }
+}
+
+.home-post-tile__video-cta {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 0.35rem;
+    margin-top: 0.45rem;
+    padding: 0.32rem 0.72rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: $link;
+    border-radius: 999px;
+    border: 1px solid rgba(91, 18, 115, 0.28);
+    background: rgba(91, 18, 115, 0.07);
+
+    [theme=dark] & {
+        color: $link-dark;
+        border-color: rgba(232, 196, 255, 0.28);
+        background: rgba(232, 196, 255, 0.08);
+    }
+}
+
+.home-post-tile__video-cta__icon {
+    font-size: 1em;
+    line-height: 1;
+}
+
+[theme=dark] .home-post-tile__summary a {
+    color: $link-dark;
+
+    &:hover {
+        color: $link-hover-dark;
+        text-decoration-color: $link-hover-dark;
+    }
+}
+
+.home-post-tile__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid $global-border-color;
+    font-size: 0.8rem;
+    color: $home-tile-meta-color;
+
+    [theme=dark] & {
+        border-top-color: $global-border-color-dark;
+        color: $home-tile-meta-color-dark;
+    }
+}
+
+.home-post-tile__reading-time {
+    flex-shrink: 0;
+}
+
+// Seven theme-style list (left index / center article / right summary)
+.seven-list {
+    margin-top: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.seven-list__layout {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    max-width: 72rem;
+    margin: 0 auto;
+}
+
+.seven-list__index {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2.5rem;
+    padding: 1rem 0.75rem 1rem 0;
+    width: 15%;
+    min-width: 3rem;
+    position: sticky;
+    top: 5.5rem;
+    align-self: flex-start;
+    font-size: 1.75rem;
+    line-height: 1;
+    font-weight: 500;
+
+    @media (min-width: 768px) {
+        display: flex;
+    }
+}
+
+.seven-list__num {
+    color: $global-font-secondary-color;
+    transition: color 0.2s ease;
+
+    [theme=dark] & {
+        color: $global-font-secondary-color-dark;
+    }
+
+    &.is-active {
+        color: $global-font-color;
+        font-weight: 700;
+
+        [theme=dark] & {
+            color: $global-font-color-dark;
+        }
+    }
+}
+
+.seven-list__rows {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.75rem;
+}
+
+.seven-list__row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1.25rem 1.75rem;
+    padding: 0.25rem;
+}
+
+.seven-list__main {
+    flex: 1 1 18rem;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.seven-list__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: $global-font-secondary-color;
+
+    [theme=dark] & {
+        color: $global-font-secondary-color-dark;
+    }
+}
+
+.seven-list__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #7a1a1a;
+    flex-shrink: 0;
+
+    [theme=dark] & {
+        background: #c75c5c;
+    }
+}
+
+.seven-list__type {
+    text-transform: lowercase;
+
+    &.seven-list__categories {
+        text-transform: none;
+    }
+}
+
+.seven-list__category-link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: $link-hover;
+        text-decoration: underline;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+        }
+    }
+}
+
+.seven-list__meta-sep {
+    opacity: 0.65;
+    padding: 0 0.05em;
+}
+
+.seven-list__title {
+    display: inline-block;
+    max-width: 100%;
+    font-size: clamp(1.35rem, 2.5vw, 2rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: #4c2553;
+    text-decoration: none;
+    letter-spacing: -0.03rem;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.12s ease;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+
+    &:hover {
+        color: $link-hover;
+        background: transparent !important;
+        box-shadow: none !important;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+        }
+    }
+
+    &:focus:not(:focus-visible) {
+        outline: none;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    &:focus-visible {
+        color: $link-hover;
+        outline: 2px solid $link-hover;
+        outline-offset: 3px;
+        background: transparent !important;
+        box-shadow: none !important;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+            outline-color: $link-hover-dark;
+        }
+    }
+}
+
+// Section list (“seven” rows): full width; height follows the image aspect ratio (no crop box).
+// Home post tiles still use 1:1 in `.home-post-tile__media` above.
+.seven-list__figure {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: $global-border-color;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+
+    [theme=dark] & {
+        background: $global-border-color-dark;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    }
+
+    .seven-list__figure-link {
+        display: block;
+        width: 100%;
+        text-decoration: none;
+        color: inherit;
+        border-radius: inherit;
+
+        &:focus-visible {
+            outline: 2px solid $brand-purple;
+            outline-offset: 3px;
+        }
+    }
+
+    img.lazyload,
+    img.lazyloaded {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .seven-list__figure-placeholder {
+        min-height: 12rem;
+        border-radius: 10px;
+        background: linear-gradient(
+            135deg,
+            rgba($brand-purple, 0.12) 0%,
+            rgba(65, 7, 84, 0.06) 100%
+        );
+
+        [theme=dark] & {
+            background: linear-gradient(
+                135deg,
+                rgba($brand-purple, 0.1) 0%,
+                rgba(0, 0, 0, 0.2) 100%
+            );
+        }
+    }
+
+    // Video row: card chrome only wraps the iframe; CTA sits outside (no grey slab under the player).
+    &.seven-list__figure--video {
+        background: transparent;
+        box-shadow: none;
+        overflow: visible;
+    }
+}
+
+// Section list: video embed (type: video) — iframe cannot replace figure-link; CTA (`fullPost` i18n) is a sibling in the partial.
+.seven-list__video-embed {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+
+    [theme=dark] & {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    }
+}
+
+.seven-list__video-detail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.65rem;
+    padding: 0.4rem 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: $link;
+    text-decoration: none;
+    border-radius: 999px;
+    border: 1px solid rgba(91, 18, 115, 0.28);
+    background: rgba(91, 18, 115, 0.07);
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+        color: $link-hover;
+        border-color: rgba(45, 150, 189, 0.45);
+        background: rgba(45, 150, 189, 0.1);
+    }
+
+    &:focus-visible {
+        outline: 2px solid $brand-purple;
+        outline-offset: 2px;
+    }
+
+    [theme=dark] & {
+        color: $link-dark;
+        border-color: rgba(232, 196, 255, 0.28);
+        background: rgba(232, 196, 255, 0.08);
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover-dark;
+            border-color: rgba(189, 235, 252, 0.4);
+            background: rgba(189, 235, 252, 0.08);
+        }
+    }
+}
+
+.seven-list__video-detail-link__icon {
+    font-size: 1em;
+    line-height: 1;
+}
+
+// Section list: optional `image_credit` (claims) under thumbnail, before tags.
+.seven-list__image-credit {
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: rgba(24, 24, 27, 0.65);
+    margin: 0.25rem 0 0.15rem;
+
+    p {
+        margin: 0;
+    }
+
+    p + p {
+        margin-top: 0.25rem;
+    }
+
+    a {
+        color: $link;
+        text-decoration: underline;
+        text-decoration-color: $link-underline;
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover;
+        }
+    }
+
+    [theme=dark] & {
+        color: rgba(232, 196, 255, 0.75);
+
+        a {
+            color: $link-dark;
+
+            &:hover,
+            &:focus-visible {
+                color: $link-hover-dark;
+            }
+        }
+    }
+}
+
+// Claims single: tag pills directly under featured image (see layouts/claims/single.html)
+.post-tags-below-featured {
+    margin: 0.35rem 0 0.75rem; 
+
+    .seven-list__tags {
+        margin-top: 0;
+    }
+}
+
+// Under list thumbnail: taxonomy tags (links to /tags/<term>/)
+.seven-list__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.45rem;
+    list-style: none;
+    margin: 0.65rem 0 1.5rem;
+    padding: 0;
+    align-items: center;
+
+    // Flex `ul` + `display: list-item` `li` can still paint markers in some engines.
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        &::marker {
+            content: none;
+        }
+    }
+}
+
+.seven-list__tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    padding: 0.2rem 0.45rem;
+    border-radius: 999px;
+    text-decoration: none;
+    color: $link;
+    background: rgba(91, 18, 115, 0.08);
+    border: 1px solid rgba(91, 18, 115, 0.2);
+    transition: color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+        color: $link-hover;
+        background: rgba(45, 150, 189, 0.1);
+        border-color: rgba(45, 150, 189, 0.35);
+    }
+
+    [theme=dark] & {
+        color: $link-dark;
+        background: rgba(232, 196, 255, 0.08);
+        border-color: rgba(232, 196, 255, 0.22);
+
+        &:hover,
+        &:focus-visible {
+            color: $link-hover-dark;
+            background: rgba(189, 235, 252, 0.08);
+            border-color: rgba(189, 235, 252, 0.35);
+        }
+    }
+}
+
+.seven-list__summary-col {
+    display: none;
+    flex: 1 1 14rem;
+    max-width: 44rem;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 2rem 0 0 1.25rem;
+    border-left: 1px solid $global-border-color;
+
+    [theme=dark] & {
+        border-left-color: $global-border-color-dark;
+    }
+
+    @media (min-width: 768px) {
+        display: flex;
+    }
+
+    &--sayings {
+        gap: 1.5rem;
+    }
+}
+
+.seven-list__sayings-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+}
+
+// Sayings labels (TLDR / Fluff): no underline — avoids looking like a hyperlink.
+.seven-list__sayings-label {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #73537e;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+}
+
+.content .sayings-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #5b1273;
+    text-decoration: none;
+    border-bottom: none;
+    margin: 1.5rem 0 0.75rem;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+
+    &:first-of-type {
+        margin-top: 0.5rem;
+    }
+}
+
+// Reader landing (claims + video Dig deeper): why / takeaways / explore.
+// Soft card wash cousin of .sayings-project-about / "But why" footers.
+.reader-landing-panel {
+    position: relative;
+    margin: 1.75rem 0 1.25rem;
+    padding: 1.25rem 1.2rem 1.35rem 1.4rem;
+    border-radius: 14px;
+    border: 1px solid rgba(91, 18, 115, 0.22);
+    background: linear-gradient(145deg, rgba(255, 252, 248, 0.98) 0%, rgba(246, 240, 252, 0.92) 48%, rgba(235, 244, 238, 0.55) 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.65) inset,
+        0 10px 28px rgba(45, 0, 53, 0.07);
+
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        border-radius: 14px 0 0 14px;
+        background: linear-gradient(180deg, #6d8f5f 0%, #5b1273 52%, #4a8fa3 100%);
+    }
+
+    [theme=dark] & {
+        border-color: rgba(232, 213, 236, 0.28);
+        background: linear-gradient(145deg, rgba(38, 32, 44, 0.98) 0%, rgba(42, 34, 52, 0.95) 55%, rgba(32, 42, 40, 0.9) 100%);
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.04) inset,
+            0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+}
+
+.reader-landing-panel__heading.sayings-section-heading {
+    margin-top: 0;
+    margin-bottom: 0.65rem;
+}
+
+.reader-landing {
+    margin-top: 0.25rem;
+}
+
+.reader-landing__subhead {
+    font-size: 1.05rem;
+    font-weight: 650;
+    margin: 1.1rem 0 0.45rem;
+    color: inherit;
+}
+
+.reader-landing__explore-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0.35rem 0 0;
+}
+
+.reader-landing__explore-item {
+    margin: 0.55rem 0;
+    line-height: 1.45;
+}
+
+.reader-landing__explore-hint {
+    display: block;
+    font-size: 0.85rem;
+    opacity: 0.72;
+    margin-top: 0.15rem;
+}
+
+// Detail pages: keep long-form reading narrower for panel + sayings.
+.page.single.single-panel,
+.page.single.single-saying {
+    max-width: 30rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+// Cognitive-memetics project explainers: shared gradient "But why" footer card
+// (Cube-Cows `cows-project-about`, Street Wisdom `sayings-project-about`, Reptilocracy `reptilocracy-project-about`, Pawtropolis, Raymond).
+.cow-project-about,
+.sayings-project-about {
+    position: relative;
+    margin-top: 2.25rem;
+    padding: 1.4rem 1.2rem 1.45rem 1.45rem;
+    border-radius: 14px;
+    border: 1px solid rgba(91, 18, 115, 0.22);
+    background: linear-gradient(145deg, rgba(255, 252, 248, 0.98) 0%, rgba(246, 240, 252, 0.92) 48%, rgba(235, 244, 238, 0.55) 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.65) inset,
+        0 10px 28px rgba(45, 0, 53, 0.07);
+
+    &::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 5px;
+        border-radius: 14px 0 0 14px;
+        background: linear-gradient(180deg, #6d8f5f 0%, #5b1273 52%, #4a8fa3 100%);
+    }
+
+    [theme=dark] & {
+        border-color: rgba(232, 213, 236, 0.28);
+        background: linear-gradient(145deg, rgba(38, 32, 44, 0.98) 0%, rgba(42, 34, 52, 0.95) 55%, rgba(32, 42, 40, 0.9) 100%);
+        box-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.04) inset,
+            0 12px 32px rgba(0, 0, 0, 0.35);
+    }
+}
+
+.cow-project-about__title,
+.sayings-project-about__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.9rem;
+    font-size: 1.08rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #5b1273;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+}
+
+.cow-project-about__mark,
+.sayings-project-about__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 50%;
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1;
+    background: rgba(91, 18, 115, 0.1);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset;
+
+    [theme=dark] & {
+        background: rgba(232, 213, 236, 0.12);
+        box-shadow: none;
+    }
+}
+
+.cow-project-about__body,
+.sayings-project-about__body {
+    margin: 0;
+    font-size: 0.97rem;
+    line-height: 1.62;
+    color: #3a3340;
+
+    [theme=dark] & {
+        color: #e4dbea;
+    }
+
+    p {
+        margin: 0 0 0.85rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    em {
+        font-style: italic;
+        font-weight: 600;
+    }
+}
+
+.sayings-project-about__endmark {
+    opacity: 0.9;
+    white-space: nowrap;
+}
+
+// Reptilocracy only: compact CTA panel (lead + button; centered row; URL in partial).
+.reptilocracy-project-about__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    gap: 0.55rem 1rem;
+    margin-top: 1.1rem;
+    padding: 1rem 1.15rem;
+    text-align: center;
+    border-radius: 11px;
+    border: 1px solid rgba(91, 18, 115, 0.14);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 2px 10px rgba(45, 0, 53, 0.04);
+
+    [theme=dark] & {
+        border-color: rgba(232, 213, 236, 0.14);
+        background: rgba(24, 20, 30, 0.55);
+        box-shadow: none;
+    }
+}
+
+.reptilocracy-project-about__cta-lead {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: #5b1273;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+}
+
+.reptilocracy-project-about__cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: 0.02em;
+    text-decoration: none !important;
+    color: #fff !important;
+    background: #5b1273;
+    border: 1px solid rgba(91, 18, 115, 0.35);
+    box-shadow: 0 1px 3px rgba(45, 0, 53, 0.12);
+
+    &:hover,
+    &:focus-visible {
+        color: #fff !important;
+        background: #6a2d86;
+        border-color: rgba(91, 18, 115, 0.45);
+    }
+
+    [theme=dark] & {
+        background: #7a4a92;
+        border-color: rgba(232, 213, 236, 0.2);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+
+        &:hover,
+        &:focus-visible {
+            background: #8a58a3;
+        }
+    }
+}
+
+// Claims detail: TOC hierarchy — body headings (h3) nested under "Thoughts".
+.page.single #TableOfContents {
+    ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    > ul > li {
+        margin: 0.35rem 0;
+    }
+
+    > ul > li > a {
+        font-weight: 600;
+    }
+
+    ul ul {
+        margin: 0.4rem 0 0.15rem 0;
+        padding: 0.25rem 0 0.25rem 0.75rem;
+        border-left: 2px solid rgba(99, 160, 182, 0.45);
+        list-style: none;
+
+        li {
+            margin: 0.28rem 0;
+        }
+
+        a {
+            font-size: 0.88em;
+            font-weight: 500;
+            line-height: 1.35;
+        }
+    }
+
+    [theme=dark] & ul ul {
+        border-left-color: rgba(189, 235, 252, 0.35);
+    }
+}
+
+.seven-list__summary-text {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: $global-font-color;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    [theme=dark] & {
+        color: $global-font-color-dark;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    &--md {
+        p {
+            margin: 0 0 0.5rem;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+
+        strong {
+            font-weight: 700;
+        }
+    }
+
+    // Markdown links in Claim / Grounding / Teaser (otherwise inherit body black).
+    a {
+        color: $link;
+        font-weight: 600;
+        text-decoration: none;
+        text-decoration-color: $link-underline;
+        text-underline-offset: 3px;
+        border-bottom-style: dotted;
+        border-bottom-width: 1px;
+        border-bottom-color: $link-underline;
+
+        &:hover {
+            color: $link-hover;
+            text-decoration-color: $link-hover;
+            border-bottom-color: $link-hover;
+        }
+    }
+}
+
+[theme=dark] .seven-list__summary-text a {
+    color: $link-dark;
+
+    &:hover {
+        color: $link-hover-dark;
+        text-decoration-color: $link-hover-dark;
+        border-bottom-color: $link-hover-dark;
+    }
+}
+
+// Single post body: same affordance for links in claims / sayings blocks (markdown).
+.page.single .content a {
+    color: $link;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: $link-underline;
+    text-underline-offset: 3px;
+
+    &:hover {
+        color: $link-hover;
+        text-decoration-color: $link-hover;
+    }
+}
+
+[theme=dark] .page.single .content a {
+    color: $link-dark;
+
+    &:hover {
+        color: $link-hover-dark;
+        text-decoration-color: $link-hover-dark;
+    }
+}
+
+// Tag pills sometimes render inside `.content` (cognitive memetics); beat `.page.single .content a`
+// so taxonomy pills stay pill-styled (no prose underline / stray marker interaction).
+.page.single .content .seven-list__tag {
+    text-decoration: none;
+    text-underline-offset: unset;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: none;
+    }
+}
+
+/* Video picks (type: video): frame Hugo’s youtube shortcode wrapper (inner div handles 16:9) */
+.page.single.single-video .video-page__embed {
+    width: 100%;
+    margin: 1.25rem 0 1.5rem;
+    overflow: hidden;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.06);
+
+    [theme=dark] & {
+        background: rgba(255, 255, 255, 0.06);
+    }
+}
+
+.page.single.single-video .video-page__embed + .content > .sayings-section-heading:first-of-type {
+    margin-top: 0.5rem;
+}
+
+.page.single.single-video .video-page__lead {
+    margin-bottom: 0.5rem;
+}
+
+// Lead block then payoff (`sowhat`): needs clear separation (second `.content` resets `first-of-type` heading margin).
+.page.single.single-video .video-page__lead + .video-page__lead {
+    margin-top: 1.5rem;
+}
+
+.page.single.single-video .video-page__lead + .video-page__lead > .sayings-section-heading:first-of-type {
+    margin-top: 0;
+}
+
+// Keep-reading: full-width claim/video banner, then 2 equal memetics on the next row.
+.related-keep-reading {
+    margin: 0;
+    padding-top: 0;
+}
+
+// RELATED uses the same band-sep margin as ALSO; optional stronger line weight only.
+.related-keep-reading__band-sep--piece .related-keep-reading__band-sep-line {
+    background: rgba(24, 24, 27, 0.22);
+
+    [theme=dark] & {
+        background: rgba(232, 196, 255, 0.28);
+    }
+}
+
+// Piece footer: date without rule; tags + shares share one row above the rule.
+.page.single .post-footer {
+    margin-top: 1.35rem; // match RELATED layout gap, not theme 3rem
+
+    .post-info {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .post-info-more--tags-share {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.75rem 1rem;
+        padding: 0.35rem 0;
+        margin-bottom: 0;
+        border-bottom: 1px solid rgba(24, 24, 27, 0.18);
+        font-size: 0.9rem;
+
+        [theme=dark] & {
+            border-bottom-color: rgba(232, 196, 255, 0.22);
+        }
+
+        .post-tags {
+            flex: 1 1 auto;
+            min-width: 0;
+            max-width: none;
+        }
+
+        .post-info-share {
+            flex: 0 0 auto;
+            margin-left: auto;
+
+            a * {
+                vertical-align: text-bottom;
+            }
+        }
+    }
+
+    // Explicit columns beat theme float prev/next.
+    .post-nav {
+        display: flex;
+        width: 100%;
+        box-sizing: border-box;
+        gap: 0.75rem;
+        align-items: flex-start;
+        margin: 0;
+        padding: 1rem 0; // air above/below links between the rules
+        min-height: 0;
+
+        &::before,
+        &::after {
+            content: none !important;
+            display: none !important;
+        }
+
+        .post-nav__col {
+            flex: 1 1 50%;
+            min-width: 0;
+            max-width: 50%;
+        }
+
+        .post-nav__col--prev {
+            text-align: left;
+        }
+
+        .post-nav__col--next {
+            text-align: right;
+        }
+
+        a.prev,
+        a.next {
+            float: none !important;
+            display: inline;
+            max-width: 100%;
+            font-size: 1rem;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+    }
+}
+
+// Page-end Back | Home: rule + compact type (must beat theme .post-footer { margin-top: 3rem }).
+.page.single .post-back-home {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1.35rem; // match RELATED layout gap above the rule
+    margin-bottom: 0;
+    padding-top: 0.35rem;
+    padding-bottom: 0.15rem;
+    border-top: 1px solid rgba(24, 24, 27, 0.18);
+    font-size: 0.9rem;
+
+    [theme=dark] & {
+        border-top-color: rgba(232, 196, 255, 0.22);
+    }
+}
+
+// Avoid a tall empty band between Back | Home and the site footer on singles
+// when the last screen is shorter than the viewport (LoveIt sticky-footer flex grow).
+body:has(.page.single) .wrapper > main {
+    flex-grow: 0;
+}
+
+footer {
+    height: auto;
+    padding-top: 0.5rem;
+}
+
+.related-keep-reading__layout {
+    display: flex;
+    flex-direction: column;
+    gap: 1.35rem;
+    width: 100%;
+}
+
+.related-keep-reading__banner {
+    width: 100%;
+    min-width: 0;
+}
+
+.related-keep-reading__band-sep {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.35rem 0 0.15rem;
+    width: 100%;
+}
+
+.related-keep-reading__band-sep-line {
+    flex: 1 1 auto;
+    height: 1px;
+    background: rgba(24, 24, 27, 0.14);
+
+    [theme=dark] & {
+        background: rgba(232, 196, 255, 0.18);
+    }
+}
+
+.related-keep-reading__band-sep-label {
+    flex: 0 0 auto;
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.64rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(24, 24, 27, 0.55);
+
+    [theme=dark] & {
+        color: rgba(232, 196, 255, 0.62);
+    }
+}
+
+.related-keep-reading__memetics {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem 0.75rem;
+    width: 100%;
+    min-width: 0;
+
+    @media (min-width: 540px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.related-keep-reading .preview-grid-card--feature {
+    @media (min-width: 720px) {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+        gap: 0.85rem 1.1rem;
+        align-items: center;
+    }
+}
+
+.related-keep-reading .preview-grid-card--feature .preview-grid-card__thumb {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: none;
+
+    // Fill the 16:9 frame; contain left gray letterbox bands on mismatched art.
+    img.lazyload,
+    img.lazyloaded,
+    img.related-keep-reading__img,
+    img.preview-grid-card__img {
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+.related-keep-reading .preview-grid-card__thumb--video {
+    background: #000;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+
+    [theme=dark] & {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+}
+
+.related-keep-reading .preview-grid-card__video-embed {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    // Hugo youtube shortcode wrapper: fill the 16:9 thumb.
+    > div,
+    iframe {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        border: 0;
+        display: block;
+    }
+}
+
+// Memetics row: equal 1:1 thumbs, stretched card bottoms so the pair aligns.
+.related-keep-reading__memetics {
+    align-items: stretch;
+}
+
+.related-keep-reading__memetics .preview-grid-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.related-keep-reading__memetics .preview-grid-card__thumb {
+    aspect-ratio: 1 / 1;
+    flex: 0 0 auto;
+
+    img.lazyload,
+    img.lazyloaded,
+    img.preview-grid-card__img {
+        object-fit: cover;
+        object-position: center;
+    }
+}
+
+.related-keep-reading__memetics .preview-grid-card__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+// Section list: optional `listLayout: preview-grid` (responsive 1/2/3-col tiles; 1:1 thumbs, contain fit; Glide per card).
+// Same max width as seven-style list rows (site standard content band).
+.preview-grid {
+    margin-top: 1.5rem;
+    padding-bottom: 2rem;
+    max-width: 72rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+// 1 col (narrow) → 2 col → 3 col (wide).
+.preview-grid__inner,
+.preview-grid__tiles {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem 0.65rem;
+    width: 100%;
+    align-items: start;
+
+    @media (min-width: 540px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1.1rem 0.75rem;
+    }
+
+    @media (min-width: 960px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.2rem 0.85rem;
+    }
+}
+
+.preview-grid-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.preview-grid-card__thumb-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.15s ease;
+
+    &:hover,
+    &:focus-visible {
+        opacity: 0.96;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $brand-purple;
+        outline-offset: -2px;
+    }
+
+    &.preview-grid-card__thumb-link--empty {
+        cursor: pointer;
+    }
+}
+
+.preview-grid-card__thumb {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: $global-border-color;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    [theme=dark] & {
+        background: $global-border-color-dark;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .preview-grid-card:hover &,
+    .preview-grid-card:focus-within & {
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.16);
+        transform: translateY(-2px);
+
+        [theme=dark] & {
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5);
+        }
+    }
+
+    img.lazyload,
+    img.lazyloaded {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+    }
+}
+
+.preview-grid-card-glide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    .glide__bullets {
+        display: none;
+    }
+
+    .glide__track {
+        height: 100%;
+        min-height: 100%;
+        overflow: hidden;
+    }
+
+    .glide__slides {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        height: 100%;
+        min-height: 100%;
+    }
+
+    .glide__slide {
+        height: 100%;
+        min-height: 100%;
+    }
+
+    img.lazyload,
+    img.lazyloaded {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        display: block;
+    }
+}
+
+// Before Glide mounts, show only the first slide (avoids stacked previews in the thumb).
+.preview-grid-card-glide:not([data-glide-mounted]) .glide__slide:not(:first-child) {
+    display: none;
+}
+
+.preview-grid-card-glide__slide {
+    height: 100%;
+    min-height: 100%;
+}
+
+.preview-grid-card-glide__link {
+    position: relative;
+    display: block;
+    height: 100%;
+    min-height: 100%;
+    text-decoration: none;
+    color: inherit;
+
+    &:focus-visible {
+        outline: 2px solid $brand-purple;
+        outline-offset: -2px;
+    }
+}
+
+// Bottom-centered circular controls (override Glide theme absolute sides).
+.preview-grid-card-glide .preview-grid-card-glide__arrows {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0;
+    right: 0;
+    top: auto;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    z-index: 4;
+    pointer-events: none;
+
+    .glide__arrow {
+        pointer-events: auto;
+        position: static !important;
+        inset: auto !important;
+        top: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 0 !important;
+        padding: 0;
+        width: 1.25rem;
+        height: 1.25rem;
+        border-radius: 50%;
+        border: 2px solid rgba(81, 73, 81, 0.85);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+
+        i {
+            font-size: 0.52rem;
+            line-height: 1;
+            color: #fff;
+        }
+
+        &:hover,
+        &:focus-visible {
+            transform: scale(1.06) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+            filter: brightness(1.05);
+        }
+
+        &:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+    }
+
+    .preview-grid-card-glide__arrow--prev {
+        background: linear-gradient(145deg, #2d96bd 0%, #1e6f8a 100%);
+    }
+
+    .preview-grid-card-glide__arrow--next {
+        background: linear-gradient(145deg, $brand-purple 0%, #7a1a8a 100%);
+    }
+
+    .glide__arrow::before,
+    .glide__arrow::after {
+        display: none !important;
+        content: none !important;
+    }
+}
+
+[theme=dark] .preview-grid-card-glide .preview-grid-card-glide__arrows .glide__arrow {
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+
+    &:hover,
+    &:focus-visible {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.55);
+    }
+}
+
+.preview-grid-card__placeholder {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba($brand-purple, 0.14) 0%,
+        rgba(65, 7, 84, 0.07) 100%
+    );
+
+    [theme=dark] & {
+        background: linear-gradient(
+            135deg,
+            rgba($brand-purple, 0.12) 0%,
+            rgba(0, 0, 0, 0.25) 100%
+        );
+    }
+}
+
+.preview-grid-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.65rem;
+    min-width: 0;
+}
+
+.preview-grid-card__meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    font-size: 0.8rem;
+    color: $global-font-secondary-color;
+
+    [theme=dark] & {
+        color: $global-font-secondary-color-dark;
+    }
+}
+
+.preview-grid-card__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #7a1a1a;
+    flex-shrink: 0;
+
+    [theme=dark] & {
+        background: #c75c5c;
+    }
+}
+
+.preview-grid-card__type {
+    text-transform: lowercase;
+
+    &.preview-grid-card__categories {
+        text-transform: none;
+    }
+}
+
+.preview-grid-card__category-link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        color: $link-hover;
+        text-decoration: underline;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+        }
+    }
+}
+
+.preview-grid-card__meta-sep {
+    opacity: 0.65;
+    padding: 0 0.05em;
+}
+
+.preview-grid-card__title {
+    font-size: clamp(1rem, 1.65vw, 1.28rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #4c2553;
+    text-decoration: none;
+    letter-spacing: -0.02rem;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.12s ease;
+
+    [theme=dark] & {
+        color: #e8d5ec;
+    }
+
+    &:hover {
+        color: $link-hover;
+        background: transparent !important;
+        box-shadow: none !important;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+        }
+    }
+
+    &:focus-visible {
+        color: $link-hover;
+        outline: 2px solid $link-hover;
+        outline-offset: 2px;
+        background: transparent !important;
+
+        [theme=dark] & {
+            color: $link-hover-dark;
+            outline-color: $link-hover-dark;
+        }
+    }
+}
+
+.preview-grid-card__teaser {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: rgba(24, 24, 27, 0.72);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+
+    [theme=dark] & {
+        color: rgba(232, 196, 255, 0.78);
+    }
+}
+
+// Keep-reading: force equal small title + teaser on banner and memetic tiles
+// (must follow base `.preview-grid-card__title` clamp so it cannot grow larger).
+.related-keep-reading .preview-grid-card__title,
+.related-keep-reading .preview-grid-card--feature .preview-grid-card__title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01rem;
+}
+
+.related-keep-reading .preview-grid-card__teaser,
+.related-keep-reading .preview-grid-card--feature .preview-grid-card__teaser {
+    font-size: 0.82rem;
+    line-height: 1.45;
+    -webkit-line-clamp: 4;
+
+    p,
+    ul,
+    ol,
+    li {
+        margin: 0;
+        padding: 0;
+        display: inline;
+        list-style: none;
+    }
+
+    li + li::before {
+        content: " ";
+    }
+
+    strong {
+        font-weight: 600;
+    }
+}
+
+.related-keep-reading .preview-grid-card--feature .preview-grid-card__teaser {
+    -webkit-line-clamp: 6;
+}
+
+// Footer: subscribe CTA (LoveIt `params.footer.custom`)
+.subscribe-box {
+    width: 100%;
+    max-width: 44rem;
+    margin: 0.35rem auto 0.1rem;
+    padding: 0.85rem 0.95rem;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.55);
+
+    h3 {
+        margin: 0 0 0.35rem;
+        font-size: 1.02rem;
+        line-height: 1.25;
+        letter-spacing: -0.01rem;
+        color: $text;
+    }
+
+    p {
+        margin: 0 auto 0.75rem;
+        max-width: 40rem;
+        font-size: 0.95rem;
+        line-height: 1.45;
+        color: $text-muted;
+    }
+
+    &__actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem 0.75rem;
+    }
+
+    &__btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35rem;
+        padding: 0.55rem 0.95rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 650;
+        border: 1px solid transparent;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12) inset;
+        transition: transform 0.12s ease, filter 0.12s ease, background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+
+        &:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+
+        &:focus-visible {
+            outline: 2px solid $link-hover;
+            outline-offset: 3px;
+        }
+    }
+
+    &__btn--primary {
+        color: $accent-fg;
+        background: $accent;
+        border-color: $accent;
+
+        &:hover {
+            filter: brightness(1.08);
+        }
+    }
+
+    &__btn--secondary {
+        color: $text;
+        background: transparent;
+        border-color: $border;
+        box-shadow: none;
+
+        &:hover {
+            background: rgba(24, 24, 27, 0.04);
+        }
+    }
+
+    [theme=dark] & {
+        border-color: $border;
+        background: rgba(24, 24, 27, 0.55);
+
+        h3 {
+            color: $text-dark;
+        }
+
+        p {
+            color: $text-muted;
+        }
+
+        .subscribe-box__btn--primary {
+            background: $text-dark;
+            color: $accent;
+            border-color: $text-dark;
+        }
+
+        .subscribe-box__btn--secondary {
+            color: $text-dark;
+            border-color: rgba(228, 228, 231, 0.35);
+            background: transparent;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.06);
+            }
+
+            &:focus-visible {
+                outline-color: $link-hover-dark;
+            }
+        }
+    }
+}
+
+// Header: product CTA (desktop + mobile menus)
+.menu-item.dss-request {
+    color: $accent-fg !important;
+    background: $accent;
+    border-radius: 9999px;
+    padding: 0.35rem 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid $accent;
+
+    &:hover,
+    &:focus-visible {
+        color: $accent-fg !important;
+        filter: brightness(1.08);
+    }
+}
+
+[theme=dark] .menu-item.dss-request {
+    background: $text-dark;
+    color: $accent !important;
+    border-color: $text-dark;
+}
+
+// Footer: make copyright line match subscribe box tone
+.footer {
+    display: flex;
+    flex-direction:column;
+
+    .footer-container {
+        padding-bottom: 0.9rem;
+    }
+}
+
+
+.footer .footer-line[itemscope] {
+    color: rgba(24, 24, 27, 0.72);
+}
+
+.footer .footer-line[itemscope] a {
+    color: rgba(24, 24, 27, 0.72);
+    text-decoration-color: rgba(24, 24, 27, 0.35);
+
+    &:hover {
+        color: $link-hover;
+        text-decoration-color: $link-hover;
+    }
+
+    &:focus-visible {
+        outline: 2px solid $link-hover;
+        outline-offset: 2px;
+    }
+}
+
+[theme=dark] .footer .footer-line[itemscope] {
+    color: rgba(232, 196, 255, 0.78);
+}
+
+[theme=dark] .footer .footer-line[itemscope] a {
+    color: rgba(232, 196, 255, 0.78);
+    text-decoration-color: rgba(232, 196, 255, 0.38);
+
+    &:hover {
+        color: $link-hover-dark;
+        text-decoration-color: $link-hover-dark;
+    }
+
+    &:focus-visible {
+        outline-color: $link-hover-dark;
+    }
+}
+
+// Video: Chapter Guide markdown table (aligned, not bulky)
+.single-video .content h2 + table,
+.single-video .content h2 + .table-wrapper table,
+.single-video .content h3 + table,
+.single-video .content h3 + .table-wrapper table {
+    margin-top: 0.6rem;
+    font-size: 0.95rem;
+    border: 0;
+
+    th,
+    td {
+        padding: 0.035rem 0.5rem;
+        padding-left: 0;
+        border: 0;
+        text-align: left;
+    }
+
+    thead { background: none; }
+    th {
+        font-weight: 300;
+        opacity: 0.85;
+        padding: 0.2rem 0.5rem;
+        
+    }
+
+    th:first-child,
+    td:first-child {
+        width: 2.5rem;
+        white-space: nowrap;
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+    }
+}
+
+// Video: render a visual em dash after Chapter Guide labels.
+// Keep content free of U+2014 by using an escaped codepoint.
+.single-video .content h2 + table td:nth-child(2) strong::after,
+.single-video .content h2 + .table-wrapper table td:nth-child(2) strong::after {
+    content: " \2014";
+    font-weight: 400;
+    opacity: 0.75;
+}

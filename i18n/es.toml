@@ -1,0 +1,202 @@
+# LoveIt `allSome` (section.html / taxonomy terms.html): theme default
+# "Todas las {{ .Some }}" breaks agreement for masculine section titles (e.g. Refranes).
+[allSome]
+other = "Listado de {{ .Some }}"
+
+# Theme string (LoveIt): category line on singles and summaries.
+[includedInCategories]
+other = "Incluido en {{ .Categories }}"
+
+[category]
+other = "Categoría"
+
+[categories]
+other = "Categorías"
+
+[tag]
+other = "Etiqueta"
+
+[tags]
+other = "Etiquetas"
+
+[Social-Protocols]
+other = "Protocolos-sociales"
+
+[Mind-Infrastructure]
+other = "Mente-Infra"
+
+[Cognitive-Memetics]
+other = "Cognición-Memética"
+
+[Human-Condition]
+other = "Condición-Humana"
+
+[Por-Estas-Calles]
+other = "Por-Estas-Calles"
+
+[Reptilocracy]
+other = "Reptilocracy"
+
+[Sm-Art]
+other = "Sm(art)"
+
+[Bio-Evolution]
+other = "Bio-Evolución"
+
+["Cube-Cows"]
+other = "Cube-Cows"
+
+[Mental-Processes]
+other = "Procesos-mentales"
+
+["Psych-Fitness-28"]
+other = "Psique-Fitness-28"
+
+["Pawtropolis-Under-Fire"]
+other = "Pawtropolis (Under Fire)"
+
+["Raymond"]
+other = "Raymond"
+
+[summary]
+other = "Resumen"
+
+[teaser]
+other = "El gancho"
+
+[context]
+other = "Contexto"
+
+[tldr]
+other = "En resumen"
+
+[labelGrounding]
+other = "Base"
+
+[labelResearch]
+other = "Investigación"
+
+# type: claims — sidebar labels (distinct from sayings TLDR / Context).
+[protocolClaim]
+other = "Afirmación"
+
+[protocolThoughts]
+other = "Reflexiones"
+
+[protocolGrounding]
+other = "Sustento"
+
+[protocolDepth]
+other = "Puntos clave"
+
+# type: opinion — sidebar labels (ensayo con postura; distinto de claims Afirmación / Reflexiones).
+[protocolOpinion]
+other = "Postura"
+
+[protocolEssay]
+other = "Ensayo"
+
+[readerLandingWhy]
+other = "Por qué te puede importar"
+
+[readerLandingTakeaways]
+other = "Para ir más allá"
+
+[readerLandingExplore]
+other = "Seguir explorando"
+
+[readerLandingPrefillHint]
+other = "Abre una búsqueda nueva en Perplexity con esta pregunta"
+
+[readerLandingThreadHint]
+other = "Hilo de investigación ya resuelto"
+
+# type: sayings — main markdown body when TLDR / Context / Teaser precede it (detail TOC).
+[sayingsArticle]
+other = "En detalle"
+
+# type: video — list row: link to single (replaces image figure-link on embed).
+[fullPost]
+other = "Ver artículo"
+
+# Home — section band link to the section list.
+[homeViewSection]
+other = "Ver todo"
+
+# Carrusel Glide en lista preview-grid (controles anterior / siguiente).
+[carouselPrev]
+other = "Diapositivas anteriores"
+
+[carouselNext]
+other = "Diapositivas siguientes"
+
+# type: video — specific labels for video picks
+[videoLead]
+other = "Lo que probablemente no sabes aún"
+
+[videoPayoff]
+other = "Lo que sabrás después"
+
+[videoTLDW]
+other = "TL;DNV"
+
+[videoChapterGuide]
+other = "Guía de capítulos"
+
+# claims / video singles — keep-reading related strip.
+[keepReading]
+other = "Sigue leyendo"
+
+[keepReadingAlso]
+other = "También"
+
+[keepReadingRelated]
+other = "Relacionado"
+
+# type: sayings — explicación Por-Estas-Calles (partial sayings-project-about).
+[sayingsProjectAboutTitle]
+other = "¿Y esto?"
+
+[sayingsProjectAboutP1]
+other = "Esto es parte de un experimento: vamos contando cuántos dichos venezolanos logramos traducir al inglés hasta que el régimen actual impuesto cambie. Llámalo un cronómetro cultural para una época política."
+
+[sayingsProjectAboutP2]
+other = "En un mundo donde la cultura estadounidense se exporta y se adopta en todo el planeta, este proyecto «devuelve la exportación» con sabiduría callejera venezolana, como una pequeña contribución a un intercambio cultural más equilibrado."
+
+# type: panel — explicación Tales from the Cube Farm (partial cows-project-about).
+[cowsProjectAboutTitle]
+other = "¿Y esto?"
+
+[cowsProjectAboutBody]
+other = "Esto es un experimento: contar las tiras de *Tales from the Cube Farm* antes de que los robots se sientan como un compañero más de oficina. Un cronómetro de caricatura para el fin de la era del «humano-como-robot».\n\nLa IA hace el trabajo creativo: el chiste, el concepto visual, el panel terminado. Los humanos solo curan. Ese intercambio es el punto.\n\nLa industrialización enseñó a la gente a actuar como máquinas primero, pero apenas perdemos nuestra naturaleza humana, para bien o para mal. Estas vacas-oficinistas de IA muestran cómo aprendimos a parecer máquinas en el trabajo. También muestran la naturaleza humana que nunca se fue del todo, antes de que los robots de verdad se instalen."
+
+# Reptilocracy explainer (reptilocracy-project-about partial).
+[reptilocracyProjectAboutTitle]
+other = "¿Y ESTO?"
+
+[reptilocracyProjectAboutBody]
+other = "Esto es un experimento: contamos cuántas caricaturas hacen falta para que aceptemos de una vez que quienes tienen poder real deben demostrar que están mentalmente aptos para usarlo.\n\nAl retratar nuestros peores instintos de grupo usando animales, la serie lanza una pregunta obvia: ¿por qué seguimos entregando sociedades enteras a sistemas nerviosos sin filtro?\n\nEn un mundo donde la inestabilidad de un solo jefe puede hundir a toda una institución, Reptilocracia funciona como el diagnóstico ilustrado. La cura empieza con un paso concreto: la **[petición en Change.org](https://www.change.org/p/stronger-checks-and-balances-psychological-fitness-for-australia-s-top-leaders)** (*Stronger Checks and Balances: Psychological Fitness for Australia's Top Leaders*)."
+
+[reptilocracyProjectAboutCtaTitle]
+other = "Suma tu voz"
+
+[reptilocracyProjectAboutCtaButton]
+other = "Firma en Change.org"
+
+# Pawtropolis (Under Fire) explainer (pawtropolis-project-about partial).
+[pawtropolisProjectAboutTitle]
+other = "¿Y ESTO?"
+
+[pawtropolisProjectAboutBody]
+other = "Pawtropolis (Under Fire) es una protesta silenciosa: la guerra nunca es normal, y el momento en que comienza a parecernos normal es el momento en que nos volvemos peligrosos.\n\nA la gente real la rebautizan con eufemismos: daño colateral, operaciones de seguridad, golpes de precisión. Las mascotas entrañables invierten ese truco: sientes por seres que no entienden por qué el cielo intenta matarlos.\n\nSi hacen falta gatos y perros para que la gente despierte, entonces eso es lo que se debe hacer."
+
+# Everyone ❤️ Raymond explainer (raymond-project-about partial).
+[raymondProjectAboutTitle]
+other = "¿Y esto?"
+
+[raymondProjectAboutBody]
+other = "Este spinoff de *Cube-Cows* sigue a Raymond, el perro junior de *Just smaller*, recién salido de la uni, mientras entra a las travesuras corporativas con la libreta abierta.\n\nNo arregla el sistema. Toma notas. Cada tira es una jugada de oficina que ya no puede ignorar: salió de la uni, y de vuelta al preescolar.\n\nSale de *Tales from the Cube Farm* para que el nuevo tenga su propio cronómetro."
+
+# Section page — subsections list heading
+[subsections]
+other = "Colecciones"

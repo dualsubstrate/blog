@@ -1,0 +1,294 @@
+---
+alwaysApply: true
+---
+
+# 📚 **HUGO LOVeIT THEME CONTENT AUTHORING GUIDE**
+
+**Instruction:** Use LoveIt docs under `themes/LoveIt/exampleSite/content/posts/` as indexed below. Use line ranges in each doc for how-tos.
+
+## Documentation Location
+
+```
+themes/LoveIt/exampleSite/content/posts/
+```
+
+## This repository (paths and claims)
+
+- MUST choose section folder and `type` using `.cursor/rules/site-content-placement.mdc` when adding or moving posts under `content/`.
+- For `type: claims` front matter: MUST use `description` (Claim) and `grounding` (support). MAY use `paper` as alias for `grounding` in templates.
+- MUST follow `.cursor/skills/site-claims-content/SKILL.md` when authoring or editing claims.
+- Reference: archetype `archetypes/claims.md`; templates `layouts/claims/`; section list row partial `layouts/partials/seven-style-row.html` (see also `layouts/partials/`).
+- For `type: opinion` front matter: MUST use `description` (editorial position) and essay body; `grounding` is optional. Essay MCP uses `content_form=opinion_essay` in `data/essay-content-forms.yaml`.
+- MUST follow `.cursor/skills/site-opinion-content/SKILL.md` when authoring or editing opinion posts.
+- Reference: archetype `archetypes/opinion.md`; template `layouts/opinion/single.html`.
+- For `type: video` front matter: MUST use `description` as the lead above the embed; MAY use `youtube_id` or a body `youtube` shortcode per skill (not both for the same id).
+- MUST follow `.cursor/skills/site-video-content/SKILL.md` when authoring or editing video picks.
+- Reference: archetype `archetypes/video.md`; template `layouts/video/single.html`.
+- Site CSS overrides: `assets/css/_custom.scss`. Prefer not editing `themes/LoveIt/`.
+- Site config: `hugo.toml` at repository root.
+
+---
+
+## Documentation Posts
+
+### **1. Theme Documentation - Basics**
+**File**: `theme-documentation-basics/index.en.md`
+
+**What questions does this answer?**
+- How do I install and set up the LoveIt theme?
+- How do I configure my Hugo site?
+- How do I customize the theme styles?
+- How do I set up multilingual support?
+- How do I configure search functionality?
+
+**How-tos by line number:**
+- **Installation**: Line 40-196 (Create project, install theme, basic config, first post, launch locally, build)
+- **Site Configuration**: Line 199-903 (Complete configuration options)
+- **Style Customization**: Line 919-942 (Custom CSS/SCSS)
+- **Multilingual & i18n**: Line 943-1106 (Language setup, translations)
+- **Search Configuration**: Line 1107-1130 (Lunr/Algolia setup)
+
+**Summary**: Installation guide, complete site configuration reference, style customization, multilingual setup, and search configuration.
+
+---
+
+### **2. Theme Documentation - Content**
+**File**: `theme-documentation-content/index.en.md`
+
+**What questions does this answer?**
+- How do I organize content and resources?
+- What front matter options are available?
+- How do I create content summaries?
+- What extended Markdown syntax can I use?
+- How do I add math formulas, emoji, Font Awesome icons?
+
+**How-tos by line number:**
+- **Content Organization**: Line 30-58 (Page bundles, assets, static directories)
+- **Front Matter**: Line 60-185 (All parameters explained)
+- **Content Summaries**: Line 187-232 (Automatic, manual, front matter summaries)
+- **Extended Markdown**: Line 238-546
+  - Diagrams (Line 242-268): GoAT, Mermaid
+  - Math Formulas (Line 273-462): Inline, block, copy-tex, mhchem
+  - Ruby Annotation (Line 463-474)
+  - Fractions (Line 475-492)
+  - Font Awesome (Line 493-511)
+  - Escape Characters (Line 512-546)
+
+**Summary**: Content organization, front matter reference, summary creation, and extended Markdown syntax (math, diagrams, emoji, icons).
+
+---
+
+### **3. Basic Markdown Syntax**
+**File**: `basic-markdown-syntax/index.en.md`
+
+**What questions does this answer?**
+- How do I use standard Markdown syntax?
+- How do I format headings, lists, code, tables?
+- How do I add links and images?
+- How do I create footnotes?
+
+**How-tos by line number:**
+- **Headings**: Line 60-94 (Levels, custom IDs)
+- **Lists**: Line 285-435 (Unordered, ordered, task lists)
+- **Code**: Line 436-565 (Inline, indented, fenced, syntax highlighting)
+- **Tables**: Line 566-634 (Basic tables, alignment)
+- **Links**: Line 635-704 (Basic, with title, named anchors)
+- **Images**: Line 728-765 (Basic syntax, reference style)
+- **Footnotes**: Line 705-727
+
+**Summary**: Complete reference for standard Markdown syntax including headings, lists, code blocks, tables, links, images, and footnotes.
+
+---
+
+### **4. Theme Documentation - Built-in Shortcodes**
+**File**: `theme-documentation-built-in-shortcodes/index.en.md`
+
+**What questions does this answer?**
+- What Hugo built-in shortcodes are available?
+- How do I embed figures, gists, videos?
+- How do I reference other pages?
+
+**How-tos by line number:**
+- **figure**: Line 34-72 (Images with captions)
+- **gist**: Line 73-92 (GitHub Gist embedding)
+- **highlight**: Line 93-123 (Code highlighting)
+- **instagram**: Line 123-137 (Instagram embeds)
+- **youtube**: Line 179-193 (YouTube videos)
+- **vimeo**: Line 165-179 (Vimeo videos)
+- **ref/relref**: Line 193-200 (Internal references)
+
+**Summary**: Hugo's built-in shortcodes for figures, code highlighting, social media embeds, and internal references.
+
+---
+
+### **5. Theme Documentation - Extended Shortcodes**
+**File**: `theme-documentation-extended-shortcodes/index.en.md`
+
+**What questions does this answer?**
+- What LoveIt-specific shortcodes are available?
+- How do I add images with lightbox?
+- How do I create admonition boxes?
+- How do I inject custom CSS/JavaScript?
+
+**How-tos by line number:**
+- **style**: Line 30-61 (Custom CSS injection)
+- **link**: Line 62-127 (Enhanced links with local resources)
+- **image**: Line 128-195 (Advanced images with lazy loading, lightbox)
+- **admonition**: Line 196-281 (12 types of callout boxes)
+- **raw**: Line 346-378 (Raw HTML insertion)
+- **script**: Line 322-345 (Custom JavaScript injection)
+- **person**: Line 379-420 (h-card microformat)
+
+**Summary**: LoveIt theme shortcodes for styling, images, admonitions, and custom code injection.
+
+---
+
+### **6. Theme Documentation - mermaid Shortcode**
+**File**: `theme-documentation-mermaid-shortcode/index.en.md`
+
+**What questions does this answer?**
+- How do I create diagrams in my posts?
+- What types of diagrams can I make?
+- How do I create flowcharts, sequence diagrams, Gantt charts?
+
+**How-tos by line number:**
+- **Flowchart**: Line 31-54
+- **Sequence Diagram**: Line 55-90
+- **Gantt Chart**: Line 91-124
+- **Class Diagram**: Line 125-180
+- **State Diagram**: Line 181-208
+- **Git Graph**: Line 209-244
+- **Entity Relationship**: Line 245-266
+- **User Journey**: Line 267-298
+- **Pie Chart**: Line 299-320
+- **Requirement Diagram**: Line 321-362
+
+**Summary**: Complete guide to creating various diagram types using Mermaid syntax (flowcharts, sequence diagrams, Gantt charts, class diagrams, etc.).
+
+---
+
+### **7. Theme Documentation - echarts Shortcode**
+**File**: `theme-documentation-echarts-shortcode/index.en.md`
+
+**What questions does this answer?**
+- How do I create interactive data visualizations?
+- What chart types are supported?
+- How do I format ECharts options?
+
+**How-tos by line number:**
+- **Basic Usage**: Line 36-331 (JSON/YAML/TOML format examples)
+- **Chart Configuration**: Line 406-415 (Width, height parameters)
+
+**Summary**: Guide to creating interactive charts and data visualizations using ECharts with JSON/YAML/TOML configuration.
+
+---
+
+### **8. Theme Documentation - mapbox Shortcode**
+**File**: `theme-documentation-mapbox-shortcode/index.en.md`
+
+**What questions does this answer?**
+- How do I embed interactive maps?
+- How do I configure map styles and controls?
+- How do I add markers to maps?
+
+**How-tos by line number:**
+- **Basic Map**: Line 32-92 (Required: lng, lat, zoom)
+- **Custom Style**: Line 94-104 (Light/dark theme styles)
+- **Map Controls**: Line 58-80 (Navigation, geolocate, scale, fullscreen)
+
+**Summary**: Interactive map embedding using Mapbox GL JS with customizable styles, markers, and controls.
+
+---
+
+### **9. Theme Documentation - music Shortcode**
+**File**: `theme-documentation-music-shortcode/index.en.md`
+
+**What questions does this answer?**
+- How do I embed music players?
+- How do I use custom music URLs?
+- How do I embed from music platforms (NetEase, Tencent, etc.)?
+
+**How-tos by line number:**
+- **Custom Music URL**: Line 27-58
+- **Platform Auto-Identification**: Line 59-79 (NetEase, Tencent, Xiami URLs)
+- **Custom Server/Type/ID**: Line 80-111 (Manual platform configuration)
+- **Other Parameters**: Line 112-161 (Theme, autoplay, volume, loop, etc.)
+
+**Summary**: Music player embedding with support for custom URLs and multiple music platforms (NetEase, Tencent, Kugou, Xiami, Baidu).
+
+---
+
+### **10. Theme Documentation - bilibili Shortcode**
+**File**: `theme-documentation-bilibili-shortcode/index.en.md`
+
+**What questions does this answer?**
+- How do I embed Bilibili videos?
+- How do I handle multi-part videos?
+
+**How-tos by line number:**
+- **Single Part Video**: Line 30-47 (BV id only)
+- **Multi-Part Video**: Line 48-66 (BV id + part number)
+
+**Summary**: Bilibili video embedding for single and multi-part videos using BV IDs.
+
+---
+
+### **11. Theme Documentation - typeit Shortcode**
+**File**: `theme-documentation-typeit-shortcode/index.en.md`
+
+**What questions does this answer?**
+- How do I create typing animations?
+- How do I animate code blocks?
+- How do I sequence multiple animations?
+
+**How-tos by line number:**
+- **Simple Content**: Line 27-60 (Markdown text, custom HTML tags)
+- **Code Content**: Line 61-86 (Syntax highlighted code animation)
+- **Group Content**: Line 87-115 (Sequential animations with group parameter)
+
+**Summary**: Typing animation effects for text and code using TypeIt library, with support for sequential grouped animations.
+
+---
+
+### **12. Emoji Support**
+**File**: `emoji-support/index.en.md`
+
+**What questions does this answer?**
+- How do I use emoji in my posts?
+- What emoji codes are available?
+- What emoji categories exist?
+
+**How-tos by line number:**
+- **Emoji Syntax**: Line 30-44 (Colon-based syntax: `:emoji_name:`)
+- **Complete Reference**: Line 46-1286 (All emoji categories with codes)
+
+**Summary**: Complete emoji reference with syntax guide and all available emoji codes organized by category (smileys, people, animals, food, travel, activities, objects, symbols, flags).
+
+---
+
+## Quick Lookup
+
+**Claims posts (Claim / Grounding)?** → `.cursor/skills/site-claims-content/SKILL.md`  
+**Opinion essays (stanceful essay, optional grounding)?** → `.cursor/skills/site-opinion-content/SKILL.md` (pipeline: `opinion_essay` in `data/essay-content-forms.yaml`)  
+**Cognitive-Memetics section (panel / sayings / T-Shirt Art hub)?** → `.cursor/skills/site-cognitive-memetics-content/SKILL.md` (hybrid prose; Gemma 4 teasers except Por-Estas-Calles card teaser; Reptilocracy episode copy → `.cursor/skills/site-reptilocracy-gemma/SKILL.md`)
+**Reptilocracy Gemma copy (`description` / `tldr` / `fluff`)?** → `.cursor/skills/site-reptilocracy-gemma/SKILL.md`  
+**Markdown bold / emphasis density (any `content/` type)?** → `.cursor/skills/site-revise-emphasis/SKILL.md`  
+**Video picks (`type: video`, YouTube)?** → `.cursor/skills/site-video-content/SKILL.md`  
+**Custom CSS (links, footer, section lists)?** → `assets/css/_custom.scss`  
+**Hooks, list cold-read, body ## headings?** → `.cursor/skills/site-revise-hooks/SKILL.md` 
+**Voice while drafting (active, direct, no AI rhetoric)?** → **`.cursor/rules/site-content-markdown-writing.mdc`** → **Voice while drafting** + **Explanatory prose** for claims / video / Substack (full audit: **revise-post** Step 2)
+**Prose cadence loop (clarity → compression → flow → voice → purpose)?** → `.cursor/skills/site-revise-flow/SKILL.md`
+**Full editorial lot (lot plan → heavy flow → hooks → post filters → fine flow → format last)?** → `.cursor/skills/site-revise-post/SKILL.md` (default mode `rough`; list-scope Gemma in the plan, prompt to skip)
+**Em dashes + emphasis/bold (ship-time mechanics)?** → `.cursor/skills/site-revise-format/SKILL.md` (authoring bold rules: `revise-emphasis`)
+**Curiosity title (gap question, legitimate tension, not bait)?** → `.cursor/skills/site-curiosity-title/SKILL.md` (audit: `revise-hooks`)
+**Claim cold-read / abstract list copy (Claim fog)?** → `.cursor/skills/site-revise-hooks/SKILL.md` → **Claim fog**; gate in **revise-post** Step 1
+**Need to add an image?** → `theme-documentation-extended-shortcodes/index.en.md` Line 128-195 
+**Need front matter?** → `theme-documentation-content/index.en.md` Line 60-185
+**Need math formulas?** → `theme-documentation-content/index.en.md` Line 273-462  
+**Need a diagram?** → `theme-documentation-mermaid-shortcode/index.en.md` Line 31+  
+**Need an admonition box?** → `theme-documentation-extended-shortcodes/index.en.md` Line 196-281  
+**Need emoji?** → `emoji-support/index.en.md` Line 30+
+**LinkedIn post from a site post?** → `.cursor/skills/site-linkedin-post/SKILL.md`
+**Publish calendar after new bundle or date change?** → **`go tool task calendar`** (see **`.cursor/rules/site-content-markdown-writing.mdc`** → **Publish calendar**); UI at **`/calendar/`**
+**Facebook post (friends/family, ES or EN)?** → `.cursor/skills/site-facebook-post/SKILL.md`
+**Essays pipeline (content-pipelines MCP, command center, arc/composition/review)?** → `.cursor/skills/essay-command-center/SKILL.md` (owned by content-pipelines-mcp; soft-linked via `scripts/link-providers.sh`; verifier: `.cursor/agents/essay-verifier.md`)

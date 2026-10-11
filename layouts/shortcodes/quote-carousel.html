@@ -1,0 +1,9 @@
+{{- .Page.Scratch.SetInMap "this" "glide" true -}}
+<div class="glide quote-carousel">
+  <div class="glide__track" data-glide-el="track">
+    <ul class="glide__slides">
+      {{ .Inner }}
+    </ul>
+  </div>
+</div>
+

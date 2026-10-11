@@ -1,0 +1,51 @@
+{{- /* Taxonomy term page: card tiles matching the home feed (layouts/_default/home-tile.html). */ -}}
+<div class="page archive">
+    {{- partial "taxonomy-category-breadcrumb.html" . -}}
+    <h2 class="single-title animate__animated animate__pulse animate__faster">
+        {{- $taxonomy := .Data.Singular -}}
+        {{- if eq $taxonomy "category" -}}
+            <i class="far fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;{{ T .Title | default .Title }}
+        {{- else if eq $taxonomy "tag" -}}
+            <i class="fas fa-tag fa-fw" aria-hidden="true"></i>&nbsp;{{ T .Title | default .Title }}
+        {{- else -}}
+            {{- printf "%v - %v" (T $taxonomy | default $taxonomy) .Title -}}
+        {{- end -}}
+    </h2>
+
+    {{- partial "taxonomy-hub-intro.html" . -}}
+
+    {{- $taxonomyPages := .Pages -}}
+    {{- if and (ne .Site.Language.Lang site.Params.defaultContentLanguageCode) (eq (len $taxonomyPages) 0) -}}
+        {{- $p := printf "%s/%s" .Data.Plural .Data.Term -}}
+        {{- range site.Sites -}}
+            {{- if eq .Language.Lang site.Params.defaultContentLanguageCode -}}
+                {{- with .GetPage $p -}}
+                    {{- $taxonomyPages = .Pages -}}
+                {{- end -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+
+    {{- if $taxonomyPages -}}
+        {{- $taxonomyPages = partial "filter-pages-released-as-of-now.html" $taxonomyPages -}}
+        {{- $sorted := sort $taxonomyPages "Date" "desc" -}}
+        {{- $pag := false -}}
+        {{- with .Site.Params.list.paginate | default .Site.Params.paginate -}}
+            {{- $pag = $.Paginate $sorted . -}}
+        {{- else -}}
+            {{- $pag = $.Paginate $sorted -}}
+        {{- end -}}
+        {{- /* Leaf category hubs (content/categories/<term>/_index.md params.listLayout: seven) match section list; umbrella terms omit this and keep tiles. */ -}}
+        {{- $useSevenList := and (eq .Data.Singular "category") (eq .Params.listLayout "seven") -}}
+        {{- if $useSevenList -}}
+            {{- partial "seven-style-list.html" (dict "Pages" $pag.Pages "Paginator" $pag) -}}
+        {{- else -}}
+            <div class="home-post-grid">
+                {{- range $pag.Pages -}}
+                    {{- .Render "home-tile" -}}
+                {{- end -}}
+            </div>
+        {{- end -}}
+        {{- partial "paginator.html" . -}}
+    {{- end -}}
+</div>

@@ -1,0 +1,188 @@
+{{- $params := .Page.Params | merge .Site.Params.Page | merge (dict "author" .Site.Params.Author) -}}
+{{- /* Same param keys as list cards; bundle-relative filenames must not use absURL alone (that points at site root). */ -}}
+{{- $rawFeatured := $params.featuredImage | default $params.featuredimage | default "" -}}
+{{- if not $rawFeatured -}}
+    {{- with $params.images -}}
+        {{- with index . 0 -}}
+            {{- $rawFeatured = . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- if not $rawFeatured -}}
+    {{- $yt := $params.youtube_id | default $params.youtube | default "" -}}
+    {{- with $yt -}}
+        {{- $rawFeatured = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" . -}}
+    {{- end -}}
+{{- end -}}
+{{- $featuredImageAbs := "" -}}
+{{- $featuredImageMime := "" -}}
+{{- with $rawFeatured -}}
+    {{- $res := dict "Path" . "Resources" $.Page.Resources | partial "function/resource.html" -}}
+    {{- if $res -}}
+        {{- $featuredImageAbs = $res.Permalink -}}
+        {{- with $res.MediaType -}}
+            {{- $featuredImageMime = .String -}}
+        {{- end -}}
+    {{- else if or (strings.HasPrefix . "http://") (strings.HasPrefix . "https://") -}}
+        {{- $featuredImageAbs = . -}}
+    {{- else if strings.HasPrefix . "/" -}}
+        {{- $featuredImageAbs = . | absURL -}}
+    {{- else -}}
+        {{- $featuredImageAbs = printf "%s%s" $.Page.Permalink . -}}
+    {{- end -}}
+    {{- if not $featuredImageMime -}}
+        {{- $ext := lower (path.Ext .) -}}
+        {{- if eq $ext ".png" -}}
+            {{- $featuredImageMime = "image/png" -}}
+        {{- else if or (eq $ext ".jpg") (eq $ext ".jpeg") -}}
+            {{- $featuredImageMime = "image/jpeg" -}}
+        {{- else if eq $ext ".webp" -}}
+            {{- $featuredImageMime = "image/webp" -}}
+        {{- else if eq $ext ".gif" -}}
+            {{- $featuredImageMime = "image/gif" -}}
+        {{- else if eq $ext ".svg" -}}
+            {{- $featuredImageMime = "image/svg+xml" -}}
+        {{- else -}}
+            {{- $featuredImageMime = "image/jpeg" -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- /* Rich excerpt for content:encoded (HTML) */ -}}
+{{- $htmlExcerpt := "" -}}
+{{- if $params.rssFullText -}}
+    {{- $htmlExcerpt = dict "Content" .Page.Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" -}}
+{{- else if .Page.Summary -}}
+    {{- $htmlExcerpt = dict "Content" .Page.Summary "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" -}}
+{{- else -}}
+    {{- $desc := .Page.Description | strings.TrimSpace -}}
+    {{- with $desc -}}
+        {{- if strings.HasPrefix . "<" -}}
+            {{- $htmlExcerpt = . -}}
+        {{- else -}}
+            {{- $htmlExcerpt = . | markdownify -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $htmlExcerpt = $htmlExcerpt | replaceRE `<figure[^>]*>.*?</figure>` "" | replaceRE `<img[^>]*\s*/?>` "" -}}
+
+{{- /* Optional bundle social pack (`linkedin.txt` EN; `facebook-es.txt` / `linkedin.es.txt` ES). We keep it out of content:encoded so normal readers still see short description only; sync:pageSocial carries the same plain text for feed synchers (e.g. Page autopost). */ -}}
+{{- $socialNames := slice "linkedin.txt" -}}
+{{- if eq .Site.Language.Lang "es" -}}
+    {{- $socialNames = slice "facebook-es.txt" "linkedin.es.txt" "linkedin.txt" -}}
+{{- end -}}
+{{- $socialPack := "" -}}
+{{- $linkedinBytes := "" -}}
+{{- range $socialNames -}}
+    {{- if not $linkedinBytes -}}
+        {{- $name := . -}}
+        {{- with $.Page.Resources.GetMatch $name -}}
+            {{- $linkedinBytes = .Content -}}
+        {{- else -}}
+            {{- $candidate := path.Join "content" $.Page.File.Dir $name -}}
+            {{- if fileExists $candidate -}}
+                {{- $linkedinBytes = readFile $candidate -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $hasSocial := false -}}
+{{- with $linkedinBytes -}}
+    {{- $hasSocial = true -}}
+    {{- $socialPack = . | string | strings.TrimSpace -}}
+    {{- $socialPack = replace $socialPack "\r\n" "\n" -}}
+    {{- $socialPack = replace $socialPack "\r" "\n" -}}
+    {{- $socialPack = replaceRE `\n{3,}` "\n\n" $socialPack -}}
+    {{- if gt (len $socialPack) 20000 -}}
+        {{- $socialPack = $socialPack | truncate 20000 " …" -}}
+    {{- end -}}
+    {{- $socialPack = $socialPack | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape -}}
+{{- end -}}
+
+{{- /* Short RSS description (interoperable) */ -}}
+{{- $rawSummary := "" -}}
+{{- with .Page.Params.description -}}
+    {{- $rawSummary = . -}}
+{{- else -}}
+    {{- with .Page.Description -}}
+        {{- $rawSummary = . -}}
+    {{- else -}}
+        {{- with .Page.Summary -}}
+            {{- $rawSummary = . -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- $plain := $rawSummary | strings.TrimSpace -}}
+{{- if and $hasSocial (not $plain) -}}
+    {{- range split $socialPack "\n" -}}
+        {{- $line := . | strings.TrimSpace -}}
+        {{- if and $line (not $plain) -}}
+            {{- $plain = $line -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+{{- if $plain -}}
+    {{- if strings.HasPrefix $plain "<" -}}
+        {{- $plain = $plain | plainify -}}
+    {{- else -}}
+        {{- $plain = $plain | markdownify | plainify -}}
+    {{- end -}}
+    {{- $plain = $plain | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape | htmlUnescape -}}
+    {{- $plain = $plain | replaceRE `\s+` " " | strings.TrimSpace -}}
+    {{- $plain = $plain | truncate 420 " …" -}}
+{{- else -}}
+    {{- $plain = .Page.Title -}}
+{{- end -}}
+
+{{- $plain = replace $plain "]]>" "]]]]><![CDATA[>" -}}
+{{- $socialPack = replace $socialPack "]]>" "]]]]><![CDATA[>" -}}
+
+{{- /* Do not put full linkedin/social drafts in RSS: readers show it as the article body; description + link is enough. */ -}}
+{{- $encoded := "" -}}
+{{- if not $hasSocial -}}
+    {{- $encoded = $htmlExcerpt -}}
+{{- end -}}
+
+{{- $encodedPlain := $encoded | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+{{- $descPlain := $plain | plainify | replaceRE `\s+` " " | strings.TrimSpace -}}
+{{- $emitEncoded := false -}}
+{{- if and $encoded (ne $encodedPlain $descPlain) -}}
+    {{- $emitEncoded = true -}}
+{{- end -}}
+
+<item>
+    <title>
+        {{- .Page.Title -}}
+    </title>
+    <link>
+        {{- .Page.Permalink -}}
+    </link>
+    <pubDate>
+        {{- .Page.Date.Format "Mon, 02 Jan 2006 15:04:05 -0700"  -}}
+    </pubDate>
+    {{- with .Site.Params.Author.name -}}
+    <dc:creator>{{ . | htmlEscape }}</dc:creator>
+    {{- end -}}
+    {{- with .Site.Params.Author.email -}}
+    <author>{{- . -}}{{ with $.Site.Params.Author.name }} ({{ . }}){{ end -}}</author>
+    {{- end -}}
+    <guid>
+        {{- .Page.Permalink -}}
+    </guid>
+    {{- printf "<description><![CDATA[%s]]></description>" ($plain | safeHTML) | safeHTML -}}
+    {{- if and $hasSocial $socialPack -}}
+    {{- printf "<sync:pageSocial><![CDATA[%s]]></sync:pageSocial>" ($socialPack | safeHTML) | safeHTML -}}
+    {{- end -}}
+    {{- with $featuredImageAbs -}}
+    <enclosure url="{{ . }}" type="{{ $featuredImageMime }}" length="0" />
+    <media:thumbnail url="{{ . }}" />
+    <media:content url="{{ . }}" type="{{ $featuredImageMime }}" medium="image" />
+    {{- end -}}
+    {{- if $emitEncoded -}}
+    <content:encoded>
+        {{- "<![CDATA[" | safeHTML -}}
+        {{- $encoded | safeHTML -}}
+        {{- "]]>" | safeHTML -}}
+    </content:encoded>
+    {{- end -}}
+</item>

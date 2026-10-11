@@ -1,0 +1,37 @@
+{{- $params := .Params | merge .Site.Params.page -}}
+{{- $youtubeID := .Params.youtube_id | default .Params.youtube -}}
+{{- $isVideo := and (eq .Type `video`) $youtubeID -}}
+{{- $preview := $params.featuredImagePreview | default $params.featuredimagepreview -}}
+{{- $full := $params.featuredImage | default $params.featuredimage -}}
+{{- $image := $preview | default $full -}}
+{{- with .Resources.GetMatch "featured-image" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+{{- with .Resources.GetMatch "featured-image-preview" -}}
+    {{- $image = .RelPermalink -}}
+{{- end -}}
+<article class="home-post-tile{{ if $isVideo }} home-post-tile--video{{ end }}" itemscope itemtype="http://schema.org/Article">
+    {{- if $isVideo -}}
+        <div class="home-post-tile__card home-post-tile__card--video">
+            <div class="home-post-tile__media home-post-tile__media--video">
+                <div class="home-post-tile__video-embed">
+                    {{- .RenderString (printf "{{< youtube %s >}}" $youtubeID) | safeHTML -}}
+                </div>
+            </div>
+            <a class="home-post-tile__text-hit" href="{{ .RelPermalink }}">
+                {{- partial "home-tile-body.html" (dict "Page" . "videoCta" true) -}}
+            </a>
+        </div>
+    {{- else -}}
+        <a class="home-post-tile__card" href="{{ .RelPermalink }}">
+            {{- with $image -}}
+                <div class="home-post-tile__media">
+                    {{- dict "Src" . "Title" $.Title "Resources" $.Resources | partial "plugin/img.html" -}}
+                </div>
+            {{- else -}}
+                <div class="home-post-tile__media home-post-tile__media--placeholder" aria-hidden="true"></div>
+            {{- end -}}
+            {{- partial "home-tile-body.html" (dict "Page" . "videoCta" false) -}}
+        </a>
+    {{- end -}}
+</article>

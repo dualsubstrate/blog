@@ -1,0 +1,14 @@
+{{- /* Optional: content/categories/<term>/_index.md → params.parentCategoryTerm: <parent slug> */ -}}
+{{- if and (eq .Data.Singular "category") .Params.parentCategoryTerm -}}
+    {{- $parentSlug := .Params.parentCategoryTerm -}}
+    {{- with site.GetPage (printf "/categories/%s" $parentSlug) -}}
+        {{- $key := .Title -}}
+        {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+        <nav class="taxonomy-parent-nav" aria-label="Parent category">
+            <a class="taxonomy-parent-nav__link" href="{{ .RelPermalink }}">
+                <span class="taxonomy-parent-nav__icon" aria-hidden="true"><i class="fas fa-chevron-left fa-fw"></i></span>
+                <span class="taxonomy-parent-nav__label">{{ $label }}</span>
+            </a>
+        </nav>
+    {{- end -}}
+{{- end -}}

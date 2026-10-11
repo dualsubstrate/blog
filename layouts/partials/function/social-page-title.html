@@ -1,0 +1,18 @@
+{{- /*
+  Plain title for social meta, document <title>, and sharer data-title.
+  Strips up to two leading emoji tokens (site rule for section titles).
+  In-page H1/list rows keep full .Title with emojify.
+*/ -}}
+{{- $title := . | plainify | strings.TrimSpace -}}
+{{- range seq 2 -}}
+  {{- $parts := split $title " " -}}
+  {{- if lt (len $parts) 2 -}}
+    {{- break -}}
+  {{- end -}}
+  {{- $lead := index $parts 0 -}}
+  {{- if findRE `[[:alnum:]]` $lead -}}
+    {{- break -}}
+  {{- end -}}
+  {{- $title = strings.TrimSpace (delimit (after 1 $parts) " ") -}}
+{{- end -}}
+{{- return $title -}}

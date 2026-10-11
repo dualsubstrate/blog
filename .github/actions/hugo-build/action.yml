@@ -1,0 +1,38 @@
+name: Hugo build
+description: Install Hugo Extended and build the site into public/
+
+inputs:
+  hugo-version:
+    required: false
+    default: "0.152.2"
+  extended:
+    required: false
+    default: "true"
+  base-url:
+    description: If set, passed to hugo --baseURL (PR previews under github.io)
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: go.mod
+        cache: true
+
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v3
+      with:
+        hugo-version: ${{ inputs.hugo-version }}
+        extended: ${{ inputs.extended }}
+
+    - name: Build
+      shell: bash
+      env:
+        BASE_URL: ${{ inputs.base-url }}
+        HUGO_PREVIEW: ${{ env.HUGO_PREVIEW }}
+      run: |
+        set -euo pipefail
+        go tool task hugo

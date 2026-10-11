@@ -1,0 +1,52 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+
+linters:
+  default: none
+  enable:
+    - errorlint
+    - exhaustive
+    - goconst
+    - gocognit
+    - gosec
+    - godot
+  settings:
+    errorlint:
+      errorf: true
+      asserts: true
+      comparison: true
+    exhaustive:
+      default-signifies-exhaustive: false
+    goconst:
+      min-len: 4
+      min-occurrences: 8
+      ignore-tests: true
+    gocognit:
+      min-complexity: 210
+    gosec:
+      excludes:
+        - G104
+        - G114
+        - G120
+        - G204
+        - G301
+        - G302
+        - G306
+        - G304
+        - G401
+        - G404
+        - G501
+        - G703
+        - G122
+      severity: medium
+      confidence: medium
+    godot:
+      period: true
+      capital: true
+
+formatters:
+  enable:
+    - gofumpt

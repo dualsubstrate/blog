@@ -1,0 +1,30 @@
+{{- /* Hub lead: expects the category (or tag) term Page. Used on /categories/... and on section indexes. */ -}}
+{{- /* Optional dict: (dict "page" $termPage "idSuffix" "slug") for unique ids when repeated on one page (e.g. home bands). */ -}}
+{{- $p := . -}}
+{{- $idSuffix := "" -}}
+{{- if and (reflect.IsMap .) (isset . "page") -}}
+    {{- $p = .page -}}
+    {{- $idSuffix = .idSuffix | default "" -}}
+{{- end -}}
+{{- $params := $p.Params | merge $p.Site.Params.page -}}
+{{- $idSummary := cond (ne $idSuffix "") (printf "taxonomy-term-summary-%s" $idSuffix) "taxonomy-term-summary" -}}
+{{- $idBody := cond (ne $idSuffix "") (printf "taxonomy-term-body-%s" $idSuffix) "taxonomy-term-body" -}}
+{{- if or $p.Description $p.Content -}}
+    <div class="taxonomy-term-intro animate__animated animate__fadeIn animate__faster">
+        <span class="taxonomy-term-intro__speech" aria-hidden="true">
+            <i class="fas fa-comment-dots"></i>
+        </span>
+        <div class="taxonomy-term-intro__main">
+            {{- with $p.Description -}}
+                <div class="taxonomy-term-intro__summary content" id="{{ $idSummary }}">
+                    {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+                </div>
+            {{- end -}}
+            {{- with $p.Content -}}
+                <div class="taxonomy-term-intro__body content" id="{{ $idBody }}">
+                    {{- dict "Content" . "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+                </div>
+            {{- end -}}
+        </div>
+    </div>
+{{- end -}}

@@ -1,0 +1,56 @@
+{{- /* Expects dict: Page (page context), videoCta (bool, optional). */ -}}
+{{- $p := .Page -}}
+{{- $params := $p.Params | merge $p.Site.Params.page -}}
+{{- $videoCta := .videoCta | default false -}}
+<div class="home-post-tile__body">
+    {{- with $p.Params.categories -}}
+        {{- $labels := slice -}}
+        {{- range . -}}
+            {{- $catPage := partialCached "function/path.html" . . | printf "/categories/%v" | $p.Site.GetPage -}}
+            {{- if $catPage -}}
+                {{- $key := . -}}
+                {{- $label := T $key | default (T (replace $key " " "-")) | default $catPage.Title | default $key -}}
+                {{- $labels = $labels | append $label -}}
+            {{- else -}}
+                {{- $key := . -}}
+                {{- $label := T $key | default (T (replace $key " " "-")) | default $key -}}
+                {{- $labels = $labels | append $label -}}
+            {{- end -}}
+        {{- end -}}
+        {{- if gt (len $labels) 0 -}}
+            <p class="home-post-tile__section">{{ delimit $labels " · " }}</p>
+        {{- end -}}
+    {{- else -}}
+        {{- with $p.Section -}}
+            <p class="home-post-tile__section">{{ . | humanize | replaceRE "-" " " }}</p>
+        {{- end -}}
+    {{- end -}}
+    <h2 class="home-post-tile__title" itemprop="name headline">{{- partial "heading-title-markup.html" $p -}}</h2>
+    <div class="home-post-tile__summary">
+        {{- $desc := $p.Description | strings.TrimSpace -}}
+        {{- $cardHTML := "" -}}
+        {{- if $desc -}}
+            {{- $cardHTML = $desc | markdownify -}}
+        {{- else -}}
+            {{- $cardHTML = $p.Summary -}}
+        {{- end -}}
+        {{- with $cardHTML -}}
+            {{- dict "Content" . "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
+        {{- end -}}
+    </div>
+    {{- if $videoCta -}}
+        <span class="home-post-tile__video-cta">
+            <span class="home-post-tile__video-cta__icon" aria-hidden="true">📄</span>
+            <span class="home-post-tile__video-cta__text">{{ T "fullPost" }}</span>
+        </span>
+    {{- end -}}
+    <div class="home-post-tile__footer">
+        {{- with $p.Site.Params.listDateFormat | default "02-Jan" | $p.PublishDate.Format -}}
+            <time class="home-post-tile__date" datetime="{{ $p.PublishDate.Format "2006-01-02T15:04:05Z07:00" }}" itemprop="datePublished">{{ . }}</time>
+        {{- end -}}
+        <span class="home-post-tile__reading-time">
+            <i class="far fa-clock fa-fw" aria-hidden="true"></i>
+            {{- T "readingTime" $p.ReadingTime -}}
+        </span>
+    </div>
+</div>

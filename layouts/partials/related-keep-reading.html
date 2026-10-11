@@ -1,0 +1,124 @@
+{{- /*
+  Keep-reading strip for claims and video singles.
+
+  Layout:
+    1) Full-width banner: one claims or video
+    2) Next row: up to two cognitive-memetics (sayings / panel), equal tiles
+
+  Curated first: Params.related paths, partitioned into those slots.
+  Else: shared-tag fill.
+  Teasers are markdownified.
+*/ -}}
+{{- $memeticMax := 2 -}}
+{{- $featureMax := 1 -}}
+{{- $memeticTypes := slice "sayings" "panel" -}}
+{{- $featureTypes := slice "claims" "opinion" "video" -}}
+{{- $memetics := slice -}}
+{{- $features := slice -}}
+
+{{- $myTags := .Params.tags | default slice -}}
+{{- $relatedPaths := .Params.related | default slice -}}
+
+{{- if gt (len $relatedPaths) 0 -}}
+  {{- range $relatedPaths -}}
+    {{- with $.Site.GetPage . -}}
+      {{- if ne .RelPermalink $.RelPermalink -}}
+        {{- if and (in $memeticTypes .Type) (lt (len $memetics) $memeticMax) -}}
+          {{- $memetics = $memetics | append . -}}
+        {{- else if and (in $featureTypes .Type) (lt (len $features) $featureMax) -}}
+          {{- $features = $features | append . -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if or (lt (len $memetics) $memeticMax) (lt (len $features) $featureMax) -}}
+  {{- if gt (len $myTags) 0 -}}
+    {{- $memCandidates := slice -}}
+    {{- $featCandidates := slice -}}
+    {{- range site.RegularPages -}}
+      {{- if and (ne .RelPermalink $.RelPermalink) (not .Draft) -}}
+        {{- $shared := 0 -}}
+        {{- range .Params.tags | default slice -}}
+          {{- if in $myTags . -}}
+            {{- $shared = add $shared 1 -}}
+          {{- end -}}
+        {{- end -}}
+        {{- if gt $shared 0 -}}
+          {{- $entry := dict "page" . "shared" $shared "date" .Date -}}
+          {{- if in $memeticTypes .Type -}}
+            {{- $memCandidates = $memCandidates | append $entry -}}
+          {{- else if in $featureTypes .Type -}}
+            {{- $featCandidates = $featCandidates | append $entry -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $memCandidates = sort $memCandidates "date" "desc" -}}
+    {{- $memCandidates = sort $memCandidates "shared" "desc" -}}
+    {{- $featCandidates = sort $featCandidates "date" "desc" -}}
+    {{- $featCandidates = sort $featCandidates "shared" "desc" -}}
+
+    {{- $seen := slice -}}
+    {{- range $memetics -}}
+      {{- $seen = $seen | append .RelPermalink -}}
+    {{- end -}}
+    {{- range $features -}}
+      {{- $seen = $seen | append .RelPermalink -}}
+    {{- end -}}
+
+    {{- range $memCandidates -}}
+      {{- if and (lt (len $memetics) $memeticMax) (not (in $seen .page.RelPermalink)) -}}
+        {{- $memetics = $memetics | append .page -}}
+        {{- $seen = $seen | append .page.RelPermalink -}}
+      {{- end -}}
+    {{- end -}}
+    {{- range $featCandidates -}}
+      {{- if and (lt (len $features) $featureMax) (not (in $seen .page.RelPermalink)) -}}
+        {{- $features = $features | append .page -}}
+        {{- $seen = $seen | append .page.RelPermalink -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $memetics = partial "filter-pages-released-as-of-now.html" $memetics -}}
+{{- $features = partial "filter-pages-released-as-of-now.html" $features -}}
+{{- if gt (len $memetics) $memeticMax -}}
+  {{- $memetics = first $memeticMax $memetics -}}
+{{- end -}}
+{{- if gt (len $features) $featureMax -}}
+  {{- $features = first $featureMax $features -}}
+{{- end -}}
+
+{{- if or (gt (len $memetics) 0) (gt (len $features) 0) -}}
+<section class="related-keep-reading" aria-labelledby="related-keep-reading-label">
+  <div class="related-keep-reading__layout">
+    <div class="related-keep-reading__band-sep related-keep-reading__band-sep--piece">
+      <span class="related-keep-reading__band-sep-line" aria-hidden="true"></span>
+      <span id="related-keep-reading-label" class="related-keep-reading__band-sep-label">{{ T "keepReadingRelated" }}</span>
+      <span class="related-keep-reading__band-sep-line" aria-hidden="true"></span>
+    </div>
+    {{- range $features -}}
+      <div class="related-keep-reading__banner">
+        {{- partial "section-preview-grid-card.html" (dict "Page" . "MarkdownTeaser" true "Feature" true "SingleImage" true "HideDate" true "AllowVideo" true) -}}
+      </div>
+    {{- end -}}
+    {{- if and (gt (len $features) 0) (gt (len $memetics) 0) -}}
+      <div class="related-keep-reading__band-sep" role="separator" aria-label="{{ T "keepReadingAlso" }}">
+        <span class="related-keep-reading__band-sep-line" aria-hidden="true"></span>
+        <span class="related-keep-reading__band-sep-label">{{ T "keepReadingAlso" }}</span>
+        <span class="related-keep-reading__band-sep-line" aria-hidden="true"></span>
+      </div>
+    {{- end -}}
+    {{- if gt (len $memetics) 0 -}}
+      <div class="related-keep-reading__memetics">
+        {{- range $memetics -}}
+          {{- partial "section-preview-grid-card.html" (dict "Page" . "MarkdownTeaser" true "SingleImage" true "HideDate" true) -}}
+        {{- end -}}
+      </div>
+    {{- end -}}
+  </div>
+</section>
+{{- end -}}

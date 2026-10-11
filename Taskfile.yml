@@ -1,0 +1,434 @@
+version: "3"
+
+vars:
+  THEME_ACCENT: '{{.OPERATOR_CLI_THEME_ACCENT | default "42"}}'
+  THEME_MARK: '{{.OPERATOR_CLI_THEME_MARK | default "214"}}'
+  HUGO: hugo
+  TAG_DEP: data/tag-deprecations.toml
+  TAG_OUT: data/tag-register.txt
+  DATE:
+    sh: TZ=Australia/Sydney date +%F
+
+env:
+  FORCE_COLOR: "1"
+  TASK_COLOR: "true"
+  TASK_COLOR_GREEN: '38;5;{{.THEME_ACCENT}}'
+  TASK_COLOR_YELLOW: '38;5;{{.THEME_MARK}}'
+  TASK_COLOR_CYAN: '38;5;{{.THEME_MARK}}'
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - go tool task --list --color | awk 'NR == 1 { print; print ""; next } { print }'
+      - echo ""
+      - echo "  go tool task serve"
+      - echo "  go tool task hugo"
+      - echo "  go tool task calendar"
+      - echo "  go tool task hooks-install"
+
+  format:
+    desc: gofumpt cmd and internal
+    cmds:
+      - go tool gofumpt -w ./cmd ./internal
+
+  lint:
+    desc: golangci-lint on cmd and internal
+    cmds:
+      - go tool golangci-lint run --timeout 5m ./cmd/... ./internal/...
+
+  vet:
+    desc: go vet cmd and internal
+    cmds:
+      - go vet ./cmd/... ./internal/...
+
+  test:
+    desc: go test cmd and internal
+    cmds:
+      - go test ./cmd/... ./internal/...
+
+  build:
+    desc: compile all cmd binaries
+    cmds:
+      - go build ./cmd/...
+
+  tidy:
+    desc: go mod tidy and verify
+    cmds:
+      - go mod tidy
+      - go mod verify
+
+  verify:
+    desc: go mod verify
+    cmds:
+      - go mod verify
+
+  deps:
+    desc: go mod verify (alias for verify)
+    cmds:
+      - task: verify
+
+  tag-register:
+    desc: Scan content tags into data/tag-register.txt
+    cmds:
+      - go run ./cmd/tag-register -content content -deprecations "{{.TAG_DEP}}" -out "{{.TAG_OUT}}"
+
+  hugo:
+    desc: Tag register then Hugo build to public/
+    deps:
+      - tag-register
+    cmds:
+      - chmod +x scripts/task-hugo.sh
+      - ./scripts/task-hugo.sh
+
+  calendar:
+    desc: Regenerate static/calendar/publish-calendar.json
+    cmds:
+      - go run ./cmd/publish-calendar -content content -out static/calendar/publish-calendar.json
+
+  publish-calendar:
+    desc: Alias for calendar
+    cmds:
+      - task: calendar
+
+  hooks-install:
+    desc: Set core.hooksPath to .githooks
+    cmds:
+      - git config core.hooksPath .githooks
+      - chmod +x .githooks/pre-commit
+      - echo "Installed core.hooksPath=.githooks"
+
+  serve:
+    desc: process-compose local stack (Hugo, MCP, carousel-save)
+    interactive: true
+    cmds:
+      - chmod +x scripts/serve-up.sh scripts/serve-process.sh scripts/serve-cleanup.sh scripts/link-providers.sh scripts/serve-content-pipelines-mcp.sh
+      - ./scripts/link-providers.sh
+      - ./scripts/serve-cleanup.sh --preflight
+      - ./scripts/serve-up.sh
+
+  serve-down:
+    desc: Stop process-compose and free serve ports
+    cmds:
+      - ./scripts/serve-cleanup.sh
+
+  server:
+    desc: Alias for serve
+    cmds:
+      - task: serve
+
+  down:
+    desc: Alias for serve-down
+    cmds:
+      - task: serve-down
+
+  clean:
+    desc: Remove Hugo build artifacts
+    cmds:
+      - rm -rf public resources/_gen hugo_stats.json .hugo_build.lock
+
+  list:
+    desc: hugo list all permalinks
+    cmds:
+      - "{{.HUGO}} list all"
+
+  check-links:
+    desc: Build site and crawl links with muffet
+    cmds:
+      - ./scripts/check-links.sh
+
+  sync-content-ai:
+    desc: Copy selected skills/rules into content-ai/
+    cmds:
+      - bash ./scripts/sync-content-ai.sh
+
+  facebook-autopost:
+    desc: Post facebook-es.txt bundles for DATE
+    cmds:
+      - |
+        dry=""; ask=""; post=""
+        case "${DRY_RUN:-1}" in 1|true|yes) dry="-dry-run" ;; esac
+        case "${SOCIAL_AUTOPOST_ASK:-}" in 1|true|yes) ask="-ask" ;; esac
+        case "${SOCIAL_AUTOPOST_NO_ASK:-}" in 1|true|yes) ask="$ask -no-ask" ;; esac
+        if [ -n "${SOCIAL_POST:-}" ]; then post="-post ${SOCIAL_POST}"; fi
+        go run ./cmd/facebook-autopost -date "${DATE}" $post $ask $dry
+
+  linkedin-autopost:
+    desc: Post linkedin.txt bundles for DATE
+    cmds:
+      - |
+        dry=""; ask=""; post=""; idem=""; verify=""
+        case "${DRY_RUN:-1}" in 1|true|yes) dry="-dry-run" ;; esac
+        case "${SOCIAL_AUTOPOST_ASK:-}" in 1|true|yes) ask="-ask" ;; esac
+        case "${SOCIAL_AUTOPOST_NO_ASK:-}" in 1|true|yes) ask="$ask -no-ask" ;; esac
+        case "${LINKEDIN_DISABLE_IDEMPOTENCY:-1}" in 1|true|yes) idem="-disable-idempotency" ;; esac
+        case "${LINKEDIN_NO_VERIFY_COMMENTARY:-1}" in 0|false|no) verify="" ;; *) verify="-no-verify-commentary" ;; esac
+        if [ -n "${SOCIAL_POST:-}" ]; then post="-post ${SOCIAL_POST}"; fi
+        go run ./cmd/linkedin-autopost -root . -date "${DATE}" $post $idem $verify $ask $dry
+
+  social-autopost:
+    desc: Run facebook-autopost then linkedin-autopost
+    deps:
+      - facebook-autopost
+      - linkedin-autopost
+
+  carousel-pdf:
+    desc: LinkedIn PDF from studio WebPs (DIR= required)
+    cmds:
+      - |
+        if [ -z "${DIR:-}" ]; then echo "DIR= is required"; exit 1; fi
+        slug=""; out=""; variant=""
+        if [ -n "${SLUG:-}" ]; then slug="-slug ${SLUG}"; fi
+        if [ -n "${VARIANT:-}" ]; then variant="-variant ${VARIANT}"; fi
+        if [ -n "${OUT:-}" ]; then out="-o ${OUT}"; fi
+        go run ./cmd/carousel-pdf -dir "${DIR}" $slug $variant $out
+
+  carousel-save:
+    desc: Local API for studio carousel.json saves
+    cmds:
+      - go run ./cmd/carousel-save -addr 127.0.0.1:3848 -root .
+
+  motif-editor:
+    desc: Local motif mask editor on :3847
+    cmds:
+      - go run ./cmd/motif-editor
+
+  audit-voice:
+    desc: Deterministic voice audit (POST= and VOICE=)
+    cmds:
+      - |
+        post="${POST:-}"; voice="${VOICE:-}"
+        if [ -z "$post" ] || [ -z "$voice" ]; then
+          echo "usage: POST=section/slug VOICE=patient-narrator go tool task audit-voice" >&2
+          exit 2
+        fi
+        case "$post" in *.md) ;; *) post="content/$post/index.md" ;; esac
+        go run ./cmd/audit-essay-voice -post "$post" -voice "$voice" -voices-dir data/voices
+
+  explore-proposal:
+    desc: Gemma Explore further proposal (ESSAY=, CANDIDATES=)
+    cmds:
+      - |
+        if [ -z "${ESSAY:-}" ] || [ -z "${CANDIDATES:-}" ]; then
+          echo "usage: ESSAY=.../index.md CANDIDATES=.../candidates.json go tool task explore-proposal" >&2
+          exit 2
+        fi
+        extra=""
+        if [ "${ALLOW_SUMMARY:-}" = "1" ]; then extra="--allow-summary-only"; fi
+        python3 scripts/explore_proposal.py --essay "${ESSAY}" --candidates "${CANDIDATES}" $extra
+
+  explore-fetch-exports:
+    desc: Sync Explore export paths (ESSAY=, CANDIDATES=, SYNC=1)
+    cmds:
+      - |
+        if [ -z "${ESSAY:-}" ] || [ -z "${CANDIDATES:-}" ]; then
+          echo "usage: ESSAY=... CANDIDATES=... SYNC=1 go tool task explore-fetch-exports" >&2
+          exit 2
+        fi
+        syncflag=""
+        if [ "${SYNC:-}" = "1" ]; then syncflag="--sync"; fi
+        python3 scripts/explore_fetch_exports.py --essay "${ESSAY}" --candidates "${CANDIDATES}" $syncflag
+
+  explore-apply:
+    desc: Gemma applicability review (APPLY=1 CONFIRM=1 to merge)
+    cmds:
+      - |
+        if [ -z "${ESSAY:-}" ] || [ -z "${PROPOSAL:-}" ]; then
+          echo "usage: ESSAY=... PROPOSAL=... go tool task explore-apply" >&2
+          exit 2
+        fi
+        candflag=""
+        if [ -n "${CANDIDATES:-}" ]; then candflag="--candidates ${CANDIDATES}"; fi
+        if [ "${APPLY:-}" = "1" ]; then
+          if [ "${CONFIRM:-}" != "1" ]; then
+            echo "Refusing APPLY=1 without CONFIRM=1" >&2
+            exit 2
+          fi
+          python3 scripts/explore_apply.py --essay "${ESSAY}" --proposal "${PROPOSAL}" $candflag --apply --yes
+        else
+          python3 scripts/explore_apply.py --essay "${ESSAY}" --proposal "${PROPOSAL}" $candflag
+        fi
+
+  explore-share-prepare:
+    desc: Init share-manifest.json from CANDIDATES=
+    cmds:
+      - |
+        if [ -z "${CANDIDATES:-}" ]; then
+          echo "usage: CANDIDATES=... go tool task explore-share-prepare" >&2
+          exit 2
+        fi
+        essayflag=""
+        if [ -n "${ESSAY:-}" ]; then essayflag="--essay ${ESSAY}"; fi
+        python3 scripts/explore_share.py prepare --candidates "${CANDIDATES}" $essayflag
+
+  explore-share-confirm:
+    desc: Record UI share (CANDIDATES=, CANDIDATE_ID=)
+    cmds:
+      - |
+        if [ -z "${CANDIDATES:-}" ] || [ -z "${CANDIDATE_ID:-}" ]; then
+          echo "usage: CANDIDATES=... CANDIDATE_ID=... go tool task explore-share-confirm" >&2
+          exit 2
+        fi
+        urlflag=""; byflag=""
+        if [ -n "${URL:-}" ]; then urlflag="--url ${URL}"; fi
+        if [ -n "${BY:-}" ]; then byflag="--by ${BY}"; fi
+        python3 scripts/explore_share.py confirm --candidates "${CANDIDATES}" --candidate-id "${CANDIDATE_ID}" $urlflag $byflag
+
+  explore-share-verify-cold:
+    desc: Cold verify Explore share (PROBE=1 or OPERATOR=1)
+    cmds:
+      - |
+        if [ -z "${CANDIDATES:-}" ] || [ -z "${CANDIDATE_ID:-}" ]; then
+          echo "usage: CANDIDATES=... CANDIDATE_ID=... PROBE=1 go tool task explore-share-verify-cold" >&2
+          exit 2
+        fi
+        flags=""
+        if [ "${PROBE:-}" = "1" ]; then flags="$flags --probe"; fi
+        if [ "${OPERATOR:-}" = "1" ]; then flags="$flags --operator"; fi
+        if [ -z "$flags" ]; then
+          echo "Pass PROBE=1 and/or OPERATOR=1" >&2
+          exit 2
+        fi
+        python3 scripts/explore_share.py verify-cold --candidates "${CANDIDATES}" --candidate-id "${CANDIDATE_ID}" $flags
+
+  explore-share-check:
+    desc: Preflight share manifest vs proposal
+    cmds:
+      - |
+        if [ -z "${PROPOSAL:-}" ] || [ -z "${CANDIDATES:-}" ]; then
+          echo "usage: PROPOSAL=... CANDIDATES=... go tool task explore-share-check" >&2
+          exit 2
+        fi
+        python3 scripts/explore_share.py check --proposal "${PROPOSAL}" --candidates "${CANDIDATES}"
+
+  explore-share-test:
+    desc: Unit tests for Explore share manifest
+    cmds:
+      - python3 -m unittest discover -s .cursor/skills/site-extension-pipeline/scripts -p 'test_explore_share*.py' -v
+
+  verify-explore-links:
+    desc: List Perplexity thread URLs for a post (POST=)
+    cmds:
+      - |
+        if [ -z "${POST:-}" ]; then
+          echo "usage: POST=section/slug go tool task verify-explore-links" >&2
+          exit 2
+        fi
+        python3 scripts/verify_explore_perplexity_links.py --post "${POST}"
+
+  sb-html:
+    desc: Regenerate Substack sample HTML under docs/substack-html/
+    cmds:
+      - go run ./cmd/substack-html -in content/mind-infrastructure/2026-04-29-free-energy-principle-hallucination-machine/index.md -out docs/substack-html/sample-free-energy.html
+      - go run ./cmd/substack-html -in content/mind-infrastructure/2026-04-29-free-energy-principle-hallucination-machine/index.es.md -out docs/substack-html/sample-free-energy.es.html
+
+  sb-en:
+    desc: Substack paste English (picker or POST / CLI args)
+    summary: |
+      Pass bundle path after --, e.g. go tool task sb-en -- human-condition/slug
+      Or set POST=section/slug. With no POST, runs interactive pick-draft-en.
+    cmds:
+      - chmod +x scripts/task-sb-en.sh scripts/task-substack-draft.sh scripts/task-normalize-post.sh
+      - ./scripts/task-sb-en.sh {{.CLI_ARGS}}
+
+  sb-es:
+    desc: Substack paste Spanish publication
+    summary: |
+      Pass bundle path after --, or POST=section/slug. Picker when POST unset.
+    cmds:
+      - chmod +x scripts/task-sb-es.sh scripts/task-substack-draft.sh scripts/task-normalize-post.sh
+      - ./scripts/task-sb-es.sh {{.CLI_ARGS}}
+
+  sb-en-pick:
+    desc: Interactive English Substack draft picker
+    cmds:
+      - SUBSTACK_ACTION=pick-draft-en ./scripts/task-substack-draft.sh
+
+  sb-en-pick-publish:
+    desc: Pick English draft then schedule with short keep-open
+    cmds:
+      - CONFIRM_DISMISS=0 KEEP_OPEN=8s SUBSTACK_DRAFT_FLAGS="-schedule-max-attempts=2" SUBSTACK_ACTION=pick-draft-en ./scripts/task-substack-draft.sh
+
+  sb-es-pick-publish:
+    desc: Pick Spanish draft then schedule
+    cmds:
+      - chmod +x scripts/task-sb-es.sh
+      - SUBSTACK_LANG=es PUBLISH_TARGET=substack-es CONFIRM_DISMISS=0 KEEP_OPEN=8s SUBSTACK_DRAFT_FLAGS="-schedule-max-attempts=2" SUBSTACK_ACTION=pick-draft-es ./scripts/task-substack-draft.sh
+
+  sb-list-unpublished:
+    desc: List unpublished Substack bundles
+    cmds:
+      - go run ./cmd/substack-draft -action list-unpublished -content-root content -publish-target "${PUBLISH_TARGET:-substack-en}"
+
+  sb-mark-published:
+    desc: Append social-published line (POST= or path after --)
+    cmds:
+      - |
+        chmod +x scripts/task-normalize-post.sh
+        post="${POST:-}"
+        if [ -n "{{.CLI_ARGS}}" ]; then post="{{.CLI_ARGS}}"; fi
+        post="$(./scripts/task-normalize-post.sh "$post")"
+        test -f "content/$post/index.md" || { echo "missing bundle content/$post/index.md" >&2; exit 1; }
+        go run ./cmd/substack-draft -action mark-published -in "content/$post/index.md" -publish-target "${PUBLISH_TARGET:-substack-en}"
+
+  sb-login:
+    desc: Open Substack login window
+    cmds:
+      - go run ./cmd/substack-draft -action login -chrome-user-data-dir "${CHROME_PROFILE:-$HOME/.cache/substack-chrome-profile}" -paste-timeout 0 -keep-open 0
+
+  sb-cc:
+    desc: Substack command center browser flow
+    cmds:
+      - go run ./cmd/substack-draft -action cc -chrome-user-data-dir "${CHROME_PROFILE:-$HOME/.cache/substack-chrome-profile}" -paste-timeout "${PASTE_TIMEOUT:-12m}" -keep-open "${KEEP_OPEN:-30s}"
+
+  sb-config-init:
+    desc: Create substack.json from example if missing
+    cmds:
+      - go run ./cmd/substack-config-init
+
+  mermaid:
+    desc: Render EN and ES mermaid WebPs for a bundle
+    summary: |
+      go tool task mermaid -- human-condition/slug
+      Optional MERMAID_STEM=diagram (default).
+    cmds:
+      - chmod +x scripts/task-mermaid-bundle.sh scripts/task-normalize-post.sh scripts/mermaid-docker.sh
+      - ./scripts/task-mermaid-bundle.sh {{.CLI_ARGS}}
+
+  mermaid-render:
+    desc: Single mermaid file via Docker (IN=, OUT=)
+    cmds:
+      - |
+        if [ -z "${IN:-}" ] || [ -z "${OUT:-}" ]; then
+          echo "usage: IN=diagram.mmd OUT=out.webp go tool task mermaid-render" >&2
+          exit 2
+        fi
+        MERMAID_WIDTH="${MERMAID_WIDTH:-}" MERMAID_HEIGHT="${MERMAID_HEIGHT:-}" \
+          MERMAID_BACKGROUND="${MERMAID_BACKGROUND:-}" MERMAID_WEBP_QUALITY="${MERMAID_WEBP_QUALITY:-}" \
+          MERMAID_WEBP_LOSSLESS="${MERMAID_WEBP_LOSSLESS:-}" \
+          ./scripts/mermaid-docker.sh "${IN}" "${OUT}" "${MERMAID_DOCKER_IMAGE:-minlag/mermaid-cli:11.12.0}"
+
+  mermaid-render-en:
+    desc: Render EN mermaid WebP for POST bundle
+    internal: true
+    cmds:
+      - task: mermaid-render
+        vars:
+          IN: 'content/{{.POST_NORM}}/{{.MERMAID_STEM | default "diagram"}}.mmd'
+          OUT: 'content/{{.POST_NORM}}/{{.MERMAID_STEM | default "diagram"}}.webp'
+
+  mermaid-render-es:
+    desc: Render ES mermaid WebP for POST bundle
+    internal: true
+    cmds:
+      - task: mermaid-render
+        vars:
+          IN: 'content/{{.POST_NORM}}/{{.MERMAID_STEM | default "diagram"}}.es.mmd'
+          OUT: 'content/{{.POST_NORM}}/{{.MERMAID_STEM | default "diagram"}}.es.webp'
+
+  substack-draft:
+    desc: Low-level Substack draft driver (env SUBSTACK_*)
+    internal: true
+    cmds:
+      - chmod +x scripts/task-substack-draft.sh scripts/task-normalize-post.sh
+      - ./scripts/task-substack-draft.sh {{.CLI_ARGS}}

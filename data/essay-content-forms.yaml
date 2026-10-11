@@ -1,0 +1,124 @@
+# Host-owned essay content_form pack for content-pipelines.
+# Loaded via essays.content_forms_path / MCP essay_content_forms_path / --content-forms.
+# Operator: content_form selects generation shape; Hugo `type` selects render layout (see site-opinion-content for opinion_essay → type opinion).
+default: essay_argument
+
+# Applies to every form (prepended to form guide / criteria_notes).
+shared_guide: |
+  Shared voice (all content_form values):
+  - Train-ride / commute read: short-to-medium sentences, concrete scenes, plain words. Talk to one person on the train, not a seminar or journal.
+  - WEAK: "The foundational history of X rests on a skewed sample." / "This historical oversight turned a subset into a universal definition." / "systemic blind spot" / "diagnostic architecture" / "codified a narrow definition"
+  - STRONG: Name the scene (classroom, toy, exhaustion); keep jargon only when naming a real construct, then gloss it in the same breath.
+  - Prefer concrete nouns and verbs over stacked abstractions. No manifesto "we must rebuild the framework" closes unless the form asks for a policy landing.
+  - Ban abstract social metonymy (e.g. "the room freezes", "read the room", "lie to the room"). Name the actual people, bystanders, colleagues, or environment. Literal physical rooms ("the furniture in the room") are allowed.
+  - Composition stays on this shared commute voice. Do not imitate a section narrator during composition.
+  - Polish applies one file from data/voices/ when polish_focus names its id (patient-narrator, lean-realist, cognitive-pragmatist). Until then, leave the section voice off.
+
+  Reader landing (after the diagnostic close; all essay and video forms):
+  - After the stanceful close, emit a separate reader_landing field (not counted in the 600–800 word band).
+  - Job 1 — why_it_matters: return the idea to the reader's world in 2–4 sentences. Name who might recognize themselves and why this may interest them now. Concrete scene, not a summary restack.
+  - Job 2 — takeaways: 2–4 short carry-forward lines (concrete, actionable or diagnostic). Do not reprint the thesis paragraph.
+  - Job 3 — explore: 2–4 ready-to-run follow-ups. Prefer fully phrased research questions a reader can paste into Perplexity. MAY list related site paths or titled source links when notes already supply them.
+  - Explore link kinds: perplexity_query (question text only; host builds a prefilled search URL), source (label + url already in notes/grounding), related (site path), perplexity_thread (only when a real completed research thread URL exists; never invent one). perplexity_query and perplexity_thread SHOULD include hook (one-line teaser under the link; Gemma-authored via site-explore-link-hooks).
+  - Do not present a prefilled question as if research already ran. Do not invent paper URLs or thread links.
+
+shared_criteria_notes: |
+  Voice must pass a commute test: readable on a train, not an academic paper. Fail lecture cadence, stacked abstractions, seminar diction, and abstract social metonymy ("the room" as a stand-in for a group or audience).
+  Composition: score the commute test and proximity rules. Do not fail a composition for missing a section voice.
+  Polish: when polish_focus names a data/voices profile, also fail staccato runs, banned phrases, and missing required verbs from that profile.
+  Reader landing: fail empty why_it_matters, takeaway restacks of the close, invented source/thread URLs, or missing explore questions when notes support follow-up.
+
+forms:
+  essay_argument:
+    label: Free essay
+    guide: |
+      content_form=essay_argument (default thesis essay):
+      - Job: stanceful 600–800 word essay on a durable theme from the notes.
+      - Follow the selected reader journey; examples as evidence for a pattern.
+      - Close with a concrete author landing (fork / diagnostic question).
+      - Then emit reader_landing (why_it_matters + takeaways + explore) after that landing.
+      - No required Hugo bands.
+    required_bands: []
+
+  video:
+    label: Video pick (TL;DW)
+    aliases: [video_tldw]
+    guide: |
+      content_form=video (Hugo type video / TL;DW):
+      - Publish shape for Hugo: DESCRIPTION, SOWHAT, TLDW, optional CHAPTER_GUIDE.
+      - Composition Gate shell maps to those bands (keep ## Title / ## Unknown yet / ## Will know / ## Hook / ## Essay block / ## Close for review):
+        - ## Unknown yet = DESCRIPTION: 3–4 cold-readable novelty open loops that sell pressing play. Not topic-gap lines ("why tools fail"); not a thesis paragraph.
+        - ## Will know = SOWHAT: one payoff paragraph ("what you will know after").
+        - ## Hook + ## Essay block + ## Close = TLDW: thesis-first so-what article for non-watchers; one accruing claim with evidence. Not talk chronology; not a novelty or surprise stack.
+      - Also emit ### DESCRIPTION, ### SOWHAT, and ### TLDW once in the assembled prose (label those sections) so required-band checks can see them.
+      - Under TLDW body sections use ### hooks only (inside blocks / close as needed).
+      - CHAPTER_GUIDE (when present, usually polish/export or notes): timestamp jump map with plain chapter labels for landing in the talk. Not novelty slogans; not a second teaser list.
+      - After Close / TLDW landing, emit reader_landing the same way as essay_argument (why it matters, takeaways, explore questions).
+      - Spine/arc: thesis-capable through-line; novelty is a DESCRIPTION / Unknown-yet job, not the spine engine.
+      - Audience cue (x-minds / mixed-wiring): parents and late-discovery readers; still obey shared commute voice.
+      - Proximity pillars (generator contract; evaluators enforce the same ideas):
+        1) No meta-discourse: stay inside the argument.
+           WEAK: "This reveals the core tension." / "Here we see why that matters."
+           STRONG: Name the trap in the reader's world and keep moving inside it.
+        2) Fused example + take: one breath, not show-then-tell.
+           WEAK: "[Sealed anecdote.] This reveals that X is true."
+           STRONG: Scene and judgment share the clause or the next.
+        3) No phantom critics: do not summon a chorus to look balanced or to pre-empt imaginary objection.
+           WEAK: "Critics will say…" / "Experts still reject this…"
+           WEAK: Close cites "the field" or "practitioners and institutions" so the reader hears both sides.
+           STRONG: Last proof hands off into a diagnostic question; no professional chorus. Notes mentioning those fields do not license a close hedge.
+        4) Paradox uncured: leave the bind standing; no neat moral rescue; no unattributed finish-line apology.
+           WEAK: "In the end both sides are right, so choose balance."
+           STRONG: Last proof hands off into a sharp insight, then one diagnostic question. No concession paragraph.
+    required_bands: [DESCRIPTION, SOWHAT, TLDW]
+    optional_bands: [CHAPTER_GUIDE]
+    criteria_notes: |
+      Friction/opposition acknowledgment is optional; do not invent critics.
+      Novelty belongs in DESCRIPTION (Gate: Unknown yet); TLDW is thesis-first (Gate: Hook + blocks + Close); CHAPTER_GUIDE orients with timestamps when present.
+      Close with a diagnostic question; do not reward surprise-led body stacks.
+      Fail closed on meta-discourse, show-then-tell, phantom critics, paradox rescue, and finish-line thesis apology.
+
+  claims:
+    label: Claim post
+    guide: |
+      content_form=claims (Hugo type claims):
+      - Emit bands: CLAIM, THOUGHTS, GROUNDING.
+      - CLAIM = plain-language assertion (list-card cold-read).
+      - THOUGHTS = essay body; GROUNDING = short support + Source line shape.
+      - After the Thoughts landing, emit reader_landing (why_it_matters + takeaways + explore) for Hugo Dig deeper.
+    required_bands: [CLAIM, THOUGHTS, GROUNDING]
+
+  cognitive_memetics:
+    label: Cognitive-Memetics
+    guide: |
+      content_form=cognitive_memetics:
+      - First band CM_SUBTYPE with value sayings or panel.
+      - sayings: DESCRIPTION (teaser), TLDR, FLUFF (Context).
+      - panel: DESCRIPTION (teaser), optional BODY article.
+      - Prefer sayings for short vernacular; panel for strip+narrative.
+      - Operator step focus may force subtype. For long free prose use essay_argument instead.
+      - Reader landing is optional for short sayings; include it on longer panel BODY pieces.
+      - Composition uses hook → clues → stakes arc phases; conundrum emits ### band prose in essay_blocks (not three long essay blocks).
+    required_bands: [CM_SUBTYPE, DESCRIPTION]
+    optional_bands: [TLDR, FLUFF, BODY]
+    composition:
+      require_reader_landing: false
+      middle_shape: publish_bands
+      enforce_word_band: false
+
+  opinion_essay:
+    label: Opinion essay
+    aliases: [opinion]
+    guide: |
+      content_form=opinion_essay (Hugo type opinion):
+      - Job: stanceful 600–800 word essay with a clear authorial position (not Claim/Grounding bands).
+      - Follow the selected reader journey; concrete scenes and examples as evidence for a pattern.
+      - Close with a concrete author landing (fork / diagnostic question).
+      - Then emit reader_landing (why_it_matters + takeaways + explore) after that landing.
+      - Hugo export: type opinion; description = editorial position; body = essay; grounding optional.
+      - Prefer this form over cognitive_memetics when the publish target is a full essay, not a short saying or panel strip.
+    required_bands: []
+    composition:
+      require_reader_landing: true
+      middle_shape: three_essay_blocks
+      enforce_word_band: true

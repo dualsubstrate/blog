@@ -1,0 +1,11 @@
+{{- /* ID — LoveIt uses `$.Scratch`; in Goldmark code-block render hooks `$` is not the page, so Mermaid
+      sources never reached `window.config.data`. Use the Scratch passed on the context dict (callers
+      always set it to `.Page.Scratch`). */ -}}
+{{- $scratch := .Scratch | default $.Page.Scratch -}}
+{{- $count := ($scratch.Get "this").count | default 1 -}}
+{{- $id := printf "id-%d" $count -}}
+{{- $count | add 1 | $scratch.SetInMap "this" "count" -}}
+{{- with .Content -}}
+    {{- dict $id . | dict "data" | dict "config" | merge ($scratch.Get "this") | $scratch.Set "this" -}}
+{{- end -}}
+{{- return $id -}}

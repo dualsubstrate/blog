@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-10-11T12:01:25Z",
+  "channels": [
+    "site-en",
+    "site-es",
+    "linkedin",
+    "facebook",
+    "substack-en"
+  ],
+  "entries": [
+    {
+      "bundle": "proof/2026-05-21-sample-video",
+      "section": "proof",
+      "title": "Sample video pick (test fixture)",
+      "type": "video",
+      "planned": "2026-05-21",
+      "draft": true,
+      "channels": {
+        "facebook": {
+          "status": "missing"
+        },
+        "linkedin": {
+          "status": "present"
+        },
+        "site-en": {
+          "status": "missing"
+        },
+        "site-es": {
+          "status": "missing"
+        },
+        "substack-en": {
+          "status": "missing"
+        }
+      }
+    }
+  ]
+}

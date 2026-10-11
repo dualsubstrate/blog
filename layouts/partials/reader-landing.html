@@ -1,0 +1,117 @@
+{{- /*
+  Reader landing: reconnect idea to reader world, carry-forward lines, curated explore links.
+
+  Front matter shape (YAML):
+
+  reader_landing:
+    why_it_matters: |
+      Two to four sentences: who might recognize themselves and why this may interest them.
+    takeaways:
+      - "Concrete carry-forward line"
+    explore:
+      - type: perplexity_query   # host links to Params.perplexityProjectURL (optional ?q=) or legacy /search/new
+        label: "Short link text"
+        hook: "One-line curiosity (optional; replaces generic hint)"
+        query: "Full research question"
+      - type: source
+        label: "Paper or article title"
+        url: "https://..."
+      - type: related
+        label: "Related post title"
+        path: "/human-condition/some-slug/"
+      - type: perplexity_thread  # only when a real completed thread URL exists
+        label: "Completed research"
+        hook: "One-line curiosity (optional; replaces generic hint)"
+        url: "https://www.perplexity.ai/search/..."
+
+  Also accepts legacy Params.research (markdown) when reader_landing is absent.
+*/ -}}
+{{- $landing := .Params.reader_landing -}}
+{{- $legacy := .Params.research -}}
+{{- if or $landing $legacy -}}
+  {{- $heading := .Params.reader_landing_heading | default (T "protocolDepth") -}}
+  <div class="reader-landing-panel">
+  <h2 id="section-reader-landing" class="sayings-section-heading reader-landing-panel__heading">
+    <span aria-hidden="true">🔭</span> {{ $heading }}
+  </h2>
+  {{- if $landing -}}
+    <div class="reader-landing">
+      {{- with $landing.why_it_matters -}}
+        <div class="reader-landing__why">
+          <h3 id="reader-landing-why" class="reader-landing__subhead">{{ T "readerLandingWhy" }}</h3>
+          {{- dict "Content" (. | markdownify) "Ruby" false "Fraction" false "Fontawesome" false | partial "function/content.html" | safeHTML -}}
+        </div>
+      {{- end -}}
+      {{- with $landing.takeaways -}}
+        <div class="reader-landing__takeaways">
+          <h3 id="reader-landing-takeaways" class="reader-landing__subhead">{{ T "readerLandingTakeaways" }}</h3>
+          <ul>
+            {{- range . -}}
+              <li>{{- . | markdownify -}}</li>
+            {{- end -}}
+          </ul>
+        </div>
+      {{- end -}}
+      {{- with $landing.explore -}}
+        <div class="reader-landing__explore">
+          <h3 id="reader-landing-explore" class="reader-landing__subhead">{{ T "readerLandingExplore" }}</h3>
+          <ul class="reader-landing__explore-list">
+            {{- range . -}}
+              {{- $type := .type | default .kind | default "" -}}
+              {{- $label := .label | default .title | default "" -}}
+              {{- $hook := .hook | default .description | default "" -}}
+              {{- if eq $type "perplexity_query" -}}
+                {{- $q := .query | default .q | default "" -}}
+                {{- if and $q $label -}}
+                  {{- $href := printf "https://www.perplexity.ai/search/new?q=%s" ($q | urlquery) -}}
+                  <li class="reader-landing__explore-item reader-landing__explore-item--query">
+                    <a href="{{ $href }}" target="_blank" rel="noopener noreferrer">{{ $label }}</a>
+                    {{- if $hook -}}
+                      <span class="reader-landing__explore-hint">{{ $hook | markdownify }}</span>
+                    {{- else -}}
+                      <span class="reader-landing__explore-hint">{{ T "readerLandingPrefillHint" }}</span>
+                    {{- end -}}
+                  </li>
+                {{- end -}}
+              {{- else if eq $type "perplexity_thread" -}}
+                {{- $threadURL := .url | default "" -}}
+                {{- if and $threadURL $label -}}
+                  <li class="reader-landing__explore-item reader-landing__explore-item--thread">
+                    <a href="{{ $threadURL }}" target="_blank" rel="noopener noreferrer">{{ $label }}</a>
+                    {{- if $hook -}}
+                      <span class="reader-landing__explore-hint">{{ $hook | markdownify }}</span>
+                    {{- else -}}
+                      <span class="reader-landing__explore-hint">{{ T "readerLandingThreadHint" }}</span>
+                    {{- end -}}
+                  </li>
+                {{- end -}}
+              {{- else if eq $type "source" -}}
+                {{- $sourceURL := .url | default "" -}}
+                {{- if and $sourceURL $label -}}
+                  <li class="reader-landing__explore-item reader-landing__explore-item--source">
+                    <a href="{{ $sourceURL }}" target="_blank" rel="noopener noreferrer">{{ $label }}</a>
+                  </li>
+                {{- end -}}
+              {{- else if eq $type "related" -}}
+                {{- $path := .path | default .url | default "" -}}
+                {{- if and $path $label -}}
+                  {{- with $.Site.GetPage $path -}}
+                    <li class="reader-landing__explore-item reader-landing__explore-item--related">
+                      <a href="{{ .RelPermalink }}">{{ $label }}</a>
+                    </li>
+                  {{- else -}}
+                    <li class="reader-landing__explore-item reader-landing__explore-item--related">
+                      <a href="{{ $path | relURL }}">{{ $label }}</a>
+                    </li>
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}            {{- end -}}
+          </ul>
+        </div>
+      {{- end -}}
+    </div>
+  {{- else -}}
+    {{- dict "Content" ($legacy | markdownify) "Ruby" false "Fraction" false "Fontawesome" false | partial "function/content.html" | safeHTML -}}
+  {{- end -}}
+  </div>
+{{- end -}}

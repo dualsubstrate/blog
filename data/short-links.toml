@@ -1,0 +1,28 @@
+# Short root paths for carousel CTAs and print-friendly URLs.
+# Each path MUST have a matching Hugo alias on the English index.md for that bundle.
+# Before adding a row: read data/short-link-register.txt and confirm the path is unused.
+# See .cursor/skills/site-short-link-register/SKILL.md
+
+[[link]]
+path = "/war-game/"
+bundle = "content/social-protocols/2026-04-28-candor-zero-sum-politics"
+carousel = "candor-zero-sum-politics"
+note = "Candor zero-sum politics essay; carousel slide 8 CTA"
+
+[[link]]
+path = "/factory-score/"
+bundle = "content/social-protocols/2026-05-26-developed-countries-are-factories"
+carousel = "developed-countries-are-factories"
+note = "Developed countries as factories essay; carousel slide 8 CTA"
+
+[[link]]
+path = "/ego-game/"
+bundle = "content/human-condition/2026-05-01-ego-as-game"
+carousel = "ego-as-game"
+note = "Ego as game essay; carousel slide 8 CTA"
+
+[[link]]
+path = "/pyramids/"
+bundle = "content/human-condition/2026-05-28-why-humans-keep-building-pyramids"
+carousel = "why-humans-keep-building-pyramids"
+note = "Why groups organize into pyramids essay; carousel slide 9 CTA"

@@ -1,0 +1,14 @@
+# Tag deprecations (source of truth for the Deprecated block in data/tag-register.txt).
+# Add rows here (or let the AI propose edits); run: make tag-register
+#
+# Each [[deprecated]] maps a legacy front-matter tag to the preferred tag for new content.
+# Unifying pass: add the "to" tag to old posts first; you can keep "from" until you strip it later.
+#
+# Example:
+# [[deprecated]]
+# from = "OldHashtagStyle"
+# to = "NewCanonicalStyle"
+
+[[deprecated]]
+from = "ArepaContigo"
+to = "ArepaContigo"

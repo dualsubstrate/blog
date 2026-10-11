@@ -1,0 +1,99 @@
+{{- .Page.Scratch.SetInMap "this" "glide" true -}}
+{{- $scriptArr := (.Page.Scratch.Get "this").scriptArr | default slice -}}
+{{- $initScript := `// Quote carousel: track height matches the active slide (no tall strip from the longest quote).
+// Height animates in sync with Glide on "run" (same duration/easing); "run.after" snaps exact px (no jump).
+
+function quoteCarouselRealSlides(carousel) {
+    return carousel.querySelectorAll('.glide__slide:not(.glide__slide--clone)');
+}
+
+function quoteCarouselSlideHeight(slide) {
+    if (!slide) return 0;
+    return slide.getBoundingClientRect().height;
+}
+
+function quoteCarouselSetTrackHeightInstant(track, heightPx) {
+    track.style.transition = 'none';
+    track.style.height = Math.ceil(heightPx) + 'px';
+    void track.offsetHeight;
+    track.style.removeProperty('transition');
+}
+
+function quoteCarouselSetTrackHeightAnimated(track, heightPx, glide) {
+    var ms = glide.settings && glide.settings.animationDuration != null ? glide.settings.animationDuration : 1000;
+    var easing = (glide.settings && glide.settings.animationTimingFunc) ? glide.settings.animationTimingFunc : 'ease';
+    track.style.transitionProperty = 'height';
+    track.style.transitionDuration = ms + 'ms';
+    track.style.transitionTimingFunction = easing;
+    track.style.height = Math.ceil(heightPx) + 'px';
+}
+
+function quoteCarouselSyncTrackFromIndex(carousel, glide) {
+    var track = carousel.querySelector('.glide__track');
+    var slides = quoteCarouselRealSlides(carousel);
+    if (!track || !slides.length) return;
+    var slide = slides[glide.index];
+    var h = quoteCarouselSlideHeight(slide);
+    if (h < 1) return;
+    quoteCarouselSetTrackHeightAnimated(track, h, glide);
+}
+
+function quoteCarouselSyncTrackFromActive(carousel) {
+    var track = carousel.querySelector('.glide__track');
+    var slide = carousel.querySelector('.glide__slide.glide__slide--active');
+    if (!track || !slide) return;
+    var h = quoteCarouselSlideHeight(slide);
+    if (h < 1) return;
+    quoteCarouselSetTrackHeightInstant(track, h);
+}
+
+function quoteCarouselSyncAllOnResize() {
+    document.querySelectorAll('.quote-carousel').forEach(quoteCarouselSyncTrackFromActive);
+}
+
+function initGlideCarousels() {
+    if (typeof Glide === 'undefined') {
+        setTimeout(initGlideCarousels, 100);
+        return;
+    }
+    if (!window.__quoteCarouselResizeBound) {
+        window.__quoteCarouselResizeBound = true;
+        var resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(quoteCarouselSyncAllOnResize, 150);
+        });
+    }
+    document.querySelectorAll('.quote-carousel').forEach(function(carousel) {
+        var slides = quoteCarouselRealSlides(carousel);
+        if (!slides.length) return;
+        var randomStart = Math.floor(Math.random() * slides.length);
+        var glide = new Glide(carousel, {
+            type: 'carousel',
+            startAt: randomStart,
+            autoplay: 10000,
+            animationDuration: 1000,
+            animationTimingFunc: 'ease',
+            perView: 1,
+            gap: 0,
+            hoverpause: true
+        });
+        glide.on('mount.after', function() {
+            quoteCarouselSyncTrackFromActive(carousel);
+        });
+        glide.on('run', function() {
+            quoteCarouselSyncTrackFromIndex(carousel, glide);
+        });
+        glide.on('run.after', function() {
+            quoteCarouselSyncTrackFromActive(carousel);
+        });
+        glide.mount();
+        requestAnimationFrame(function() {
+            quoteCarouselSyncTrackFromActive(carousel);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initGlideCarousels);` -}}
+{{- $scriptArr | append $initScript | .Page.Scratch.SetInMap "this" "scriptArr" -}}
+

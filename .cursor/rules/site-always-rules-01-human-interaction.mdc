@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+description: >-
+  This Hugo site overlay for human interaction: do not restyle content/ unless
+  asked; Substack sidecars; format-chat skill; named editorial workflows that
+  skip Intent-First and Consultant. Triggers: revise this post, carousel,
+  Facebook, LinkedIn, Substack, claims, video pick, Spanish translation,
+  essay, arc, essay arc, Reptilocracy Gemma, format chat, content/.
+---
+
+# Site human interaction (always-rules-01 overlay)
+
+Generic human interaction: `.cursor/rules/always-rules-01-human-interaction.mdc`.
+
+- MUST NOT restyle files under `content/` unless the user asks.
+- Exception: `substack.md` / `substack.es.md` follow `.cursor/skills/site-substack-post/SKILL.md`.
+- Format-pass requests: `.cursor/skills/site-format-chat-neurodivergent/SKILL.md`.
+
+## Skill-named workflows
+
+MUST treat these as skill-named (run the skill; load neither Intent-First nor Consultant):
+
+- revise this post, make a carousel, Facebook post, LinkedIn post, Substack, claims, video pick, Spanish translation, essay, arc, essay arc, recreate an arc, Reptilocracy Gemma, reptilocracy gemma
+
+Skip Consultant when a skill or rule already decides the shape (for example carousel JSON, claims front matter, no em dash, US English).

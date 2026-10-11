@@ -1,0 +1,80 @@
+# Publish social posts (Facebook Page + LinkedIn) for a specific date.
+#
+# Designed to be stateless: Facebook idempotency uses the site URL in recent Page posts.
+# LinkedIn: we skip API read idempotency (needs r_member_social); rely on single scheduled run
+# or manual care on re-runs until that scope is approved for the app.
+# GitHub cron is UTC (no IANA time zones). We compute the target date in Australia/Sydney.
+# Secrets: GitHub repo Settings > Environments > social-media-production (FACEBOOK_*, LINKEDIN_*).
+name: Social autopost
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Target date (Australia/Sydney) in YYYY-MM-DD. Leave empty to use today's date."
+        required: false
+        type: string
+  # schedule disabled until DSS social secrets and publication are configured
+  # schedule:
+  #   - cron: '5 20 * * *'
+
+jobs:
+  autopost:
+    runs-on: ubuntu-latest
+    environment: social-media-production
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Resolve target date (Australia/Sydney)
+        id: date
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${{ inputs.date || '' }}" ]; then
+            echo "post_date=${{ inputs.date }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "post_date=$(TZ=Australia/Sydney date +%F)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Facebook autopost (by date)
+        id: facebook
+        env:
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          go run ./cmd/facebook-autopost \
+            -date "${{ steps.date.outputs.post_date }}" \
+            -page-id "$FACEBOOK_PAGE_ID" \
+            -token "$FACEBOOK_PAGE_ACCESS_TOKEN"
+
+      # LinkedIn idempotency scans recent posts (needs r_member_social or r_organization_social).
+      # Set LINKEDIN_DISABLE_IDEMPOTENCY on the workflow environment to skip the scan when read scopes are unavailable.
+      - name: LinkedIn autopost (by date)
+        if: ${{ always() && steps.facebook.outcome != 'cancelled' }}
+        env:
+          LINKEDIN_AUTHOR_URN: ${{ secrets.LINKEDIN_AUTHOR_URN }}
+          LINKEDIN_ACCESS_TOKEN: ${{ secrets.LINKEDIN_ACCESS_TOKEN }}
+          # Pin YYYYMM; bump if LinkedIn returns 426 NONEXISTENT_VERSION (see docs/social-autopost/README.md).
+          LINKEDIN_VERSION: "202604"
+        run: |
+          set -euo pipefail
+          go run ./cmd/linkedin-autopost \
+            -date "${{ steps.date.outputs.post_date }}" \
+            -author "$LINKEDIN_AUTHOR_URN" \
+            -token "$LINKEDIN_ACCESS_TOKEN" \
+            -disable-idempotency \
+            -no-verify-commentary
+

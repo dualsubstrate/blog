@@ -1,0 +1,331 @@
+baseURL = 'https://blog.dualsubstrate.com/'
+theme = 'LoveIt'
+defaultContentLanguage = 'en'
+# English stays at / ; Spanish at /es/ (preserves existing URLs).
+defaultContentLanguageInSubdir = false
+
+[languages]
+  [languages.en]
+    weight = 1
+    languageCode = 'en'
+    languageName = 'English'
+    hasCJKLanguage = false
+    title = 'DSS blog'
+  [languages.es]
+    weight = 2
+    languageCode = 'es'
+    languageName = 'Español'
+    hasCJKLanguage = false
+    title = 'DSS blog'
+
+[languages.es.params]
+  description = "Ensayos sobre memoria gobernada, principales, linaje de datos y el sistema de doble sustrato; notas de producto y pruebas."
+
+[languages.es.params.search]
+  placeholder = "Buscar..."
+
+[languages.es.params.footer]
+  custom = """<section class="subscribe-box">
+  <h3>Dual Substrate</h3>
+  <p>Superficies, pruebas y acceso al producto.</p>
+  <div class="subscribe-box__actions">
+    <a class="subscribe-box__btn subscribe-box__btn--primary" href="https://www.dualsubstrate.com/" target="_blank" rel="noopener noreferrer">Solicitar acceso</a>
+    <a class="subscribe-box__btn subscribe-box__btn--secondary" href="https://github.com/Berigny/dss-system" target="_blank" rel="noopener noreferrer">DSS-EVAL</a>
+  </div>
+</section>"""
+  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank">CC BY‑SA 4.0</a>'
+
+[languages.es.params.home.profile]
+  subtitle = "bienvenido"
+
+[languages.es.params.home.psychFitness]
+  title = "Estándares de aptitud psicológica para los máximos cargos de Australia"
+
+# whether to use robots.txt
+enableRobotsTXT = true
+
+# whether to use git commit log
+#enableGitInfo = true
+
+# whether to use emoji code
+enableEmoji = true
+
+
+# Pagination config
+[pagination]
+  disableAliases = false
+  pagerSize = 10
+  path = "page"
+
+[params]
+  # Must match root defaultContentLanguage. Used in layouts for cross-locale listing fallbacks (Hugo 0.152 templates lack site.DefaultContentLanguage / .Site.IsDefault).
+  defaultContentLanguageCode = "en"
+  # Default for meta description + Open Graph / Twitter Cards when a page omits its own.
+  # Per-page `og_description` overrides social/meta text without changing list Claim (`description`).
+  description = "Essays and notes on governed AI memory: principals, ledgers, lineage, and the Dual Substrate System."
+  images = ["/images/og-default.png"]
+  # Display dates like 04-Oct-2026 (Go reference layout 02-Jan-2006).
+  dateFormat = "02-Jan-2006"
+  # List/tile view: shorter date without year (e.g., 04-Oct).
+  listDateFormat = "02-Jan"
+  # Google Tag Manager (production only; see layouts/partials/google-tag-manager-*.html).
+  # Configure GA4 inside the GTM container, not via params.analytics.google.
+  defaultTheme = "light"
+  
+  # Header config
+  [params.header]
+    # desktop header mode ["fixed", "normal", "auto"]
+    desktopMode = "fixed"
+    # mobile header mode ["fixed", "normal", "auto"]
+    mobileMode = "auto"
+    # Header title config
+    [params.header.title]
+      # URL of the LOGO
+      logo = "/images/dss-mark.svg"
+      pre = 'DSS'
+      name = "blog"
+      post = ""
+      # whether to use typeit animation for title name
+      typeit = false
+
+  # Search config
+  [params.search]
+    enable = false
+    # type of search engine ["lunr", "algolia"]
+    type = "lunr"
+    # max index length of the chunked content
+    contentLength = 4000
+    # placeholder of the search bar
+    placeholder = "Search..."
+    # max number of results length
+    maxResultLength = 10
+    # snippet length of the result
+    snippetLength = 30
+    # HTML tag name of the highlight part in results
+    highlightTag = "em"
+    # whether to use the absolute URL based on the baseURL in search index
+    absoluteURL = false
+    
+  [params.app]
+    title = "Dual Substrate"
+    svgFavicon = "/images/dss-mark.svg"
+
+  # Author config
+  [params.author]
+    name = "Dual Substrate"
+    email = ""
+    link = "https://www.dualsubstrate.com/"
+
+  # Post share row (LoveIt sharer.js). All keys set so theme defaults do not linger.
+  [params.page.share]
+    enable = true
+    X = true
+    Twitter = false
+    Threads = true
+    Facebook = true
+    Linkedin = true
+    Whatsapp = true
+    Viber = false
+    Pinterest = false
+    Tumblr = false
+    HackerNews = false
+    Reddit = false
+    VK = false
+    Buffer = false
+    Xing = false
+    Line = false
+    Instapaper = false
+    Pocket = false
+    Flipboard = false
+    Weibo = false
+    Blogger = false
+    Baidu = false
+    Odnoklassniki = false
+    Evernote = false
+    Skype = false
+    Trello = false
+    Diaspora = false
+    Mix = false
+    Telegram = false
+
+  # Footer config
+  [params.footer]
+    enable = true
+    # Custom content (HTML format is supported)
+    custom = """<section class="subscribe-box">
+  <h3>Dual Substrate</h3>
+  <p>Surfaces, benchmarks, and product access.</p>
+  <div class="subscribe-box__actions">
+    <a class="subscribe-box__btn subscribe-box__btn--primary" href="https://www.dualsubstrate.com/" target="_blank" rel="noopener noreferrer">Request access</a>
+    <a class="subscribe-box__btn subscribe-box__btn--secondary" href="https://github.com/Berigny/dss-system" target="_blank" rel="noopener noreferrer">DSS-EVAL</a>
+  </div>
+</section>"""
+    # whether to show Hugo and theme info
+    hugo = false
+    # whether to show copyright info
+    copyright = true
+    # whether to show the author
+    author = true
+    # site creation time
+    since = 2026
+    # ICP info only in China (HTML format is supported)
+    icp = ""
+    # license info (HTML format is supported)
+    license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" target="_blank">CC BY‑SA 4.0</a>'
+
+
+  # Home page config
+  [params.home]
+    # amount of RSS pages
+    rss = 15
+    [params.home.profile]
+      enable = false
+      # Gravatar Email for preferred avatar in home page
+      gravatarEmail = ""
+      # URL of avatar shown in home page
+      avatarURL = ""
+      # title shown in home page (HTML format is supported)
+      title = ""
+      # subtitle shown in home page (HTML format is supported)
+      subtitle = "welcome to the thing"
+      # whether to use typeit animation for subtitle
+      typeit = true
+      # whether to show social links
+      social = true
+      # disclaimer (HTML format is supported)
+      disclaimer = ""
+    [params.home.posts]
+      enable = true
+      # special amount of posts in each home posts page (legacy mode only; see contentSections)
+      paginate = 6
+      # Legacy: not used by home bands when afterHeroTiles is set (kept for docs / older notes).
+      perSectionLimit = 3
+      # Home band: one lead row (newest) plus this many compact tiles per section (0–4).
+      # Default for most sections; override per slug in afterHeroTilesBySection (table below).
+      afterHeroTiles = 2
+      # Band order on home: "latestFirst" = sections with a band are sorted by newest post in that band (build time).
+      # "sectionOrder" = same order as contentSections below.
+      sectionBandOrder = "latestFirst"
+      # Top-level sections shown as separate bands on the home page (order matches this list).
+      # Omit static pages (e.g. "about"). If empty or unset, home feed uses type "posts" only (legacy).
+      contentSections = [
+        "platform",
+        "lineage",
+        "proof",
+        "notes",
+      ]
+
+    # Per-section tile count under the lead row (slug → count, 0–4). Unlisted sections use afterHeroTiles.
+    [params.home.posts.afterHeroTilesBySection]
+      cognitive-memetics = 3
+
+    # Psych Fitness 28: separate home band (one post per calendar day in timeZone; see layouts/partials/home-psych-fitness-daily.html).
+    # Campaign finished; keep enable = false so the band stays off the homepage.
+    [params.home.psychFitness]
+      enable = false
+      timeZone = "Australia/Sydney"
+      pathPrefix = "cognitive-memetics/psych-fitness-28/"
+      title = "Psychological fitness standards for Australia's highest offices"
+
+
+  # List (category or tag) page config
+  [params.list]
+    # special amount of posts in each list page (section lists, category/tag tile views)
+    paginate = 10
+    # Same as params.dateFormat (taxonomy/list and similar use this when theme layout applies).
+    dateFormat = "02-Jan-2006"
+    # amount of RSS pages
+    rss = 10
+
+# Menu config (per language; URLs for Spanish use /es/ prefix).
+[languages.en.menu]
+[[languages.en.menu.main]]
+  weight = 1
+  identifier = "platform"
+  pre = ""
+  post = ""
+  name = "Platform"
+  url = "/platform/"
+  title = ""
+[[languages.en.menu.main]]
+  weight = 2
+  identifier = "lineage"
+  pre = ""
+  post = ""
+  name = "Lineage"
+  url = "/lineage/"
+  title = ""
+[[languages.en.menu.main]]
+  weight = 3
+  identifier = "proof"
+  pre = ""
+  post = ""
+  name = "Proof"
+  url = "/proof/"
+  title = ""
+[[languages.en.menu.main]]
+  weight = 4
+  identifier = "notes"
+  pre = ""
+  post = ""
+  name = "Notes"
+  url = "/notes/"
+  title = ""
+[[languages.en.menu.main]]
+  weight = 5
+  identifier = "about"
+  pre = "<i class=\"fas fa-info-circle\" aria-hidden=\"true\"></i>"
+  post = ""
+  name = ""
+  url = "/about/"
+  title = "About"
+
+[languages.es.menu]
+[[languages.es.menu.main]]
+  weight = 1
+  identifier = "platform"
+  pre = ""
+  post = ""
+  name = "Plataforma"
+  url = "/es/platform/"
+  title = ""
+[[languages.es.menu.main]]
+  weight = 2
+  identifier = "lineage"
+  pre = ""
+  post = ""
+  name = "Linaje"
+  url = "/es/lineage/"
+  title = ""
+[[languages.es.menu.main]]
+  weight = 3
+  identifier = "proof"
+  pre = ""
+  post = ""
+  name = "Prueba"
+  url = "/es/proof/"
+  title = ""
+[[languages.es.menu.main]]
+  weight = 4
+  identifier = "notes"
+  pre = ""
+  post = ""
+  name = "Notas"
+  url = "/es/notes/"
+  title = ""
+[[languages.es.menu.main]]
+  weight = 5
+  identifier = "about"
+  pre = "<i class=\"fas fa-info-circle\" aria-hidden=\"true\"></i>"
+  post = ""
+  name = ""
+  url = "/es/about/"
+  title = "Acerca de"
+
+# Carousel preview dev: do not cache shared renderer assets (make serve).
+[server]
+  [[server.headers]]
+    for = '/carousel/**'
+    [server.headers.values]
+      Cache-Control = 'no-store, no-cache, must-revalidate'
+      Pragma = 'no-cache'
