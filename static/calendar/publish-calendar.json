@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-11T12:01:25Z",
+  "generatedAt": "2026-10-11T13:48:24Z",
   "channels": [
     "site-en",
     "site-es",
@@ -21,6 +21,34 @@
         },
         "linkedin": {
           "status": "present"
+        },
+        "site-en": {
+          "status": "missing"
+        },
+        "site-es": {
+          "status": "missing"
+        },
+        "substack-en": {
+          "status": "missing"
+        }
+      }
+    },
+    {
+      "bundle": "lineage/2026-10-11-dss-hops",
+      "section": "lineage",
+      "title": "DSS hops on one cube",
+      "type": "claims",
+      "categories": [
+        "Lineage"
+      ],
+      "planned": "2026-10-11",
+      "draft": true,
+      "channels": {
+        "facebook": {
+          "status": "missing"
+        },
+        "linkedin": {
+          "status": "missing"
         },
         "site-en": {
           "status": "missing"

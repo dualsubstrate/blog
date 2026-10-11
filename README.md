@@ -22,7 +22,15 @@ git config core.hooksPath .githooks
 ```bash
 GOWORK=off go tool task calendar
 GOWORK=off go tool task hugo
-GOWORK=off go tool task serve   # Hugo + carousel-save + essays MCP
+GOWORK=off go tool task serve   # process-compose TUI; supervisor on tmp/process-compose.sock (not TCP :8080)
+```
+
+Local site URL when using `serve`: **http://127.0.0.1:28492/** (Hugo default :1313 is used by the Behaviour Engineering site). Carousel-save and essays MCP still use **:3848** and **:3849**; run only one full `serve` stack at a time if both repos need MCP.
+
+Hugo only (no MCP/carousel):
+
+```bash
+hugo server --buildDrafts --buildFuture --bind 127.0.0.1 --port 28492
 ```
 
 ## DNS (GitHub Pages)

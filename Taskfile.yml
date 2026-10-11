@@ -73,9 +73,25 @@ tasks:
     cmds:
       - go run ./cmd/tag-register -content content -deprecations "{{.TAG_DEP}}" -out "{{.TAG_OUT}}"
 
+  canvas-hops:
+    desc: Sync DSS hops canvas, Vite build, copy to static/js/dss-hops
+    cmds:
+      - chmod +x scripts/sync-dss-hops-canvas.sh
+      - ./scripts/sync-dss-hops-canvas.sh
+      - |
+        set -euo pipefail
+        cd web/dss-hops
+        if [ -n "${CI:-}" ]; then npm ci; else npm install; fi
+        npm run build
+        mkdir -p ../../static/js/dss-hops
+        touch ../../static/js/dss-hops/.gitkeep
+        rsync -a --delete dist/ ../../static/js/dss-hops/
+        touch ../../static/js/dss-hops/.gitkeep
+
   hugo:
     desc: Tag register then Hugo build to public/
     deps:
+      - canvas-hops
       - tag-register
     cmds:
       - chmod +x scripts/task-hugo.sh
@@ -100,6 +116,8 @@ tasks:
 
   serve:
     desc: process-compose local stack (Hugo, MCP, carousel-save)
+    deps:
+      - canvas-hops
     interactive: true
     cmds:
       - chmod +x scripts/serve-up.sh scripts/serve-process.sh scripts/serve-cleanup.sh scripts/link-providers.sh scripts/serve-content-pipelines-mcp.sh

@@ -7,6 +7,9 @@
 
 # Node.js dependencies (if used)
 node_modules/
+web/dss-hops/node_modules/
+web/dss-hops/dist/
+static/js/dss-hops/assets/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

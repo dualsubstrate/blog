@@ -4,6 +4,9 @@
 
 ## Active tags
 # Columns: tag<TAB>file_count (each file counts at most once per distinct tag)
+Coordinates	1
+Dual-Substrate	1
+Topology	1
 
 ## Deprecated tags
 # Source: data/tag-deprecations.toml. Prefer "to" for new content instead of "from".

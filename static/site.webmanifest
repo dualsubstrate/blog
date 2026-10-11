@@ -3,12 +3,17 @@
     "short_name": "DSS Blog",
     "icons": [
         {
-            "src": "/images/dss-mark.svg",
-            "sizes": "any",
-            "type": "image/svg+xml"
+            "src": "/images/dss-favicon.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        },
+        {
+            "src": "/favicon-32x32.png",
+            "sizes": "32x32",
+            "type": "image/png"
         }
     ],
-    "theme_color": "#0070F3",
+    "theme_color": "#18181B",
     "background_color": "#fafafa",
     "display": "standalone"
 }

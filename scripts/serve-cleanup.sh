@@ -5,9 +5,11 @@ set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
-ports=(3848 3849)
+SOCK="$root/tmp/process-compose.sock"
+ports=(3848 3849 28492)
 
-process-compose down -f process-compose.yaml 2>/dev/null || true
+process-compose down -U -u "$SOCK" 2>/dev/null || true
+rm -f "$SOCK"
 
 for port in "${ports[@]}"; do
 	pids="$(lsof -nP -iTCP:"${port}" -sTCP:LISTEN -t 2>/dev/null || true)"
