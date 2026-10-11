@@ -11,5 +11,5 @@ if ! git diff --cached --name-only | grep -q '^content/'; then
 fi
 
 echo "pre-commit: regenerating publish calendar (content/ staged)"
-go tool task -d "$ROOT" calendar
+GOWORK=off go tool task -d "$ROOT" calendar
 git add -- "static/calendar/publish-calendar.json"
