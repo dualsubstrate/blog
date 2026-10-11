@@ -1,0 +1,14 @@
+{
+    "name": "Dual Substrate Blog",
+    "short_name": "DSS Blog",
+    "icons": [
+        {
+            "src": "/images/dss-mark.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ],
+    "theme_color": "#0070F3",
+    "background_color": "#fafafa",
+    "display": "standalone"
+}
