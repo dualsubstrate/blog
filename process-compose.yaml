@@ -1,5 +1,5 @@
 # Hugo drafts+future, content-pipelines MCP, carousel-save.
-# Start: make serve
+# Start: go tool task serve (Hugo http://127.0.0.1:28492/)
 # Requires process-compose, hugo, and go on PATH.
 # User-level MCP config supplies PIPELINES_BIN / PIPELINES_DIR and credential refs.
 # Go processes use `go tool wgo` so they rebuild when .go files change (MCP via scripts/serve-content-pipelines-mcp.sh).
@@ -11,7 +11,7 @@ log_length: 200
 
 processes:
   hugo:
-    command: hugo server --buildDrafts --buildFuture
+    command: hugo server --buildDrafts --buildFuture --bind 127.0.0.1 --port 28492
     availability:
       restart: on_failure
       backoff_seconds: 2

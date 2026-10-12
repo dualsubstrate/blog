@@ -28,6 +28,13 @@ runs:
         hugo-version: ${{ inputs.hugo-version }}
         extended: ${{ inputs.extended }}
 
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+        cache: npm
+        cache-dependency-path: web/dss-hops/package-lock.json
+
     - name: Build
       shell: bash
       env:

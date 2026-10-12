@@ -1,0 +1,12 @@
+{{- if not (fileExists "static/js/dss-hops/index.html") -}}
+  {{- errorf "dss-hops: run go tool task canvas-hops (missing static/js/dss-hops/index.html)" -}}
+{{- end -}}
+<div class="dss-hops-embed">
+  <iframe
+    class="dss-hops-frame"
+    title="DSS hops cube"
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade"
+    src="{{ relURL "js/dss-hops/index.html" }}"
+  ></iframe>
+</div>

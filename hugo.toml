@@ -108,7 +108,7 @@ enableEmoji = true
     
   [params.app]
     title = "Dual Substrate"
-    svgFavicon = "/images/dss-mark.svg"
+    svgFavicon = "/images/dss-favicon.png"
 
   # Author config
   [params.author]
