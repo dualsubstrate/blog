@@ -6,17 +6,17 @@
 <nav id="TableOfContents">
   <ul>
     {{- with .Description -}}
-      <li><a href="#section-teaser"><span aria-hidden="true">🎬</span> {{ T "teaser" }}</a></li>
+      <li><a href="#section-teaser">{{ T "teaser" }}</a></li>
     {{- end -}}
     {{- with .Params.tldr -}}
-      <li><a href="#section-tldr"><span aria-hidden="true">✔️</span> {{ T "tldr" }}</a></li>
+      <li><a href="#section-tldr">{{ T "tldr" }}</a></li>
     {{- end -}}
     {{- with .Params.fluff -}}
-      <li><a href="#section-context"><span aria-hidden="true">💬</span> {{ T "context" }}</a></li>
+      <li><a href="#section-context">{{ T "context" }}</a></li>
     {{- end -}}
     {{- if and $nestBody $hasBodyHeadings -}}
       <li>
-        <a href="#section-essay"><span aria-hidden="true">📄</span> {{ T "sayingsArticle" }}</a>
+        <a href="#section-essay">{{ T "sayingsArticle" }}</a>
         <ul>
           {{- range $mdLis -}}
             {{ . | safeHTML }}
@@ -24,7 +24,7 @@
         </ul>
       </li>
     {{- else if and $nestBody (not $hasBodyHeadings) -}}
-      <li><a href="#section-essay"><span aria-hidden="true">📄</span> {{ T "sayingsArticle" }}</a></li>
+      <li><a href="#section-essay">{{ T "sayingsArticle" }}</a></li>
     {{- else -}}
       {{- range $mdLis -}}
         {{ . | safeHTML }}

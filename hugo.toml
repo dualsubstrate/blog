@@ -1,7 +1,7 @@
 baseURL = 'https://blog.dualsubstrate.com/'
 theme = 'LoveIt'
 defaultContentLanguage = 'en'
-# English stays at / ; Spanish at /es/ (preserves existing URLs).
+# English-only build. Spanish is parked: keep i18n/es.toml and content/**/*.es.md; re-enable by restoring [languages.es] in this file.
 defaultContentLanguageInSubdir = false
 
 [languages]
@@ -11,35 +11,6 @@ defaultContentLanguageInSubdir = false
     languageName = 'English'
     hasCJKLanguage = false
     title = 'DSS blog'
-  [languages.es]
-    weight = 2
-    languageCode = 'es'
-    languageName = 'Español'
-    hasCJKLanguage = false
-    title = 'DSS blog'
-
-[languages.es.params]
-  description = "Ensayos sobre memoria gobernada, principales, linaje de datos y el sistema de doble sustrato; notas de producto y pruebas."
-
-[languages.es.params.search]
-  placeholder = "Buscar..."
-
-[languages.es.params.footer]
-  custom = """<section class="subscribe-box">
-  <h3>Dual Substrate</h3>
-  <p>Superficies, pruebas y acceso al producto.</p>
-  <div class="subscribe-box__actions">
-    <a class="subscribe-box__btn subscribe-box__btn--primary" href="https://www.dualsubstrate.com/" target="_blank" rel="noopener noreferrer">Solicitar acceso</a>
-    <a class="subscribe-box__btn subscribe-box__btn--secondary" href="https://github.com/Berigny/dss-system" target="_blank" rel="noopener noreferrer">DSS-EVAL</a>
-  </div>
-</section>"""
-  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank">CC BY‑SA 4.0</a>'
-
-[languages.es.params.home.profile]
-  subtitle = "bienvenido"
-
-[languages.es.params.home.psychFitness]
-  title = "Estándares de aptitud psicológica para los máximos cargos de Australia"
 
 # whether to use robots.txt
 enableRobotsTXT = true
@@ -152,14 +123,7 @@ enableEmoji = true
   [params.footer]
     enable = true
     # Custom content (HTML format is supported)
-    custom = """<section class="subscribe-box">
-  <h3>Dual Substrate</h3>
-  <p>Surfaces, benchmarks, and product access.</p>
-  <div class="subscribe-box__actions">
-    <a class="subscribe-box__btn subscribe-box__btn--primary" href="https://www.dualsubstrate.com/" target="_blank" rel="noopener noreferrer">Request access</a>
-    <a class="subscribe-box__btn subscribe-box__btn--secondary" href="https://github.com/Berigny/dss-system" target="_blank" rel="noopener noreferrer">DSS-EVAL</a>
-  </div>
-</section>"""
+    custom = ""
     # whether to show Hugo and theme info
     hugo = false
     # whether to show copyright info
@@ -197,7 +161,7 @@ enableEmoji = true
     [params.home.posts]
       enable = true
       # special amount of posts in each home posts page (legacy mode only; see contentSections)
-      paginate = 6
+      paginate = 10
       # Legacy: not used by home bands when afterHeroTiles is set (kept for docs / older notes).
       perSectionLimit = 3
       # Home band: one lead row (newest) plus this many compact tiles per section (0–4).
@@ -237,7 +201,7 @@ enableEmoji = true
     # amount of RSS pages
     rss = 10
 
-# Menu config (per language; URLs for Spanish use /es/ prefix).
+# Menu config (English).
 [languages.en.menu]
 [[languages.en.menu.main]]
   weight = 1
@@ -245,82 +209,48 @@ enableEmoji = true
   pre = ""
   post = ""
   name = "Platform"
-  url = "/platform/"
+  url = "/#platform"
   title = ""
 [[languages.en.menu.main]]
   weight = 2
-  identifier = "lineage"
+  identifier = "surfaces"
   pre = ""
   post = ""
-  name = "Lineage"
-  url = "/lineage/"
+  name = "Surfaces"
+  url = "/#surfaces"
   title = ""
 [[languages.en.menu.main]]
   weight = 3
+  identifier = "advantages"
+  pre = ""
+  post = ""
+  name = "Advantages"
+  url = "/#advantages"
+  title = ""
+[[languages.en.menu.main]]
+  weight = 4
   identifier = "proof"
   pre = ""
   post = ""
   name = "Proof"
-  url = "/proof/"
+  url = "/#proof"
   title = ""
 [[languages.en.menu.main]]
-  weight = 4
+  weight = 5
   identifier = "notes"
   pre = ""
   post = ""
   name = "Notes"
-  url = "/notes/"
+  url = "/#notes"
   title = ""
 [[languages.en.menu.main]]
-  weight = 5
+  weight = 6
   identifier = "about"
   pre = "<i class=\"fas fa-info-circle\" aria-hidden=\"true\"></i>"
   post = ""
   name = ""
   url = "/about/"
   title = "About"
-
-[languages.es.menu]
-[[languages.es.menu.main]]
-  weight = 1
-  identifier = "platform"
-  pre = ""
-  post = ""
-  name = "Plataforma"
-  url = "/es/platform/"
-  title = ""
-[[languages.es.menu.main]]
-  weight = 2
-  identifier = "lineage"
-  pre = ""
-  post = ""
-  name = "Linaje"
-  url = "/es/lineage/"
-  title = ""
-[[languages.es.menu.main]]
-  weight = 3
-  identifier = "proof"
-  pre = ""
-  post = ""
-  name = "Prueba"
-  url = "/es/proof/"
-  title = ""
-[[languages.es.menu.main]]
-  weight = 4
-  identifier = "notes"
-  pre = ""
-  post = ""
-  name = "Notas"
-  url = "/es/notes/"
-  title = ""
-[[languages.es.menu.main]]
-  weight = 5
-  identifier = "about"
-  pre = "<i class=\"fas fa-info-circle\" aria-hidden=\"true\"></i>"
-  post = ""
-  name = ""
-  url = "/es/about/"
-  title = "Acerca de"
 
 # Carousel preview dev: do not cache shared renderer assets (make serve).
 [server]

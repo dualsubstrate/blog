@@ -8,11 +8,11 @@
 <nav id="TableOfContents">
   <ul>
     {{- if $hasOpinion -}}
-      <li><a href="#section-opinion"><span aria-hidden="true">📌</span> {{ T "protocolOpinion" }}</a></li>
+      <li><a href="#section-opinion">{{ T "protocolOpinion" }}</a></li>
     {{- end -}}
     {{- if and $hasEssay $hasBodyHeadings -}}
       <li>
-        <a href="#section-essay"><span aria-hidden="true">📝</span> {{ T "protocolEssay" }}</a>
+        <a href="#section-essay">{{ T "protocolEssay" }}</a>
         <ul>
           {{- range $mdLis -}}
             {{ . | safeHTML }}
@@ -20,17 +20,17 @@
         </ul>
       </li>
     {{- else if $hasEssay -}}
-      <li><a href="#section-essay"><span aria-hidden="true">📝</span> {{ T "protocolEssay" }}</a></li>
+      <li><a href="#section-essay">{{ T "protocolEssay" }}</a></li>
     {{- else if $hasBodyHeadings -}}
       {{- range $mdLis -}}
         {{ . | safeHTML }}
       {{- end -}}
     {{- end -}}
     {{- if $hasGrounding -}}
-      <li><a href="#section-grounding"><span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}</a></li>
+      <li><a href="#section-grounding">{{ T "protocolGrounding" }}</a></li>
     {{- end -}}
     {{- if $hasLanding -}}
-      <li><a href="#section-reader-landing"><span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}</a></li>
+      <li><a href="#section-reader-landing">{{ T "protocolDepth" }}</a></li>
     {{- end -}}
   </ul>
 </nav>

@@ -7,7 +7,7 @@
 {{- define "content" -}}
     {{- $params := .Scratch.Get "params" -}}
     <div class="page home" data-home="posts">
-        <h2 class="single-title animate__animated animate__pulse animate__faster">
+        <h2 class="single-title">
             {{- $some := .Params.Title | default (T .Section) | default .Section -}}
             {{- $some = T $some | default $some -}}
             {{- dict "Some" $some | T "allSome" -}}

@@ -10,7 +10,7 @@
 {{- $idSummary := cond (ne $idSuffix "") (printf "taxonomy-term-summary-%s" $idSuffix) "taxonomy-term-summary" -}}
 {{- $idBody := cond (ne $idSuffix "") (printf "taxonomy-term-body-%s" $idSuffix) "taxonomy-term-body" -}}
 {{- if or $p.Description $p.Content -}}
-    <div class="taxonomy-term-intro animate__animated animate__fadeIn animate__faster">
+    <div class="taxonomy-term-intro">
         <span class="taxonomy-term-intro__speech" aria-hidden="true">
             <i class="fas fa-comment-dots"></i>
         </span>

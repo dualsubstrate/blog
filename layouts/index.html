@@ -1,49 +1,40 @@
 {{- define "content" -}}
-    {{- $params := .Scratch.Get "params" -}}
     {{- $profile := .Site.Params.home.profile -}}
     {{- $posts := .Site.Params.home.posts -}}
 
     <div class="page home"{{ if ne $posts.enable false }} data-home="posts"{{ end }}>
-        {{- /* Profile */ -}}
         {{- if ne $profile.enable false -}}
             {{- partial "home/profile.html" . -}}
         {{- end -}}
 
-        {{- /* Content */ -}}
-        {{- if .Content -}}
-            <div class="single">
-                <div class="content" id="content">
-                    {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
-                </div>
-            </div>
-        {{- end -}}
-
-        {{- /* Posts — section bands (contentSections + lead row + afterHeroTiles), or legacy type "posts" + paginate.
-             Do not require .Site.RegularPages: secondary languages may be empty until translated; bands partial falls back to default language. */ -}}
         {{- if ne $posts.enable false -}}
             {{- $secList := $posts.contentSections | default slice -}}
-            {{- if gt (len $secList) 0 -}}
-                {{- partial "home-psych-fitness-daily.html" . -}}
-                {{- partial "home-section-bands.html" . -}}
-            {{- else -}}
-                {{- $pages := where .Site.RegularPages "Type" "posts" -}}
-                {{- if .Site.Params.page.hiddenFromHomePage -}}
-                    {{- $pages = where $pages "Params.hiddenfromhomepage" false -}}
-                {{- else -}}
-                    {{- $pages = where $pages "Params.hiddenfromhomepage" "!=" true -}}
-                {{- end -}}
-                {{- with $posts.paginate | default .Site.Params.paginate -}}
-                    {{- $pages = $.Paginate $pages . -}}
-                {{- else -}}
-                    {{- $pages = .Paginate $pages -}}
-                {{- end -}}
-                <div class="home-post-grid">
-                    {{- range $pages.Pages -}}
-                        {{- .Render "home-tile" -}}
-                    {{- end -}}
-                </div>
-                {{- partial "paginator.html" . -}}
+            {{- if eq (len $secList) 0 -}}
+                {{- errorf "params.home.posts.contentSections must list at least one section slug for the home feed" -}}
             {{- end -}}
+
+            {{- $feedPages := slice -}}
+            {{- range $secList -}}
+                {{- $feedPages = $feedPages | append (where site.RegularPages "Section" .) -}}
+            {{- end -}}
+            {{- if .Site.Params.page.hiddenFromHomePage -}}
+                {{- $feedPages = where $feedPages "Params.hiddenfromhomepage" false -}}
+            {{- else -}}
+                {{- $feedPages = where $feedPages "Params.hiddenfromhomepage" "!=" true -}}
+            {{- end -}}
+            {{- $feedPages = partial "filter-pages-released-as-of-now.html" $feedPages -}}
+            {{- $feedPages = sort $feedPages "Date" "desc" -}}
+
+            {{- $size := $posts.paginate | default 10 | int -}}
+            {{- $paginator := $.Paginate $feedPages $size -}}
+
+            {{- if le .Paginator.PageNumber 1 -}}
+                {{- partial "home-product.html" . -}}
+            {{- end -}}
+
+            {{- partial "home-blog-feed.html" . -}}
+        {{- else -}}
+            {{- partial "home-product.html" . -}}
         {{- end -}}
     </div>
 {{- end -}}

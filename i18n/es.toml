@@ -200,3 +200,21 @@ other = "Este spinoff de *Cube-Cows* sigue a Raymond, el perro junior de *Just s
 # Section page — subsections list heading
 [subsections]
 other = "Colecciones"
+
+[footerCtaHeading]
+other = "El sustrato está en ejecución. Solicite acceso."
+
+[footerCtaSubheading]
+other = "Deje de parchar la capa de aplicación."
+
+[footerCtaButton]
+other = "Solicitar acceso"
+
+[footerSurfaces]
+other = "Superficies"
+
+[footerResources]
+other = "Recursos"
+
+[footerBlogHome]
+other = "Inicio del blog"

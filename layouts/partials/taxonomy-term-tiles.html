@@ -1,7 +1,7 @@
 {{- /* Taxonomy term page: card tiles matching the home feed (layouts/_default/home-tile.html). */ -}}
 <div class="page archive">
     {{- partial "taxonomy-category-breadcrumb.html" . -}}
-    <h2 class="single-title animate__animated animate__pulse animate__faster">
+    <h2 class="single-title">
         {{- $taxonomy := .Data.Singular -}}
         {{- if eq $taxonomy "category" -}}
             <i class="far fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;{{ T .Title | default .Title }}

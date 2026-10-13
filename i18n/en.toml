@@ -90,6 +90,12 @@ other = "Related"
 [homeViewSection]
 other = "View all"
 
+[homeBlogFeedTitle]
+other = "From the substrate"
+
+[homeBlogFeedEmpty]
+other = "No posts yet. Check back as we ship."
+
 # Section preview-grid Glide carousel (prev / next controls).
 [carouselPrev]
 other = "Previous slides"
@@ -154,3 +160,21 @@ other = "Pawtropolis (Under Fire)"
 
 ["Raymond"]
 other = "Raymond"
+
+[footerCtaHeading]
+other = "The substrate is running. Request access."
+
+[footerCtaSubheading]
+other = "Stop patching the application layer."
+
+[footerCtaButton]
+other = "Request access"
+
+[footerSurfaces]
+other = "Surfaces"
+
+[footerResources]
+other = "Resources"
+
+[footerBlogHome]
+other = "Blog Home"
