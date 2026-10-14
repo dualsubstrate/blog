@@ -1,4 +1,4 @@
-baseURL = 'https://blog.dualsubstrate.com/'
+baseURL = 'https://dualsubstrate.github.io/blog/'
 theme = 'LoveIt'
 defaultContentLanguage = 'en'
 # English-only build. Spanish is parked; re-enable by restoring [languages.es] in this file.

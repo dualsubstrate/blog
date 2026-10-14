@@ -35,13 +35,7 @@ hugo server --buildDrafts --buildFuture --bind 127.0.0.1 --port 28492
 
 ## DNS (GitHub Pages)
 
-In the `dualsubstrate.com` zone, add:
-
-- **Type:** CNAME  
-- **Name:** `blog`  
-- **Target:** `dualsubstrate.github.io`
-
-Repo **Settings → Pages:** custom domain `blog.dualsubstrate.com`, enforce HTTPS after the certificate provisions. Source branch: **`gh-pages`** / root (deployed by `.github/workflows/hugo-pages.yml`).
+**GitHub Pages (default):** [https://dualsubstrate.github.io/blog/](https://dualsubstrate.github.io/blog/). Source branch **`gh-pages`** / root (`.github/workflows/hugo-pages.yml`). No custom domain is configured in the repo; add DNS and `static/CNAME` again when you want `blog.dualsubstrate.com`.
 
 ## Explore further / Perplexity
 
