@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Coordinates on DSS blog</title><link>https://dualsubstrate.github.io/blog/pr-preview/pr-3/tags/coordinates/</link><description>Recent content in Coordinates on DSS blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Tue, 13 Oct 2026 10:00:00 +1100</lastBuildDate><atom:link href="https://dualsubstrate.github.io/blog/pr-preview/pr-3/tags/coordinates/index.xml" rel="self" type="application/rss+xml"/><item><title>Lineage and Prime-Indexed Coordinates</title><link>https://dualsubstrate.github.io/blog/pr-preview/pr-3/lineage/2026-10-13-prime-coordinates/</link><pubDate>Tue, 13 Oct 2026 10:00:00 +1100</pubDate><guid>https://dualsubstrate.github.io/blog/pr-preview/pr-3/lineage/2026-10-13-prime-coordinates/</guid><description>&lt;p&gt;Retrieval systems frequently depend on opaque vector databases where data associations drift over time as embedding models evolve or index weights rebalance.&lt;/p&gt;
+&lt;p&gt;DSS grounds memory in mathematical structure:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Prime Coordinates&lt;/strong&gt;: Each ledger entry is assigned a coordinate derived from prime indexing, where shared factors denote structural relationships like parentage, derivation, and thematic clusters.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Traceable Ancestry&lt;/strong&gt;: When an agent synthesizes a conclusion, it records the exact coordinates of the entries it drew upon. Anyone can walk the lineage tree backwards from conclusion to source.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rebuilt from Truth&lt;/strong&gt;: The retrieval index is completely reproducible from the underlying git repository. If an index is corrupted or questioned, it can be regenerated deterministically from the commit history.&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>DSS hops on one cube</title><link>https://dualsubstrate.github.io/blog/pr-preview/pr-3/lineage/2026-10-11-dss-hops/</link><pubDate>Sun, 11 Oct 2026 01:00:00 +1100</pubDate><guid>https://dualsubstrate.github.io/blog/pr-preview/pr-3/lineage/2026-10-11-dss-hops/</guid><description>&lt;p&gt;This page is the public copy of the DSS hops canvas: Ring and M on the two tetrahedra, twelve cube rim edges, Roll, and FF. Drag the cube, pick a hop pill, and open the Resolution tab for the count equations.&lt;/p&gt;
+&lt;div class="dss-hops-embed"&gt;
+ &lt;iframe
+ class="dss-hops-frame"
+ title="DSS hops cube"
+ loading="lazy"
+ referrerpolicy="no-referrer-when-downgrade"
+ src="https://dualsubstrate.github.io/blog/pr-preview/pr-3/js/dss-hops/index.html"
+ &gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h3 id="stops-rolls-and-ff"&gt;Stops, rolls, and FF&lt;/h3&gt;
+&lt;p&gt;The &lt;strong&gt;Stops × rolls&lt;/strong&gt; column is eight landing points times twenty-four cube rolls. &lt;strong&gt;With FF&lt;/strong&gt; multiplies by two for face flip on the face the hop already sits on. That is separate from the twenty walk kinds in the hop table.&lt;/p&gt;</description></item></channel></rss>
