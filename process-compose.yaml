@@ -2,7 +2,7 @@
 # Start: go tool task serve (Hugo http://127.0.0.1:28492/)
 # Requires process-compose, hugo, and go on PATH.
 # User-level MCP config supplies PIPELINES_BIN / PIPELINES_DIR and credential refs.
-# Go processes use `go tool wgo` so they rebuild when .go files change (MCP via scripts/serve-content-pipelines-mcp.sh).
+# Go processes use `go tool wgo` so they rebuild when .go files change (MCP via serve-ctl mcp).
 
 version: "0.5"
 
@@ -20,7 +20,7 @@ processes:
       timeout_seconds: 10
 
   carousel-save:
-    command: ./scripts/serve-process.sh go tool wgo run ./cmd/carousel-save -addr 127.0.0.1:3848 -root .
+    command: go run ./cmd/serve-ctl wrap go tool wgo run ./cmd/carousel-save -addr 127.0.0.1:3848 -root .
     availability:
       restart: on_failure
       backoff_seconds: 2
@@ -29,7 +29,7 @@ processes:
       timeout_seconds: 5
 
   content-pipelines-mcp:
-    command: ./scripts/serve-process.sh ./scripts/serve-content-pipelines-mcp.sh
+    command: go run ./cmd/serve-ctl wrap go run ./cmd/serve-ctl mcp
     availability:
       restart: on_failure
       backoff_seconds: 2

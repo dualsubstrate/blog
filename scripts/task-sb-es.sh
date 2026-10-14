@@ -8,13 +8,13 @@ export PUBLISH_TARGET=substack-es
 
 if [[ $# -ge 1 && -n "${1:-}" ]]; then
   export POST
-  POST="$(scripts/task-normalize-post.sh "$1")"
+  POST="$(go run ./cmd/normalize-post "$1")"
   export SUBSTACK_IN_ES="content/$POST/index.es.md"
   exec scripts/task-substack-draft.sh
 fi
 
 if [[ -n "${POST:-}" ]]; then
-  export SUBSTACK_IN_ES="content/$(scripts/task-normalize-post.sh "$POST")/index.es.md"
+  export SUBSTACK_IN_ES="content/$(go run ./cmd/normalize-post "$POST")/index.es.md"
   exec scripts/task-substack-draft.sh
 fi
 

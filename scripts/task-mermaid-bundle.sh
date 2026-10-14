@@ -9,9 +9,9 @@ MERMAID_DOCKER_IMAGE="${MERMAID_DOCKER_IMAGE:-minlag/mermaid-cli:11.12.0}"
 
 post="${POST:-}"
 if [[ $# -ge 1 && -n "${1:-}" ]]; then
-  post="$(scripts/task-normalize-post.sh "$1")"
+  post="$(go run ./cmd/normalize-post "$1")"
 elif [[ -n "$post" ]]; then
-  post="$(scripts/task-normalize-post.sh "$post")"
+  post="$(go run ./cmd/normalize-post "$post")"
 else
   echo "usage: task mermaid -- section/slug" >&2
   exit 2

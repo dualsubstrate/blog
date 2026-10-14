@@ -22,7 +22,7 @@
   {{- end -}}
 
   <article class="page single">
-        <h1 class="single-title animate__animated animate__flipInX">{{- partial "heading-title-markup.html" . -}}</h1>
+        <h1 class="single-title">{{- partial "heading-title-markup.html" . -}}</h1>
 
     {{- with $params.subtitle -}}
       <h2 class="single-subtitle">{{ . }}</h2>
@@ -100,7 +100,7 @@
     <div class="content" id="content">
       {{- if or .Description .Summary -}}
         <h2 id="section-claim" class="sayings-section-heading">
-          <span aria-hidden="true">🎯</span> {{ T "protocolClaim" }}
+          <span class="section-badge section-badge--claim"></span>{{ T "protocolClaim" }}
         </h2>
         {{- if .Description -}}
           {{- dict "Content" (.Description | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
@@ -112,7 +112,7 @@
       {{- $bodyTrimmed := .Content | strings.TrimSpace -}}
       {{- with $bodyTrimmed -}}
         <h2 id="section-thoughts" class="sayings-section-heading">
-          <span aria-hidden="true">💭</span> {{ T "protocolThoughts" }}
+          <span class="section-badge section-badge--thoughts"></span>{{ T "protocolThoughts" }}
         </h2>
         {{- dict "Content" $.Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
       {{- end -}}
@@ -120,7 +120,7 @@
       {{- $grounding := .Params.grounding | default .Params.paper -}}
       {{- with $grounding -}}
         <h2 id="section-grounding" class="sayings-section-heading">
-          <span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}
+          <span class="section-badge section-badge--grounding"></span>{{ T "protocolGrounding" }}
         </h2>
         {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
       {{- end -}}

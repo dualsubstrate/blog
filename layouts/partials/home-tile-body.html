@@ -25,7 +25,7 @@
             <p class="home-post-tile__section">{{ . | humanize | replaceRE "-" " " }}</p>
         {{- end -}}
     {{- end -}}
-    <h2 class="home-post-tile__title" itemprop="name headline">{{- partial "heading-title-markup.html" $p -}}</h2>
+    <h3 class="home-post-tile__title" itemprop="name headline">{{- partial "heading-title-markup.html" $p -}}</h3>
     <div class="home-post-tile__summary">
         {{- $desc := $p.Description | strings.TrimSpace -}}
         {{- $cardHTML := "" -}}
@@ -40,8 +40,7 @@
     </div>
     {{- if $videoCta -}}
         <span class="home-post-tile__video-cta">
-            <span class="home-post-tile__video-cta__icon" aria-hidden="true">📄</span>
-            <span class="home-post-tile__video-cta__text">{{ T "fullPost" }}</span>
+            <span class="home-post-tile__video-cta__text">{{ T "fullPost" }}</span> &rarr;
         </span>
     {{- end -}}
     <div class="home-post-tile__footer">

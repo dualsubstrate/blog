@@ -1,0 +1,36 @@
+<section class="cta-band">
+  <div class="wrap">
+    <h2>{{ T "footerCtaHeading" | default "The substrate is running. Request access." }}</h2>
+    <p>{{ T "footerCtaSubheading" | default "Stop patching the application layer." }}</p>
+    <div class="cta-band__actions">
+      <a class="btn inverse" href="https://www.dualsubstrate.com/" target="_blank" rel="noopener noreferrer">{{ T "footerCtaButton" | default "Request access" }}</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-col footer-col--brand">
+      <a class="brand" href="{{ .Site.Home.RelPermalink }}">
+        {{- partial "header-logo.html" "/images/dss-mark.svg" -}}
+        <span>DSS</span>
+      </a>
+      <p class="muted mt">© Dual Substrate System</p>
+    </div>
+    <div class="footer-col">
+      <h2>{{ T "footerSurfaces" | default "Surfaces" }}</h2>
+      <ul>
+        <li><a href="https://www.dualsubstrate.com/#surfaces" target="_blank" rel="noopener noreferrer">Control Plane</a></li>
+        <li><a href="https://www.dualsubstrate.com/#surfaces" target="_blank" rel="noopener noreferrer">Chat</a></li>
+        <li><a href="https://www.dualsubstrate.com/#surfaces" target="_blank" rel="noopener noreferrer">Decode</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h2>{{ T "footerResources" | default "Resources" }}</h2>
+      <ul>
+        <li><a href="https://github.com/Berigny/dss-system" target="_blank" rel="noopener noreferrer">DSS-EVAL benchmarks</a></li>
+        <li><a href="{{ .Site.Home.RelPermalink }}">{{ T "footerBlogHome" | default "Blog Home" }}</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

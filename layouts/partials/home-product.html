@@ -1,0 +1,174 @@
+{{- /* Static reconstruction of dualsubstrate.com marketing sections (no build-time fetch). */ -}}
+<div class="home-product">
+    <section class="hero" id="top">
+        <div class="grid" aria-hidden="true"></div>
+        <div class="wrap">
+            <p class="eyebrow">Dual Substrate System</p>
+            <h1>One operating system for identities, data lineage and autonomous agents.</h1>
+            <p class="sub">DSS works like an operating system for governed AI memory. Every person and every agent is a named Principal, and every answer traces back to the ledger entries it drew on.</p>
+            <div class="cta">
+                <a class="btn" href="https://id.dualsubstrate.com/" rel="noopener noreferrer" target="_blank">Open Control Plane</a>
+                <a class="btn secondary" href="https://github.com/Berigny/dss-system" rel="noopener noreferrer" target="_blank">Read the benchmarks</a>
+            </div>
+            <ul class="tags" id="tags" aria-label="Subsystems">
+                <li class="tag"><span>Principals</span></li>
+                <li class="tag"><span>Ledgers</span></li>
+                <li class="tag"><span>Grants</span></li>
+                <li class="tag"><span>Lineage</span></li>
+                <li class="tag"><span>Coordinates</span></li>
+                <li class="tag"><span>Delegation</span></li>
+                <li class="tag"><span>Guardian</span></li>
+                <li class="tag"><span>Checker</span></li>
+                <li class="tag"><span>Model routing</span></li>
+                <li class="tag"><span>Surfaces</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="platform">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>Complete infrastructure to run governed AI</h2>
+                <p>Like an operating system, DSS gives you identities, memory, permissions, interfaces and an audit trail in one layer, rather than scattered across applications.</p>
+            </div>
+
+            <table class="os-map" id="os-mapping">
+                <caption class="visually-hidden">How DSS parts correspond to operating-system parts</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">In an operating system</th>
+                        <th scope="col">In DSS</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Users and processes</td>
+                        <td><strong>Principals</strong> — people, runtime models, organisations and delegated agents</td>
+                    </tr>
+                    <tr>
+                        <td>Memory and the filesystem</td>
+                        <td><strong>Ledgers</strong> — append-only, versioned, git-backed memory boundaries</td>
+                    </tr>
+                    <tr>
+                        <td>Applications and interfaces</td>
+                        <td><strong>Surfaces</strong> — Chat, Decode and the Control Plane</td>
+                    </tr>
+                    <tr>
+                        <td>File permissions and access control</td>
+                        <td><strong>Grants</strong> — managed in the Control Plane and stored as versioned state</td>
+                    </tr>
+                    <tr>
+                        <td>System log and audit trail</td>
+                        <td><strong>Lineage</strong> — every entry keeps the entries it derives from</td>
+                    </tr>
+                    <tr>
+                        <td>Drivers</td>
+                        <td><strong>Model routing</strong> — many providers behind one interface, using your own keys</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p class="note">An analogy: it is not a kernel, it does not schedule processes, and it makes no real-time guarantee.</p>
+
+            <ol class="flow" aria-label="Flow">
+                <li><strong>Principals</strong><span class="muted">who</span></li>
+                <li class="arrow" aria-hidden="true">&rarr;</li>
+                <li><strong>Grants</strong><span class="muted">what they may do</span></li>
+                <li class="arrow" aria-hidden="true">&rarr;</li>
+                <li><strong>Ledgers</strong><span class="muted">where memory lives</span></li>
+            </ol>
+
+            <div class="cards three">
+                <article class="card">
+                    <div class="card-head"><h3>Principals</h3><span class="pill">Live</span></div>
+                    <p>Every human and agent acts as a named Principal, with passkey and DID-based identity. Delegated agents are scoped to named ledgers and surfaces.</p>
+                </article>
+                <article class="card">
+                    <div class="card-head"><h3>Grants</h3><span class="pill">Live</span></div>
+                    <p>Grants are managed in the Control Plane and stored as versioned state.</p>
+                </article>
+                <article class="card">
+                    <div class="card-head"><h3>Lineage</h3><span class="pill">Live</span></div>
+                    <p>Entries record the entries they derive from. Walk the lineage of any entry — ancestors and descendants — with bounded, fast reads, and see what an answer drew on. A grounding guard checks numeric claims in metric answers against the retrieved context.</p>
+                </article>
+                <article class="card">
+                    <div class="card-head"><h3>Coordinates</h3><span class="pill">Live</span></div>
+                    <p>Records sit at prime-indexed coordinates, and the relationships between them — shared primes, parents, children — are derived from the coordinates. Retrieval runs against an index rebuilt from the git ledger, so the ledger stays the source of truth. A p-adic-inspired design, not a claim about p-adic numbers.</p>
+                </article>
+                <article class="card">
+                    <div class="card-head"><h3>Ledgers</h3><span class="pill">Live</span></div>
+                    <p>Ledgers are versioned and git-backed. New entries are added; prior versions stay readable; writes never force-overwrite history. The trust anchor is the git repository that holds them.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="surfaces" class="tinted">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>Product surfaces</h2>
+                <p>Each surface is a way into the same governed memory.</p>
+            </div>
+            <div class="cards three">
+                <article class="card">
+                    <h3>Chat</h3>
+                    <p>Start a governed conversation on the DSS Chat surface.</p>
+                    <a class="btn" href="https://chat.dualsubstrate.com" rel="noopener noreferrer" target="_blank">Open Chat</a>
+                </article>
+                <article class="card">
+                    <h3>Decode</h3>
+                    <p>Explore coordinates, decodings, and benchmark results.</p>
+                    <a class="btn" href="https://decode.dualsubstrate.com" rel="noopener noreferrer" target="_blank">Open Decode</a>
+                </article>
+                <article class="card">
+                    <h3>Control Plane</h3>
+                    <p>Manage Ledgers, Principals, Grants and Surfaces.</p>
+                    <a class="btn" href="https://id.dualsubstrate.com/" rel="noopener noreferrer" target="_blank">Open Control Plane</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section id="advantages">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>The advantage of a unified, structural layer</h2>
+                <p>Identity, permissions, memory and agent workflows run as one layer, so what an agent did is a matter of record rather than of log-grepping.</p>
+            </div>
+            <div class="advantages">
+                <div>
+                    <h3>Traceable by construction</h3>
+                    <p>Every entry keeps its parents and children. You don't guess where an answer came from; you walk back to the entries it used.</p>
+                </div>
+                <div>
+                    <h3>Grants you can manage</h3>
+                    <p>Principals, grants and access windows are managed in the Control Plane, and the models each principal can pick follow those grants. Ledger-level enforcement is a configurable mode.</p>
+                </div>
+                <div>
+                    <h3>Cross-checked, not trusted</h3>
+                    <p>Two independent services verify decode reports against a shared invariant checker: the middleware re-verifies every decode report it catalogues. Mismatches are refused, and a failing write is quarantined rather than served.</p>
+                </div>
+                <div>
+                    <h3>Compounding structure</h3>
+                    <p>Each write adds relationships to the ledger. In one small controlled experiment on a single model, history-aware retrieval beat a no-history baseline, and because the index is rebuilt from the ledger, what the system accumulates is auditable.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="proof" class="tinted">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>Operational today. Honest about what isn't.</h2>
+            </div>
+            <table class="proof">
+                <tbody>
+                    <tr><th scope="row">Operational control plane</th><td><span class="pill">Live</span></td><td>Principals, grants, model bindings, surfaces and ledger connections are managed in the Control Plane, running in production on Fly.io.</td></tr>
+                    <tr><th scope="row">Bring your own models</th><td><span class="pill">Live</span></td><td>Routes to OpenRouter, OpenAI, DeepSeek, Azure, Google Vertex and others using keys you supply (or operator-provisioned keys for approved accounts). A guardian model performs intent checks, and assessment checks when retrieved context exists, and logs telemetry.</td></tr>
+                    <tr><th scope="row">Fast where it counts</th><td><span class="pill bench">Benchmarked</span></td><td>Retrieval-router lookups measured under 1 ms in published micro-benchmarks on small ledgers (hundreds of entries). The first progress event arrives in under a second; the first words of an answer take several seconds and a full answer about 20 seconds.</td></tr>
+                    <tr><th scope="row">Public benchmarks</th><td><span class="pill bench">Benchmarked</span></td><td>DSS-EVAL is open: perfect abstention precision (1.000 on 300 queries per seed), and needle and multi-hop recall well above a vector baseline on small suites. The report also lists the cells we don't pass: two integrity gates, a 0.14 recall@1 ranking track, and an ablation where the full configuration scores 0.167. It is in the <a href="https://github.com/Berigny/dss-system" rel="noopener noreferrer" target="_blank">repository</a>. These benchmarks test structure and abstention, not general retrieval quality.</td></tr>
+                    <tr><th scope="row">Limits today</th><td><span class="pill wip">In progress</span></td><td data-allow="SLA">Ledger-level authorisation is configurable but not yet enforced by default. No compliance certification, SSO or SLA yet. Ledgers are anchored to a git repository whose owner can still rewrite history. We'd rather you hear that here.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

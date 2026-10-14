@@ -4,10 +4,10 @@
 {{- $preview := $params.featuredImagePreview | default $params.featuredimagepreview -}}
 {{- $full := $params.featuredImage | default $params.featuredimage -}}
 {{- $image := $preview | default $full -}}
-{{- with .Resources.GetMatch "featured-image" -}}
+{{- with or (.Resources.GetMatch "featured-image*") (.Resources.GetMatch "featured-image") -}}
     {{- $image = .RelPermalink -}}
 {{- end -}}
-{{- with .Resources.GetMatch "featured-image-preview" -}}
+{{- with or (.Resources.GetMatch "featured-image-preview*") (.Resources.GetMatch "featured-image-preview") -}}
     {{- $image = .RelPermalink -}}
 {{- end -}}
 <article class="home-post-tile{{ if $isVideo }} home-post-tile--video{{ end }}" itemscope itemtype="http://schema.org/Article">
@@ -28,8 +28,6 @@
                 <div class="home-post-tile__media">
                     {{- dict "Src" . "Title" $.Title "Resources" $.Resources | partial "plugin/img.html" -}}
                 </div>
-            {{- else -}}
-                <div class="home-post-tile__media home-post-tile__media--placeholder" aria-hidden="true"></div>
             {{- end -}}
             {{- partial "home-tile-body.html" (dict "Page" . "videoCta" false) -}}
         </a>

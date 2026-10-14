@@ -23,9 +23,9 @@
 
   <article class="page single single-saying">
     {{- if .Params.project -}}
-    <h1 class="single-title single-title--series-hero animate__animated animate__flipInX">{{- partial "heading-series-single.html" . -}}</h1>
+    <h1 class="single-title single-title--series-hero">{{- partial "heading-series-single.html" . -}}</h1>
     {{- else -}}
-    <h1 class="single-title animate__animated animate__flipInX">{{- partial "heading-title-markup.html" . -}}</h1>
+    <h1 class="single-title">{{- partial "heading-title-markup.html" . -}}</h1>
     {{- end -}}
 
     {{- with $params.subtitle -}}
@@ -76,7 +76,7 @@
 
     <div class="content" id="content">
       {{- with .Description -}}
-        <h2 id="section-teaser" class="sayings-section-heading"><span aria-hidden="true">🎬</span> {{ T "teaser" }}</h2>
+        <h2 id="section-teaser" class="sayings-section-heading"><span class="section-badge section-badge--teaser"></span>{{ T "teaser" }}</h2>
         {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
       {{- end -}}
 
@@ -85,19 +85,19 @@
       {{- end -}}
 
       {{- with .Params.tldr -}}
-        <h2 id="section-tldr" class="sayings-section-heading"><span aria-hidden="true">✔️</span> {{ T "tldr" }}</h2>
+        <h2 id="section-tldr" class="sayings-section-heading"><span class="section-badge section-badge--tldr"></span>{{ T "tldr" }}</h2>
         {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
       {{- end -}}
 
       {{- with .Params.fluff -}}
-        <h2 id="section-context" class="sayings-section-heading"><span aria-hidden="true">💬</span> {{ T "context" }}</h2>
+        <h2 id="section-context" class="sayings-section-heading"><span class="section-badge section-badge--context"></span>{{ T "context" }}</h2>
         {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
       {{- end -}}
 
       {{- $bodyTrimmed := .Content | strings.TrimSpace -}}
       {{- $hasFront := or .Description (or .Params.tldr .Params.fluff) -}}
       {{- if and $hasFront $bodyTrimmed -}}
-        <h2 id="section-essay" class="sayings-section-heading"><span aria-hidden="true">📄</span> {{ T "sayingsArticle" }}</h2>
+        <h2 id="section-essay" class="sayings-section-heading"><span class="section-badge section-badge--essay"></span>{{ T "sayingsArticle" }}</h2>
         {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
       {{- else if $bodyTrimmed -}}
         {{- dict "Content" .Content "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}

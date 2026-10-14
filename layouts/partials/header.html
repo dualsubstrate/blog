@@ -1,4 +1,9 @@
 {{- /* LoveIt override: logo path is root-relative; relURL respects baseURL (custom-domain previews use /pr-preview/..., not /repo/...). */ -}}
+<div class="site-chrome">
+<div class="dss-announce">
+    <a href="https://github.com/Berigny/dss-system">DSS-EVAL benchmark suite is public</a>
+    <a class="more" href="https://github.com/Berigny/dss-system">Read more →</a>
+</div>
 {{- /* Desktop header */ -}}
 <header class="desktop" id="header-desktop">
     <div class="header-wrapper">
@@ -26,19 +31,19 @@
                 {{- end -}}
             </a>
         </div>
-        <div class="menu">
+        <nav class="menu header-nav" aria-label="Primary">
             <div class="menu-inner">
                 {{- range .Site.Menus.main -}}
+                    {{- if eq .Identifier "about" -}}
+                        {{- continue -}}
+                    {{- end -}}
                     {{- $url := .URL | relLangURL -}}
-                    {{- with .Page -}}
-                        {{- $url = .RelPermalink -}}
+                    {{- if and .Page (not (strings.Contains .URL "#")) -}}
+                        {{- $url = .Page.RelPermalink -}}
                     {{- end -}}
                     <a class="menu-item{{ if $.IsMenuCurrent `main` . | or ($.HasMenuCurrent `main` .) | or (eq $.RelPermalink $url) }} active{{ end }}" href="{{ $url }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
-                        {{- .Pre | safeHTML }} {{ .Name }} {{ .Post | safeHTML -}}
+                        {{- .Name -}}
                     </a>
-                {{- end -}}
-                {{- if .Site.Menus.main -}}
-                    <span class="menu-item delimiter"></span>
                 {{- end -}}
 
                 {{- if .Site.Params.search.enable -}}
@@ -55,34 +60,12 @@
                         </span>
                     </span>
                 {{- end -}}
-                <a href="https://www.dualsubstrate.com/" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
-                <a href="javascript:void(0);" class="menu-item theme-switch" title="{{ T "switchTheme" }}">
-                    <i class="fas fa-adjust" aria-hidden="true"></i>
-                </a>
-                {{- if hugo.IsMultilingual -}}
-                <a href="javascript:void(0);" class="menu-item language" title="{{ T "selectLanguage" }}">
-                    <i class="fa fa-globe" aria-hidden="true"></i>                      
-                    <select class="language-select" id="language-select-desktop" onchange="location = this.value;">
-                        {{- if eq .Kind "404" -}}
-                            {{- /* https://github.com/dillonzq/LoveIt/issues/378 */ -}}
-                            {{- range .Sites -}}
-                                {{- $link := printf "%v/404.html" .LanguagePrefix -}}
-                                <option value="{{ $link }}"{{ if eq . $.Site }} selected{{ end }}>
-                                    {{- .Language.LanguageName -}}
-                                </option>
-                            {{- end -}}
-                        {{- else -}}
-                            {{- range .AllTranslations -}}
-                                <option value="{{ .RelPermalink }}"{{ if eq .Lang $.Lang }} selected{{ end }}>
-                                    {{- .Language.LanguageName -}}
-                                </option>
-                            {{- end -}}
-                        {{- end -}}
-                    </select>
-                </a>
-            {{- end -}}
+                <div class="header-cta">
+                    <a href="https://id.dualsubstrate.com/login" class="menu-item dss-signin" rel="noopener noreferrer" target="_blank">Sign in</a>
+                    <a href="https://id.dualsubstrate.com/wizard" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
+                </div>
             </div>
-        </div>
+        </nav>
     </div>
 </header>
 
@@ -140,15 +123,19 @@
             {{- end -}}
             {{- $currentPage := . -}}
             {{- range .Site.Menus.main -}}
+                {{- if eq .Identifier "about" -}}
+                    {{- continue -}}
+                {{- end -}}
                 {{- $url := .URL | relLangURL -}}
-                {{- with .Page -}}
-                    {{- $url = .RelPermalink -}}
+                {{- if and .Page (not (strings.Contains .URL "#")) -}}
+                    {{- $url = .Page.RelPermalink -}}
                 {{- end -}}
                 <a class="menu-item" href="{{ $url }}" title="{{ .Title }}"{{ if (urls.Parse $url).Host }} rel="noopener noreffer" target="_blank"{{ end }}>
                     {{- .Pre | safeHTML }}{{ .Name }}{{ .Post | safeHTML -}}
                 </a>
             {{- end -}}
-            <a href="https://www.dualsubstrate.com/" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
+            <a href="https://id.dualsubstrate.com/login" class="menu-item dss-signin" rel="noopener noreferrer" target="_blank">Sign in</a>
+            <a href="https://id.dualsubstrate.com/wizard" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
             <a href="javascript:void(0);" class="menu-item theme-switch" title="{{ T "switchTheme" }}">
                 <i class="fas fa-adjust" aria-hidden="true"></i>
             </a>
@@ -178,6 +165,7 @@
         </div>
     </div>
 </header>
+</div>
 
 {{- if .Site.Params.search.enable -}}
     <div class="search-dropdown desktop">

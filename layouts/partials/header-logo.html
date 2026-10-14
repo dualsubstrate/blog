@@ -1,4 +1,4 @@
-{{- /* Inline SVG so `color` / fill="currentColor" in CSS apply (external <img src=".svg"> cannot be styled that way). */ -}}
+{{- /* Inline SVG so `color` / fill="currentColor" in CSS apply (external <img src=".svg"> cannot be styled that way). Two-facet DSS mark. */ -}}
 {{- $path := strings.TrimPrefix "/" . -}}
 {{- $staticPath := printf "static/%s" $path -}}
 {{- $svg := readFile $staticPath -}}

@@ -20,7 +20,7 @@
     {{- $youtubeID := .Params.youtube_id | default .Params.youtube -}}
 
     <article class="page single single-video">
-        <h1 class="single-title animate__animated animate__flipInX">{{ .Title | emojify }}</h1>
+        <h1 class="single-title">{{ .Title | emojify }}</h1>
 
         {{- with $params.subtitle -}}
             <h2 class="single-subtitle">{{ . }}</h2>
@@ -90,7 +90,7 @@
         {{- with .Description -}}
             <div class="video-page__lead content">
                 {{- if $.Params.sowhat -}}
-                <h3 id="section-video-lead" class="sayings-section-heading" style="margin-top: 0;"><span aria-hidden="true">🎬</span> {{ T "videoLead" }}</h3>
+                <h3 id="section-video-lead" class="sayings-section-heading" style="margin-top: 0;"><span class="section-badge section-badge--lead"></span>{{ T "videoLead" }}</h3>
                 {{- end -}}
                 {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
             </div>
@@ -98,7 +98,7 @@
 
         {{- with .Params.sowhat -}}
             <div class="video-page__lead content">
-                <h3 id="section-video-payoff" class="sayings-section-heading"><span aria-hidden="true">🎯</span> {{ T "videoPayoff" }}</h3>
+                <h3 id="section-video-payoff" class="sayings-section-heading"><span class="section-badge section-badge--payoff"></span>{{ T "videoPayoff" }}</h3>
                 {{- dict "Content" (. | markdownify) "Ruby" $params.ruby "Fraction" $params.fraction "Fontawesome" $params.fontawesome | partial "function/content.html" | safeHTML -}}
             </div>
         {{- end -}}

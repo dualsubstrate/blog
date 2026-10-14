@@ -14,13 +14,13 @@
 <nav id="TableOfContents">
   <ul>
     {{- if $hasLeadPair -}}
-      <li><a href="#section-video-lead"><span aria-hidden="true">🎬</span> {{ T "videoLead" }}</a></li>
-      <li><a href="#section-video-payoff"><span aria-hidden="true">🎯</span> {{ T "videoPayoff" }}</a></li>
+      <li><a href="#section-video-lead">{{ T "videoLead" }}</a></li>
+      <li><a href="#section-video-payoff">{{ T "videoPayoff" }}</a></li>
     {{- end -}}
     {{- if $hasBody -}}
       {{- if $hasBodyHeadings -}}
         <li>
-          <a href="#section-tldw"><span aria-hidden="true">⏩</span> {{ T "videoTLDW" }}</a>
+          <a href="#section-tldw">{{ T "videoTLDW" }}</a>
           <ul>
             {{- range $bodyLis -}}
               {{ . | safeHTML }}
@@ -28,14 +28,14 @@
           </ul>
         </li>
       {{- else -}}
-        <li><a href="#section-tldw"><span aria-hidden="true">⏩</span> {{ T "videoTLDW" }}</a></li>
+        <li><a href="#section-tldw">{{ T "videoTLDW" }}</a></li>
       {{- end -}}
     {{- end -}}
     {{- if $hasChapter -}}
-      <li><a href="#section-chapter-guide"><span aria-hidden="true">📑</span> {{ T "videoChapterGuide" }}</a></li>
+      <li><a href="#section-chapter-guide">{{ T "videoChapterGuide" }}</a></li>
     {{- end -}}
     {{- if $hasLanding -}}
-      <li><a href="#section-reader-landing"><span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}</a></li>
+      <li><a href="#section-reader-landing">{{ T "protocolDepth" }}</a></li>
     {{- end -}}
   </ul>
 </nav>

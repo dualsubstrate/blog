@@ -63,7 +63,7 @@
                     {{- $p.RenderString (printf "{{< youtube %s >}}" $youtubeID) | safeHTML -}}
                 </div>
             </div>
-            <a href="{{ $p.RelPermalink }}" class="seven-list__video-detail-link"><span class="seven-list__video-detail-link__icon" aria-hidden="true">📄</span><span class="seven-list__video-detail-link__text">{{ T "fullPost" }}</span></a>
+            <a href="{{ $p.RelPermalink }}" class="seven-list__video-detail-link"><span class="seven-list__video-detail-link__text">{{ T "fullPost" }}</span> &rarr;</a>
         {{- else -}}
             <div class="seven-list__figure">
                 {{- if $image -}}
@@ -100,7 +100,7 @@
             {{- if or $p.Description $p.Summary -}}
                 <div class="seven-list__sayings-block">
                     <p class="seven-list__sayings-label">
-                        <span aria-hidden="true">🎯</span> {{ T "protocolClaim" }}
+                        <span class="section-badge section-badge--claim">{{ T "protocolClaim" }}</span>
                     </p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{- if $p.Description -}}
@@ -114,7 +114,7 @@
             {{- with $grounding -}}
                 <div class="seven-list__sayings-block">
                     <p class="seven-list__sayings-label">
-                        <span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}
+                        <span class="section-badge section-badge--grounding">{{ T "protocolGrounding" }}</span>
                     </p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ . | markdownify }}
@@ -124,7 +124,7 @@
             {{- with $p.Params.research -}}
                 <div class="seven-list__sayings-block">
                     <p class="seven-list__sayings-label">
-                        <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                        <span class="section-badge section-badge--depth">{{ T "protocolDepth" }}</span>
                     </p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ . | markdownify }}
@@ -135,7 +135,7 @@
                     {{- with .why_it_matters -}}
                         <div class="seven-list__sayings-block">
                             <p class="seven-list__sayings-label">
-                                <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                                <span class="section-badge section-badge--depth">{{ T "protocolDepth" }}</span>
                             </p>
                             <div class="seven-list__summary-text seven-list__summary-text--md">
                                 {{ . | markdownify }}
@@ -148,7 +148,7 @@
             {{- if or $p.Description $p.Summary -}}
                 <div class="seven-list__sayings-block">
                     <p class="seven-list__sayings-label">
-                        <span aria-hidden="true">📌</span> {{ T "protocolOpinion" }}
+                        <span class="section-badge section-badge--opinion">{{ T "protocolOpinion" }}</span>
                     </p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{- if $p.Description -}}
@@ -162,7 +162,7 @@
             {{- with $grounding -}}
                 <div class="seven-list__sayings-block">
                     <p class="seven-list__sayings-label">
-                        <span aria-hidden="true">📑</span> {{ T "protocolGrounding" }}
+                        <span class="section-badge section-badge--grounding">{{ T "protocolGrounding" }}</span>
                     </p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ . | markdownify }}
@@ -172,7 +172,7 @@
             {{- with $p.Params.research -}}
                 <div class="seven-list__sayings-block">
                     <p class="seven-list__sayings-label">
-                        <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                        <span class="section-badge section-badge--depth">{{ T "protocolDepth" }}</span>
                     </p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ . | markdownify }}
@@ -183,7 +183,7 @@
                     {{- with .why_it_matters -}}
                         <div class="seven-list__sayings-block">
                             <p class="seven-list__sayings-label">
-                                <span aria-hidden="true">🔭</span> {{ T "protocolDepth" }}
+                                <span class="section-badge section-badge--depth">{{ T "protocolDepth" }}</span>
                             </p>
                             <div class="seven-list__summary-text seven-list__summary-text--md">
                                 {{ . | markdownify }}
@@ -195,7 +195,7 @@
         {{- else if or $p.Params.tldr $p.Params.fluff -}}
             {{- with $p.Params.tldr -}}
                 <div class="seven-list__sayings-block">
-                    <p class="seven-list__sayings-label"><span aria-hidden="true">✔️</span> {{ T "tldr" }}</p>
+                    <p class="seven-list__sayings-label"><span class="section-badge section-badge--tldr">{{ T "tldr" }}</span></p>
                     {{- /* markdownify so **bold** and other light Markdown work; do not use plainify here */ -}}
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ . | markdownify }}
@@ -204,7 +204,7 @@
             {{- end -}}
             {{- with $p.Params.fluff -}}
                 <div class="seven-list__sayings-block">
-                    <p class="seven-list__sayings-label"><span aria-hidden="true">💬</span> {{ T "context" }}</p>
+                    <p class="seven-list__sayings-label"><span class="section-badge section-badge--context">{{ T "context" }}</span></p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ . | markdownify }}
                     </div>
@@ -212,7 +212,7 @@
             {{- end -}}
         {{- else if $isPanel -}}
             <div class="seven-list__sayings-block">
-                <p class="seven-list__sayings-label"><span aria-hidden="true">🎬</span> {{ T "teaser" }}</p>
+                <p class="seven-list__sayings-label"><span class="section-badge section-badge--teaser">{{ T "teaser" }}</span></p>
                 <div class="seven-list__summary-text seven-list__summary-text--md">
                     {{- if $p.Description -}}
                         {{- $p.Description | markdownify -}}
@@ -224,7 +224,7 @@
         {{- else -}}
             <div class="seven-list__sayings-block">
                 {{- /* Video (and similar): lead / payoff labels; not used for type: panel (see branch above). */ -}}
-                <p class="seven-list__sayings-label"><span aria-hidden="true">🎬</span> {{ T "videoLead" }}</p>
+                <p class="seven-list__sayings-label"><span class="section-badge section-badge--lead">{{ T "videoLead" }}</span></p>
                 <div class="seven-list__summary-text seven-list__summary-text--md">
                     {{- if $p.Description -}}
                         {{- $p.Description | markdownify -}}
@@ -235,7 +235,7 @@
             </div>
             {{- if and $isVideo $p.Params.sowhat -}}
                 <div class="seven-list__sayings-block">
-                    <p class="seven-list__sayings-label"><span aria-hidden="true">🎯</span> {{ T "videoPayoff" }}</p>
+                    <p class="seven-list__sayings-label"><span class="section-badge section-badge--payoff">{{ T "videoPayoff" }}</span></p>
                     <div class="seven-list__summary-text seven-list__summary-text--md">
                         {{ $p.Params.sowhat | markdownify }}
                     </div>

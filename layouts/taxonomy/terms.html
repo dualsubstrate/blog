@@ -11,7 +11,7 @@
     {{- $siteParams := .Site.Params.page -}}
 
     <div class="page archive">
-        <h2 class="single-title animate__animated animate__pulse animate__faster">
+        <h2 class="single-title">
             {{- $some := .Params.Title | default (T $taxonomies) | default $taxonomies -}}
             {{- $some = T $some | default $some -}}
             {{- dict "Some" $some | T "allSome" -}}

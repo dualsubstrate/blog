@@ -17,9 +17,9 @@ CHROME_PROFILE="${CHROME_PROFILE:-$HOME/.cache/substack-chrome-profile}"
 
 post="${POST:-mind-infrastructure/2026-04-29-free-energy-principle-hallucination-machine}"
 if [[ $# -ge 1 && -n "${1:-}" ]]; then
-  post="$(scripts/task-normalize-post.sh "$1")"
+  post="$(go run ./cmd/normalize-post "$1")"
 fi
-post="$(scripts/task-normalize-post.sh "$post")"
+post="$(go run ./cmd/normalize-post "$post")"
 SUBSTACK_IN="${SUBSTACK_IN:-content/$post/index.md}"
 SUBSTACK_IN_ES="${SUBSTACK_IN_ES:-content/$post/index.es.md}"
 

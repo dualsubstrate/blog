@@ -6,14 +6,14 @@ Hugo/LoveIt host for [blog.dualsubstrate.com](https://blog.dualsubstrate.com/). 
 
 - Hugo Extended **0.152.2** (CI pin)
 - Go **1.27** (see `go.mod`)
-- Sibling checkouts linked by `./scripts/link-providers.sh`:
+- Sibling checkouts linked by `go run ./cmd/link-providers`:
   - `../../../ai/content-pipelines`
   - `../../../ai/content-pipelines-mcp`
 - Git submodules: `themes/LoveIt`, `.cursor/packs/shared`
 
 ```bash
 git submodule update --init --recursive
-./scripts/link-providers.sh
+GOWORK=off go run ./cmd/link-providers
 git config core.hooksPath .githooks
 ```
 

@@ -32,7 +32,7 @@
   {{- $heading := .Params.reader_landing_heading | default (T "protocolDepth") -}}
   <div class="reader-landing-panel">
   <h2 id="section-reader-landing" class="sayings-section-heading reader-landing-panel__heading">
-    <span aria-hidden="true">🔭</span> {{ $heading }}
+    <span class="section-badge section-badge--depth"></span>{{ $heading }}
   </h2>
   {{- if $landing -}}
     <div class="reader-landing">

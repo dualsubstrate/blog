@@ -61,8 +61,8 @@ __pycache__/
 
 /tmp/
 
-# Local provider repos (symlinks to sibling checkouts; see scripts/link-providers.sh).
-# Not a Go module replace: go tool task serve runs MCP via scripts/serve-content-pipelines-mcp.sh.
+# Local provider repos (symlinks to sibling checkouts; see cmd/link-providers).
+# Not a Go module replace: go tool task serve runs MCP via cmd/serve-ctl mcp.
 /providers/
 
 # direnv per-machine allow cache (do not commit)
