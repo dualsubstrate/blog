@@ -1,6 +1,5 @@
 # Crawl the Hugo build with muffet (pinned in go.mod via `go tool`).
-# scripts/check-links.sh builds with a localhost baseURL and serves ./public with a threaded
-# static server (Python's default http.server is single-threaded and caused muffet timeouts in CI).
+# cmd/check-links builds with a localhost baseURL and serves ./public with a Go HTTP server.
 # A deployed preview URL is not required for this job.
 name: Link check
 

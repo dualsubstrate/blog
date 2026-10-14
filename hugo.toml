@@ -1,8 +1,9 @@
 baseURL = 'https://blog.dualsubstrate.com/'
 theme = 'LoveIt'
 defaultContentLanguage = 'en'
-# English-only build. Spanish is parked: keep i18n/es.toml and content/**/*.es.md; re-enable by restoring [languages.es] in this file.
+# English-only build. Spanish is parked; re-enable by restoring [languages.es] in this file.
 defaultContentLanguageInSubdir = false
+ignoreFiles = ['(?i)\.es\.md$']
 
 [languages]
   [languages.en]

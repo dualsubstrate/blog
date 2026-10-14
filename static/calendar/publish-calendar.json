@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-13T13:36:51Z",
+  "generatedAt": "2026-10-14T06:25:18Z",
   "channels": [
     "site-en",
     "site-es",
@@ -52,6 +52,90 @@
         },
         "site-en": {
           "status": "missing"
+        },
+        "site-es": {
+          "status": "missing"
+        },
+        "substack-en": {
+          "status": "missing"
+        }
+      }
+    },
+    {
+      "bundle": "platform/2026-10-12-principals-and-grants",
+      "section": "platform",
+      "title": "Principals and Grants in Governed Memory",
+      "type": "claims",
+      "categories": [
+        "Platform"
+      ],
+      "planned": "2026-10-12",
+      "draft": false,
+      "channels": {
+        "facebook": {
+          "status": "missing"
+        },
+        "linkedin": {
+          "status": "missing"
+        },
+        "site-en": {
+          "status": "present"
+        },
+        "site-es": {
+          "status": "missing"
+        },
+        "substack-en": {
+          "status": "missing"
+        }
+      }
+    },
+    {
+      "bundle": "lineage/2026-10-13-prime-coordinates",
+      "section": "lineage",
+      "title": "Lineage and Prime-Indexed Coordinates",
+      "type": "claims",
+      "categories": [
+        "Lineage"
+      ],
+      "planned": "2026-10-13",
+      "draft": false,
+      "channels": {
+        "facebook": {
+          "status": "missing"
+        },
+        "linkedin": {
+          "status": "missing"
+        },
+        "site-en": {
+          "status": "present"
+        },
+        "site-es": {
+          "status": "missing"
+        },
+        "substack-en": {
+          "status": "missing"
+        }
+      }
+    },
+    {
+      "bundle": "proof/2026-10-14-eval-benchmarks",
+      "section": "proof",
+      "title": "DSS-EVAL: Verified Recall and Abstention Precision",
+      "type": "claims",
+      "categories": [
+        "Proof"
+      ],
+      "planned": "2026-10-14",
+      "draft": false,
+      "channels": {
+        "facebook": {
+          "status": "missing"
+        },
+        "linkedin": {
+          "status": "missing"
+        },
+        "site-en": {
+          "status": "present"
         },
         "site-es": {
           "status": "missing"

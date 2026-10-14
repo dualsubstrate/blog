@@ -62,7 +62,7 @@
                 {{- end -}}
                 <div class="header-cta">
                     <a href="https://id.dualsubstrate.com/login" class="menu-item dss-signin" rel="noopener noreferrer" target="_blank">Sign in</a>
-                    <a href="https://www.dualsubstrate.com/" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
+                    <a href="https://id.dualsubstrate.com/wizard" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
                 </div>
             </div>
         </nav>
@@ -123,6 +123,9 @@
             {{- end -}}
             {{- $currentPage := . -}}
             {{- range .Site.Menus.main -}}
+                {{- if eq .Identifier "about" -}}
+                    {{- continue -}}
+                {{- end -}}
                 {{- $url := .URL | relLangURL -}}
                 {{- if and .Page (not (strings.Contains .URL "#")) -}}
                     {{- $url = .Page.RelPermalink -}}
@@ -132,7 +135,7 @@
                 </a>
             {{- end -}}
             <a href="https://id.dualsubstrate.com/login" class="menu-item dss-signin" rel="noopener noreferrer" target="_blank">Sign in</a>
-            <a href="https://www.dualsubstrate.com/" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
+            <a href="https://id.dualsubstrate.com/wizard" class="menu-item dss-request" rel="noopener noreferrer" target="_blank">Request access</a>
             <a href="javascript:void(0);" class="menu-item theme-switch" title="{{ T "switchTheme" }}">
                 <i class="fas fa-adjust" aria-hidden="true"></i>
             </a>

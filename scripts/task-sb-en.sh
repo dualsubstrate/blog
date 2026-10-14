@@ -5,7 +5,7 @@ cd "$root"
 
 if [[ $# -ge 1 && -n "${1:-}" ]]; then
   export POST
-  POST="$(scripts/task-normalize-post.sh "$1")"
+  POST="$(go run ./cmd/normalize-post "$1")"
   exec scripts/task-substack-draft.sh
 fi
 

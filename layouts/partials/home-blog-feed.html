@@ -1,14 +1,14 @@
 {{- /* Unified chronological feed (home page only). Expects $.Paginator from layouts/index.html. */ -}}
 <section id="notes" class="home-blog-feed" aria-labelledby="home-blog-feed-title">
-    <div class="home-product__wrap">
+    <div class="wrap">
         {{- if gt .Paginator.PageNumber 1 -}}
             <p class="home-blog-feed__back">
                 <a href="{{ .Site.Home.RelPermalink }}#notes">{{ T "footerBlogHome" | default "Blog Home" }}</a>
             </p>
         {{- end -}}
-        <header class="home-blog-feed__header">
+        <div class="section-head home-blog-feed__header">
             <h2 id="home-blog-feed-title" class="home-blog-feed__title">{{ T "homeBlogFeedTitle" | default "From the substrate" }}</h2>
-        </header>
+        </div>
         {{- if gt (len .Paginator.Pages) 0 -}}
             <div class="home-post-grid">
                 {{- range .Paginator.Pages -}}

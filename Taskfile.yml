@@ -76,17 +76,7 @@ tasks:
   canvas-hops:
     desc: Sync DSS hops canvas, Vite build, copy to static/js/dss-hops
     cmds:
-      - chmod +x scripts/sync-dss-hops-canvas.sh
-      - ./scripts/sync-dss-hops-canvas.sh
-      - |
-        set -euo pipefail
-        cd web/dss-hops
-        if [ -n "${CI:-}" ]; then npm ci; else npm install; fi
-        npm run build
-        mkdir -p ../../static/js/dss-hops
-        touch ../../static/js/dss-hops/.gitkeep
-        rsync -a --delete dist/ ../../static/js/dss-hops/
-        touch ../../static/js/dss-hops/.gitkeep
+      - go run ./cmd/canvas-sync
 
   hugo:
     desc: Tag register then Hugo build to public/
@@ -94,8 +84,7 @@ tasks:
       - canvas-hops
       - tag-register
     cmds:
-      - chmod +x scripts/task-hugo.sh
-      - ./scripts/task-hugo.sh
+      - go run ./cmd/hugo-build
 
   calendar:
     desc: Regenerate static/calendar/publish-calendar.json
@@ -120,15 +109,14 @@ tasks:
       - canvas-hops
     interactive: true
     cmds:
-      - chmod +x scripts/serve-up.sh scripts/serve-process.sh scripts/serve-cleanup.sh scripts/link-providers.sh scripts/serve-content-pipelines-mcp.sh
-      - ./scripts/link-providers.sh
-      - ./scripts/serve-cleanup.sh --preflight
-      - ./scripts/serve-up.sh
+      - go run ./cmd/link-providers
+      - go run ./cmd/serve-ctl cleanup --preflight
+      - go run ./cmd/serve-ctl up
 
   serve-down:
     desc: Stop process-compose and free serve ports
     cmds:
-      - ./scripts/serve-cleanup.sh
+      - go run ./cmd/serve-ctl cleanup
 
   server:
     desc: Alias for serve
@@ -153,12 +141,12 @@ tasks:
   check-links:
     desc: Build site and crawl links with muffet
     cmds:
-      - ./scripts/check-links.sh
+      - go run ./cmd/check-links
 
   sync-content-ai:
     desc: Copy selected skills/rules into content-ai/
     cmds:
-      - bash ./scripts/sync-content-ai.sh
+      - go run ./cmd/sync-content-ai
 
   facebook-autopost:
     desc: Post facebook-es.txt bundles for DATE
@@ -346,7 +334,7 @@ tasks:
       Pass bundle path after --, e.g. go tool task sb-en -- human-condition/slug
       Or set POST=section/slug. With no POST, runs interactive pick-draft-en.
     cmds:
-      - chmod +x scripts/task-sb-en.sh scripts/task-substack-draft.sh scripts/task-normalize-post.sh
+      - chmod +x scripts/task-sb-en.sh scripts/task-substack-draft.sh
       - ./scripts/task-sb-en.sh {{.CLI_ARGS}}
 
   sb-es:
@@ -354,7 +342,7 @@ tasks:
     summary: |
       Pass bundle path after --, or POST=section/slug. Picker when POST unset.
     cmds:
-      - chmod +x scripts/task-sb-es.sh scripts/task-substack-draft.sh scripts/task-normalize-post.sh
+      - chmod +x scripts/task-sb-es.sh scripts/task-substack-draft.sh
       - ./scripts/task-sb-es.sh {{.CLI_ARGS}}
 
   sb-en-pick:
@@ -382,10 +370,9 @@ tasks:
     desc: Append social-published line (POST= or path after --)
     cmds:
       - |
-        chmod +x scripts/task-normalize-post.sh
         post="${POST:-}"
         if [ -n "{{.CLI_ARGS}}" ]; then post="{{.CLI_ARGS}}"; fi
-        post="$(./scripts/task-normalize-post.sh "$post")"
+        post="$(go run ./cmd/normalize-post "$post")"
         test -f "content/$post/index.md" || { echo "missing bundle content/$post/index.md" >&2; exit 1; }
         go run ./cmd/substack-draft -action mark-published -in "content/$post/index.md" -publish-target "${PUBLISH_TARGET:-substack-en}"
 
@@ -410,7 +397,7 @@ tasks:
       go tool task mermaid -- human-condition/slug
       Optional MERMAID_STEM=diagram (default).
     cmds:
-      - chmod +x scripts/task-mermaid-bundle.sh scripts/task-normalize-post.sh scripts/mermaid-docker.sh
+      - chmod +x scripts/task-mermaid-bundle.sh scripts/mermaid-docker.sh
       - ./scripts/task-mermaid-bundle.sh {{.CLI_ARGS}}
 
   mermaid-render:
@@ -448,5 +435,5 @@ tasks:
     desc: Low-level Substack draft driver (env SUBSTACK_*)
     internal: true
     cmds:
-      - chmod +x scripts/task-substack-draft.sh scripts/task-normalize-post.sh
+      - chmod +x scripts/task-substack-draft.sh
       - ./scripts/task-substack-draft.sh {{.CLI_ARGS}}
