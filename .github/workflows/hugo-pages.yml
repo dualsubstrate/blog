@@ -6,9 +6,7 @@
 # Repository Pages setting must be: Build and deployment → Deploy from a branch → gh-pages / (root).
 # If you previously used "GitHub Actions" as the Pages source, switch to the branch above once this workflow is on the default branch.
 #
-# PR preview baseURL must use the same host as hugo.toml baseURL (custom domain). Project sites are served at the
-# domain root there, while *.github.io/<repo>/ includes an extra path segment — a github.io-only baseURL breaks CSS
-# and assets when opening previews at https://blog.dualsubstrate.com/pr-preview/pr-<n>/.
+# PR preview baseURL must match hugo.toml (project site: /blog/ on dualsubstrate.github.io).
 # Preview builds set HUGO_PREVIEW=1 → go tool task hugo uses -e preview + --buildFuture so upcoming posts appear in lists
 # (production lists still hide future-dated rows via filter-pages-released-as-of-now).
 #
@@ -53,7 +51,7 @@ jobs:
       contents: write
     environment:
       name: github-pages
-      url: https://blog.dualsubstrate.com/
+      url: https://dualsubstrate.github.io/blog/
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -82,8 +80,7 @@ jobs:
       pages: read
       pull-requests: write
     env:
-      # Must match hugo.toml baseURL host; path is /pr-preview/pr-<n>/ on the custom domain (no /repo/ segment).
-      PREVIEW_BASE_URL: https://blog.dualsubstrate.com/pr-preview/pr-${{ github.event.number }}/
+      PREVIEW_BASE_URL: https://dualsubstrate.github.io/blog/pr-preview/pr-${{ github.event.number }}/
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -128,7 +125,7 @@ jobs:
           umbrella-dir: pr-preview
           # Host only — pr-preview-action prepends https:// (see lib/main.sh: preview_url=https://$pages_base_url/...).
           # Using https:// here produced https://https://behaviorengineering.ai/... in the PR comment.
-          pages-base-url: blog.dualsubstrate.com
+          pages-base-url: dualsubstrate.github.io/blog
           action: auto
           # Requires `pages: read` on GITHUB_TOKEN; otherwise GET .../pages/builds returns an error object and the
           # action's jq wait step fails with "Cannot index string with string \"commit\"".
