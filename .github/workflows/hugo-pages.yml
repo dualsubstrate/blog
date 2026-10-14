@@ -14,6 +14,7 @@
 #   19:05 UTC daily ≈ 06:05 next calendar morning Australia/Sydney (AEDT ~UTC+11, AEST ~UTC+10; wall clock shifts by 1h across DST).
 # For Hugo default (future-dated pages excluded), set each post `date` to an instant *before* this run in absolute time,
 # e.g. 01:00:00 with +11:00 or +10:00 matching that calendar date, then merge to main before the run.
+# Publishes the main Dual Substrate marketing site (not a separate blog subdomain).
 name: Deploy Hugo site to Pages
 
 on:

@@ -1,6 +1,8 @@
-# Dual Substrate blog
+# Dual Substrate System (site)
 
-Hugo/LoveIt host for [blog.dualsubstrate.com](https://blog.dualsubstrate.com/). Editorial sections: **Platform**, **Lineage**, **Proof**, **Notes**, plus static **About**.
+Hugo/LoveIt host for the **main Dual Substrate marketing site** (hero, surfaces, advantages, proof) plus editorial sections **Platform**, **Lineage**, **Proof**, and **Notes**, and static **About**.
+
+Until custom DNS is configured, the public URL is [https://dualsubstrate.github.io/blog/](https://dualsubstrate.github.io/blog/). When you point **`www.dualsubstrate.com`** (or apex) at GitHub Pages for this repo, set `baseURL` in `hugo.toml` and add `static/CNAME`; do not use a separate `blog.` subdomain for this site.
 
 ## Prerequisites
 
@@ -33,9 +35,11 @@ Hugo only (no MCP/carousel):
 hugo server --buildDrafts --buildFuture --bind 127.0.0.1 --port 28492
 ```
 
-## DNS (GitHub Pages)
+## GitHub Pages
 
-**GitHub Pages (default):** [https://dualsubstrate.github.io/blog/](https://dualsubstrate.github.io/blog/). Source branch **`gh-pages`** / root (`.github/workflows/hugo-pages.yml`). No custom domain is configured in the repo; add DNS and `static/CNAME` again when you want `blog.dualsubstrate.com`.
+**GitHub Pages (default):** [https://dualsubstrate.github.io/blog/](https://dualsubstrate.github.io/blog/). Source branch **`gh-pages`** / root (`.github/workflows/hugo-pages.yml`).
+
+**Custom domain (main site):** In the `dualsubstrate.com` zone, point **`www`** (recommended) or apex at GitHub Pages, add `static/CNAME` with that hostname, set `baseURL` in `hugo.toml` to match, and enable the custom domain under repo **Settings → Pages**.
 
 ## Explore further / Perplexity
 

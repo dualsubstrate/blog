@@ -11,7 +11,7 @@ ignoreFiles = ['(?i)\.es\.md$']
     languageCode = 'en'
     languageName = 'English'
     hasCJKLanguage = false
-    title = 'DSS blog'
+    title = 'Dual Substrate System'
 
 # whether to use robots.txt
 enableRobotsTXT = true
@@ -34,7 +34,7 @@ enableEmoji = true
   defaultContentLanguageCode = "en"
   # Default for meta description + Open Graph / Twitter Cards when a page omits its own.
   # Per-page `og_description` overrides social/meta text without changing list Claim (`description`).
-  description = "Essays and notes on governed AI memory: principals, ledgers, lineage, and the Dual Substrate System."
+  description = "Governed AI memory for operators and agents: principals, grants, lineage, and the Dual Substrate System."
   images = ["/images/og-default.png"]
   # Display dates like 04-Oct-2026 (Go reference layout 02-Jan-2006).
   dateFormat = "02-Jan-2006"
@@ -55,7 +55,7 @@ enableEmoji = true
       # URL of the LOGO
       logo = "/images/dss-mark.svg"
       pre = 'DSS'
-      name = "blog"
+      name = "Dual Substrate System"
       post = ""
       # whether to use typeit animation for title name
       typeit = false
@@ -79,14 +79,14 @@ enableEmoji = true
     absoluteURL = false
     
   [params.app]
-    title = "Dual Substrate"
+    title = "Dual Substrate System"
     svgFavicon = "/images/dss-favicon.png"
 
   # Author config
   [params.author]
     name = "Dual Substrate"
     email = ""
-    link = "https://www.dualsubstrate.com/"
+    link = "/"
 
   # Post share row (LoveIt sharer.js). All keys set so theme defaults do not linger.
   [params.page.share]
