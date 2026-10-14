@@ -176,5 +176,5 @@ other = "Surfaces"
 [footerResources]
 other = "Resources"
 
-[footerBlogHome]
-other = "Blog Home"
+[footerSiteHome]
+other = "Home"
