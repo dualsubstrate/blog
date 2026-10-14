@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Dual-Substrate on DSS blog</title><link>https://blog.dualsubstrate.com/pr-preview/pr-2/tags/dual-substrate/</link><description>Recent content in Dual-Substrate on DSS blog</description><generator>Hugo</generator><language>en</language><lastBuildDate>Sun, 11 Oct 2026 01:00:00 +1100</lastBuildDate><atom:link href="https://blog.dualsubstrate.com/pr-preview/pr-2/tags/dual-substrate/index.xml" rel="self" type="application/rss+xml"/><item><title>DSS hops on one cube</title><link>https://blog.dualsubstrate.com/pr-preview/pr-2/lineage/2026-10-11-dss-hops/</link><pubDate>Sun, 11 Oct 2026 01:00:00 +1100</pubDate><guid>https://blog.dualsubstrate.com/pr-preview/pr-2/lineage/2026-10-11-dss-hops/</guid><description>&lt;p&gt;This page is the public copy of the DSS hops canvas: Ring and M on the two tetrahedra, twelve cube rim edges, Roll, and FF. Drag the cube, pick a hop pill, and open the Resolution tab for the count equations.&lt;/p&gt;
+&lt;div class="dss-hops-embed"&gt;
+ &lt;iframe
+ class="dss-hops-frame"
+ title="DSS hops cube"
+ loading="lazy"
+ referrerpolicy="no-referrer-when-downgrade"
+ src="https://blog.dualsubstrate.com/pr-preview/pr-2/js/dss-hops/index.html"
+ &gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;h3 id="stops-rolls-and-ff"&gt;Stops, rolls, and FF&lt;/h3&gt;
+&lt;p&gt;The &lt;strong&gt;Stops × rolls&lt;/strong&gt; column is eight landing points times twenty-four cube rolls. &lt;strong&gt;With FF&lt;/strong&gt; multiplies by two for face flip on the face the hop already sits on. That is separate from the twenty walk kinds in the hop table.&lt;/p&gt;</description></item></channel></rss>
